@@ -1,14 +1,5 @@
 import Logo from "@/assets/Logo.png";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 const Register = () => {
   return (
@@ -16,7 +7,7 @@ const Register = () => {
       <div
         className="hidden md:block w-3/6 xl:w-4/6 bg-black/20 bg-blend-overlay bg-no-repeat bg-cover bg-center relative"
         style={{
-          backgroundImage: `url(https://source.unsplash.com/1200x800?online-shop)`,
+          backgroundImage: `url(https://source.unsplash.com/1200x800?destination)`,
         }}
       ></div>
       <div className="w-full -translate-x-10 md:w-6/12 xl:w-4/12 p-16 rounded-tl-[50px] rounded-bl-[50px] bg-white">

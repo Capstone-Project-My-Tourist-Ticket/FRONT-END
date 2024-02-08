@@ -21,7 +21,7 @@ const Home = () => {
             <li>About</li>
             <li>Services</li>
           </ul>
-          <p className="bg-red-500  text-white px-5 py-2 rounded-full">Sign Up</p>
+          <button className="bg-red-500  text-white px-5 py-2 rounded-full">Sign Up</button>
         </div>
         <div className="absolute top-1/2 right-1/2 translate-x-1/2 translate-y-20 w-full max-w-4xl">
           <div className="flex items-center justify-between bg-[#F5F5F5] py-5 h-8 overflow-hidden rounded-lg text-sm border w-full px-3">
