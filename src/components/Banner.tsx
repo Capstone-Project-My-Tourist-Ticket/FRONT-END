@@ -19,7 +19,7 @@ const CarouselTour = () => {
       <CarouselContent>
         {Array.from({ length: 5 }, (_, index) => (
           <CarouselItem className="basis-full" key={index}>
-            <Card>
+            <Card className="mb-8">
               <CardContent className="p-0">
                 <span className="text-3xl font-semibold">
                   <img
