@@ -6,7 +6,7 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import { Card, CardContent } from "./ui/card";
-import { MapPin, Star, StarsIcon } from "lucide-react";
+import { MapPin, Star } from "lucide-react";
 
 const CarouselHome = () => {
   return (
@@ -42,7 +42,7 @@ const CarouselHome = () => {
                       ))}
                     </div>
                   </div>
-                  <div className="flex items-center text-sm ">
+                  <div className="flex gap-2 items-center text-sm ">
                     <MapPin size={15} />
                     <p className="text-slate-500">Lampung</p>
                   </div>
