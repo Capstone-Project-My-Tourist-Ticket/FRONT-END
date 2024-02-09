@@ -27,7 +27,7 @@ const DetailCity = () => {
 
         <div className="container grid grid-cols-4">
           {Array.from({ length: 8 }, (_, index) => (
-            <CardTour />
+            <CardTour key={index} />
           ))}
         </div>
       </div>
