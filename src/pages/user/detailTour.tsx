@@ -7,6 +7,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import ReviewsComp from "@/components/Review";
+import Map from "@/components/Map";
 
 const DetailTour = () => {
   return (
@@ -58,9 +59,12 @@ const DetailTour = () => {
                       <p className=" font-semibold">Visit Event Date</p>
                       <div className="flex gap-4">
                         {Array.from({ length: 7 }, (_, index) => (
-                          <div className="flex flex-col border py-2 px-5 rounded-lg items-center">
+                          <div
+                            key={index}
+                            className="flex flex-col border py-2 px-5 rounded-lg items-center"
+                          >
                             <p>Thu</p>
-                            <p>{index} feb</p>
+                            <p>1 feb</p>
                           </div>
                         ))}
                       </div>
@@ -99,7 +103,7 @@ const DetailTour = () => {
                 className="w-full bg-white shadow-lg p-5 rounded-lg"
               >
                 <AccordionItem value="item-1" className="border-b-0">
-                  <AccordionTrigger className="text-xl">Package 1</AccordionTrigger>
+                  <AccordionTrigger className="text-xl">Package 2</AccordionTrigger>
                   <AccordionContent>
                     <div className="flex flex-col space-y-5">
                       <p className=" font-semibold">Includes :</p>
@@ -147,8 +151,9 @@ const DetailTour = () => {
               </Accordion>
             </div>
             <div className="w-1/4">
-              <div className="w-full bg-white shadow-lg p-5 rounded-lg">
+              <div className="w-full bg-white shadow-lg p-5 rounded-lg space-y-2">
                 <p className="font-semibold">Package 1</p>
+                <p className="font-semibold">Package 2</p>
               </div>
             </div>
           </div>
@@ -158,6 +163,66 @@ const DetailTour = () => {
               4.5 <span className="text-slate-500 text-sm">/5.0 From 4504 Reviews</span>
             </p>
             <ReviewsComp />
+            <div className="flex flex-col space-y-5">
+              <p className="font-semibold text-lg border-t-2 pt-4">Location</p>
+              <Map draggable={false} />
+            </div>
+            <div className="flex flex-col space-y-3 pb-6">
+              <p className="font-semibold text-lg border-t-2 pt-4">More Info</p>
+              <Accordion
+                type="single"
+                collapsible
+                className="w-2/4 bg-white shadow-lg p-5 rounded-lg"
+              >
+                <AccordionItem value="item-1" className="border-b-0">
+                  <AccordionTrigger className="font-semibold text-lg">
+                    Penukaran Tiket
+                  </AccordionTrigger>
+                  <AccordionContent>
+                    <ul className="list-disc pl-5">
+                      <li>Sebelum membeli tiket, perlu reservasi</li>
+                      <li>Reservasi dapat dilakukan hingga 90 hari sebelum</li>
+                      <li>
+                        kunjungan. E-tiket tidak perlu dicetak. Cukup tunjukkan e-tiket dari
+                        smartphone
+                      </li>
+                      <li>
+                        kamu saat penukaran atau di pintu masuk. Mohon sesuaikan kecerahan layarmu.
+                      </li>
+                    </ul>
+                  </AccordionContent>
+                </AccordionItem>
+              </Accordion>
+              <Accordion
+                type="single"
+                collapsible
+                className="w-2/4 bg-white shadow-lg p-5 rounded-lg"
+              >
+                <AccordionItem value="item-1" className="border-b-0">
+                  <AccordionTrigger className="font-semibold text-lg">
+                    Syarat & Ketentuan
+                  </AccordionTrigger>
+                  <AccordionContent>
+                    <h2 className="font-semibold  mt-6 mb-4">General</h2>
+                    <ul className="list-disc pl-5">
+                      <li>Harga sudah termasuk pajak.</li>
+                      <li>Tiket yang sudah dibeli tidak dapat dikembalikan (non-refundable).</li>
+                      <li>Tiket yang sudah dibeli tidak dapat dijadwalkan ulang.</li>
+                      <li>Pembeli wajib mengisi data diri pribadi saat memesan.</li>
+                      <li>
+                        Penjualan tiket sewaktu-waktu dapat dihentikan atau dimulai oleh tiket.com
+                        sesuai dengan kebijakan dari penyelenggara atau tiket.com.
+                      </li>
+                    </ul>
+                    <h2 className="font-semibold  mt-6 mb-4">E-Ticket</h2>
+                    <ul className="list-disc pl-5">
+                      <li>E-tiket tidak dapat diuangkan.</li>
+                      <li>E-tiket tidak dapat dipindahtangankan.</li>
+                    </ul>
+                  </AccordionContent>
+                </AccordionItem>
+              </Accordion>
+            </div>
           </div>
         </div>
       </div>
