@@ -165,6 +165,11 @@ const PaymentResult = () => {
                     </AccordionContent>
                   </AccordionItem>
                 </Accordion>
+                <div className="flex justify-end">
+                  <button className="bg-blue-500 text-white w-44 py-2 rounded-lg mt-3 ">
+                    Booking List
+                  </button>
+                </div>
               </div>
             </div>
           </div>
