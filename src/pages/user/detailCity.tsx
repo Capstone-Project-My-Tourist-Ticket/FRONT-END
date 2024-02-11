@@ -4,7 +4,7 @@ import Layout from "@/components/Layout";
 const DetailCity = () => {
   return (
     <Layout>
-      <div className="w-full m">
+      <div className="w-full min-h-screen">
         <img
           src={`https://source.unsplash.com/1200x800/?tour,destination,sea`}
           className="w-full h-[500px] rounded-md"

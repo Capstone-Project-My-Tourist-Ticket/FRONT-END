@@ -12,7 +12,7 @@ import Map from "@/components/Map";
 const DetailTour = () => {
   return (
     <Layout>
-      <div className="w-full flex flex-col">
+      <div className="w-full min-h-screen flex flex-col">
         <img
           src={`https://source.unsplash.com/1200x800/?destination,sea`}
           className="w-full h-[500px]"

@@ -1,10 +1,12 @@
 import Home from "@/pages";
 import Login from "@/pages/auth/login";
 import Register from "@/pages/auth/register";
+import BookingList from "@/pages/user/BookingList";
 import City from "@/pages/user/detailCity";
 import DetailTour from "@/pages/user/detailTour";
 import PaymentBook from "@/pages/user/paymentBook";
 import PaymentResult from "@/pages/user/paymentResult";
+import Profile from "@/pages/user/profile";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 const App = () => {
@@ -18,6 +20,8 @@ const App = () => {
         <Route path="/tour" element={<DetailTour />} />
         <Route path="/payment" element={<PaymentBook />} />
         <Route path="/payresult" element={<PaymentResult />} />
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/bookinglist" element={<BookingList />} />
       </Routes>
     </BrowserRouter>
   );
