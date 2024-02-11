@@ -3,7 +3,10 @@ import Login from "@/pages/auth/login";
 import Register from "@/pages/auth/register";
 import City from "@/pages/user/detailCity";
 import DetailTour from "@/pages/user/detailTour";
+import PaymentBook from "@/pages/user/paymentBook";
+import PaymentResult from "@/pages/user/paymentResult";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+
 const App = () => {
   return (
     <BrowserRouter>
@@ -13,6 +16,8 @@ const App = () => {
         <Route path="/register" element={<Register />} />
         <Route path="/city" element={<City />} />
         <Route path="/tour" element={<DetailTour />} />
+        <Route path="/payment" element={<PaymentBook />} />
+        <Route path="/payresult" element={<PaymentResult />} />
       </Routes>
     </BrowserRouter>
   );

@@ -174,7 +174,7 @@ const DetailTour = () => {
                 collapsible
                 className="w-2/4 bg-white shadow-lg p-5 rounded-lg"
               >
-                <AccordionItem value="item-1" className="border-b-0">
+                <AccordionItem value="item-1" className="">
                   <AccordionTrigger className="font-semibold text-lg">
                     Penukaran Tiket
                   </AccordionTrigger>
@@ -192,13 +192,7 @@ const DetailTour = () => {
                     </ul>
                   </AccordionContent>
                 </AccordionItem>
-              </Accordion>
-              <Accordion
-                type="single"
-                collapsible
-                className="w-2/4 bg-white shadow-lg p-5 rounded-lg"
-              >
-                <AccordionItem value="item-1" className="border-b-0">
+                <AccordionItem value="item-2" className="">
                   <AccordionTrigger className="font-semibold text-lg">
                     Syarat & Ketentuan
                   </AccordionTrigger>
