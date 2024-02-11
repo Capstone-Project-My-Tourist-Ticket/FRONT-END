@@ -13,14 +13,6 @@ const App = () => {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/transaction-list" element={<TransactionList />} />
-        <Route path="/tour-list" element={<TourList />} />
-        <Route path="/city-list" element={<CityList />} />
-        <Route path="/verification-account" element={<VerificationAccount />} />
-        <Route path="/add-voucher" element={<AddVoucher />} />
-        <Route path="/add-city" element={<AddCity />} />
-        <Route path="/edit-city" element={<EditCity />} />
       </Routes>
     </BrowserRouter>
   )
