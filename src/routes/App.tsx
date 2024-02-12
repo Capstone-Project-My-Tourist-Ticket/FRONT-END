@@ -18,6 +18,11 @@ import BookingList from "@/pages/user/BookingList";
 import PaymentBook from "@/pages/user/paymentBook";
 import PaymentResult from "@/pages/user/paymentResult";
 import Profile from "@/pages/user/profile";
+import TransactionHistory from "@/pages/pengelola/transactionHistory";
+import MyTour from "@/pages/pengelola/myTour";
+import AddTour from "@/pages/pengelola/addTour";
+import EditTour from "@/pages/pengelola/editTour";
+import AddPackage from "@/pages/pengelola/addPackage";
 
 const App = () => {
   return (
@@ -42,6 +47,11 @@ const App = () => {
         <Route path="/profile" element={<Profile />} />
         <Route path="/bookinglist" element={<BookingList />} />
         <Route path="/etiket" element={<ETiket />} />
+        <Route path="/transaction-history" element={<TransactionHistory />} />
+        <Route path="/mytour" element={<MyTour />} />
+        <Route path="/addtour" element={<AddTour />} />
+        <Route path="/edittour" element={<EditTour />} />
+        <Route path="/addpackage" element={<AddPackage />} />
       </Routes>
     </BrowserRouter>
   );
