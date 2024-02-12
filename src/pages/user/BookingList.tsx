@@ -1,10 +1,8 @@
 import DialogReview from "@/components/DialogReview";
 import Layout from "@/components/Layout";
 import SideBarUser from "@/components/SideBarUser";
-import { useNavigate } from "react-router-dom";
 
 const BookingList = () => {
-  const navigate = useNavigate();
   const handleButtonETiket = (url: string) => {
     window.open(url, "_blank");
   };
@@ -32,10 +30,7 @@ const BookingList = () => {
                     <DialogReview />
                   </div>
                 </div>
-                <button
-                  onClick={() => navigate}
-                  className="bg-green-600 text-white font-semibold w-full py-2 rounded-lg mt-3 "
-                >
+                <button className="bg-green-600 text-white font-semibold w-full py-2 rounded-lg mt-3 ">
                   Paid
                 </button>
               </div>
