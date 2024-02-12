@@ -1,8 +1,13 @@
 import DialogReview from "@/components/DialogReview";
 import Layout from "@/components/Layout";
 import SideBarUser from "@/components/SideBarUser";
+import { useNavigate } from "react-router-dom";
 
 const BookingList = () => {
+  const navigate = useNavigate();
+  const handleButtonETiket = (url: string) => {
+    window.open(url, "_blank");
+  };
   return (
     <Layout>
       <div className="bg-[#F4F7FE] w-full py-14 min-h-screen">
@@ -18,13 +23,19 @@ const BookingList = () => {
                     <p className="text-lg font-bold">Rp.10.000</p>
                   </div>
                   <div className="flex gap-3">
-                    <button className="bg-slate-200 text-black font-semibold w-32 py-2 rounded-lg mt-3 border border-slate-300 shadow-inner shadow-white">
+                    <button
+                      onClick={() => handleButtonETiket("/etiket")}
+                      className="bg-slate-200 text-black font-semibold w-32 py-2 rounded-lg mt-3 border border-slate-300 shadow-inner shadow-white"
+                    >
                       E-Ticket
                     </button>
                     <DialogReview />
                   </div>
                 </div>
-                <button className="bg-green-600 text-white font-semibold w-full py-2 rounded-lg mt-3 ">
+                <button
+                  onClick={() => navigate}
+                  className="bg-green-600 text-white font-semibold w-full py-2 rounded-lg mt-3 "
+                >
                   Paid
                 </button>
               </div>
