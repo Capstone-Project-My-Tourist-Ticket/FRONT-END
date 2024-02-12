@@ -6,7 +6,6 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import { Card, CardContent } from "./ui/card";
-import { MapPin, Star } from "lucide-react";
 
 const ReviewsComp = () => {
   return (
@@ -29,7 +28,6 @@ const ReviewsComp = () => {
                     </p>
                     <p>31 Dec 2023</p>
                   </div>
-
                   <p className="font-semibold text-lg">Arja Cihuy</p>
                   <div className=" text-slate-500">Tempatnya Keren</div>
                 </div>

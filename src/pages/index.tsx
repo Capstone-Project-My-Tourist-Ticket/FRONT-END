@@ -46,7 +46,7 @@ const Home = () => {
 
         <div className="flex">
           {Array.from({ length: 5 }, (_, index) => (
-            <Card className="">
+            <Card className="" key={index}>
               <CardContent className="p-1">
                 <div className="">
                   <img

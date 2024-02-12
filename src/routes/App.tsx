@@ -1,5 +1,6 @@
+import ETiket from "@/components/ETiket";
 import Home from "@/pages";
-import Login from "@/pages/auth/login";
+/* import Login from "@/pages/auth/login"; */
 import Register from "@/pages/auth/register";
 import BookingList from "@/pages/user/BookingList";
 import City from "@/pages/user/detailCity";
@@ -14,7 +15,7 @@ const App = () => {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
+        {/*         <Route path="/login" element={<Login />} /> */}
         <Route path="/register" element={<Register />} />
         <Route path="/city" element={<City />} />
         <Route path="/tour" element={<DetailTour />} />
@@ -22,6 +23,7 @@ const App = () => {
         <Route path="/payresult" element={<PaymentResult />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/bookinglist" element={<BookingList />} />
+        <Route path="/etiket" element={<ETiket />} />
       </Routes>
     </BrowserRouter>
   );
