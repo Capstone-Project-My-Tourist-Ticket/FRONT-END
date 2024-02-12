@@ -12,7 +12,7 @@ import Map from "@/components/Map";
 const DetailTour = () => {
   return (
     <Layout>
-      <div className="w-full flex flex-col">
+      <div className="w-full min-h-screen flex flex-col">
         <img
           src={`https://source.unsplash.com/1200x800/?destination,sea`}
           className="w-full h-[500px]"
@@ -174,7 +174,7 @@ const DetailTour = () => {
                 collapsible
                 className="w-2/4 bg-white shadow-lg p-5 rounded-lg"
               >
-                <AccordionItem value="item-1" className="border-b-0">
+                <AccordionItem value="item-1" className="">
                   <AccordionTrigger className="font-semibold text-lg">
                     Penukaran Tiket
                   </AccordionTrigger>
@@ -192,13 +192,7 @@ const DetailTour = () => {
                     </ul>
                   </AccordionContent>
                 </AccordionItem>
-              </Accordion>
-              <Accordion
-                type="single"
-                collapsible
-                className="w-2/4 bg-white shadow-lg p-5 rounded-lg"
-              >
-                <AccordionItem value="item-1" className="border-b-0">
+                <AccordionItem value="item-2" className="">
                   <AccordionTrigger className="font-semibold text-lg">
                     Syarat & Ketentuan
                   </AccordionTrigger>

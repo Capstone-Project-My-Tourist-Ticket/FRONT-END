@@ -8,12 +8,17 @@ import EditCity from "@/pages/Admin/EditCity"
 import TourList from "@/pages/Admin/TourList"
 import TransactionList from "@/pages/Admin/TransactionList"
 import VerificationAccount from "@/pages/Admin/VerificationAccount"
-
 import Login from "@/pages/auth/login"
 import Register from "@/pages/auth/register"
 import City from "@/pages/user/detailCity"
 import DetailTour from "@/pages/user/detailTour"
 import { BrowserRouter, Route, Routes } from "react-router-dom"
+import BookingList from "@/pages/user/BookingList";
+import PaymentBook from "@/pages/user/paymentBook";
+import PaymentResult from "@/pages/user/paymentResult";
+import Profile from "@/pages/user/profile";
+
+
 const App = () => {
   return (
     <BrowserRouter>
@@ -32,6 +37,10 @@ const App = () => {
         <Route path="/city" element={<City />} />
         <Route path="/tour" element={<DetailTour />} />
         <Route path="/admin-tour" element={<AdminDetailTour />} />
+        <Route path="/payment" element={<PaymentBook />} />
+        <Route path="/payresult" element={<PaymentResult />} />
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/bookinglist" element={<BookingList />} />
       </Routes>
     </BrowserRouter>
   )
