@@ -1,6 +1,41 @@
-import Logo from "@/assets/Logo.png";
+/* import Logo from "@/assets/Logo.png";
+import { useToast } from "@/components/ui/use-toast";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { LoginType, loginSchema } from "@/utils/apis/auth/type";
+import { userLogin } from "@/utils/apis/auth/api";
 
 const Login = () => {
+  const { toast } = useToast();
+
+  const form = useForm<LoginType>({
+    resolver: zodResolver(loginSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  });
+
+  const handleLogin = async (body: LoginType) => {
+    try {
+      const result = await userLogin(body);
+      changeToken(result.data.token);
+
+      if (result.data.role === "admin") {
+        return navigate("/admin");
+      }
+      if (result.data.role === "user") {
+        navigate("/");
+      }
+    } catch (error) {
+      if (error instanceof Error) {
+        toast({
+          description: error.message,
+          variant: "destructive",
+        });
+      }
+    }
+  };
   return (
     <div className="flex min-h-screen">
       <div
@@ -37,3 +72,4 @@ const Login = () => {
 };
 
 export default Login;
+ */

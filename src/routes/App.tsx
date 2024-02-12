@@ -8,7 +8,6 @@ import EditCity from "@/pages/Admin/EditCity"
 import TourList from "@/pages/Admin/TourList"
 import TransactionList from "@/pages/Admin/TransactionList"
 import VerificationAccount from "@/pages/Admin/VerificationAccount"
-import Login from "@/pages/auth/login"
 import Register from "@/pages/auth/register"
 import City from "@/pages/user/detailCity"
 import DetailTour from "@/pages/user/detailTour"
@@ -17,7 +16,14 @@ import BookingList from "@/pages/user/BookingList"
 import PaymentBook from "@/pages/user/paymentBook"
 import PaymentResult from "@/pages/user/paymentResult"
 import Profile from "@/pages/user/profile"
-import MyTour from "@/pages/Manager/DetailMyTour"
+import MyTour from "@/pages/pengelola/myTour"
+import ETiket from "@/components/ETiket"
+/* import Login from "@/pages/auth/login" */
+import TransactionHistory from "@/pages/pengelola/transactionHistory"
+import AddTour from "@/pages/pengelola/addTour"
+import EditTour from "@/pages/pengelola/editTour"
+import AddPackage from "@/pages/pengelola/addPackage"
+import DetailMyTour from "@/pages/Manager/DetailMyTour"
 
 const App = () => {
   return (
@@ -32,7 +38,7 @@ const App = () => {
         <Route path="/add-voucher" element={<AddVoucher />} />
         <Route path="/add-city" element={<AddCity />} />
         <Route path="/edit-city" element={<EditCity />} />
-        <Route path="/login" element={<Login />} />
+        {/*         <Route path="/login" element={<Login />} /> */}
         <Route path="/register" element={<Register />} />
         <Route path="/city" element={<City />} />
         <Route path="/tour" element={<DetailTour />} />
@@ -41,7 +47,13 @@ const App = () => {
         <Route path="/payresult" element={<PaymentResult />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/bookinglist" element={<BookingList />} />
-        <Route path="/my-tour" element={<MyTour />} />
+        <Route path="/etiket" element={<ETiket />} />
+        <Route path="/transaction-history" element={<TransactionHistory />} />
+        <Route path="/mytour" element={<MyTour />} />
+        <Route path="/detailmytour" element={<DetailMyTour />} />
+        <Route path="/addtour" element={<AddTour />} />
+        <Route path="/edittour" element={<EditTour />} />
+        <Route path="/addpackage" element={<AddPackage />} />
       </Routes>
     </BrowserRouter>
   )
