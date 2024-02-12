@@ -9,6 +9,7 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { Card, CardDescription } from "@/components/ui/card"
+import { Star } from "lucide-react"
 
 import React from "react"
 import Footer from "@/components/Footer"
@@ -81,13 +82,23 @@ function Dashboard() {
               <p className="pt-4 px-6 font-semibold text-2xl">Top 5 Tour</p>
               <div className="px-6 pt-4 flex justify-between pb-6">
                 {Array.from({ length: 5 }, () => (
-                  <Card className="w-[150px]">
+                  <Card className="w-[180px]">
                     <img className=" rounded-lg" src="/images/admin/bali.png" />
                     <div className="px-2">
-                      <CardDescription className="flex">
+                      <CardDescription className="flex justify-between">
                         <p className="font-bold py-1 text-black text-lg">
                           Bali
                         </p>
+                        <div className="flex justify-center items-center">
+                          {Array.from({ length: 5 }, (_, index) => (
+                            <Star
+                              key={index}
+                              fill={"yellow"}
+                              className="stroke-slate-300 drop-shadow-sm"
+                              size={20}
+                            />
+                          ))}
+                        </div>
                       </CardDescription>
                       <CardDescription className="flex">
                         <img

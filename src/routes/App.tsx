@@ -13,11 +13,11 @@ import Register from "@/pages/auth/register"
 import City from "@/pages/user/detailCity"
 import DetailTour from "@/pages/user/detailTour"
 import { BrowserRouter, Route, Routes } from "react-router-dom"
-import BookingList from "@/pages/user/BookingList";
-import PaymentBook from "@/pages/user/paymentBook";
-import PaymentResult from "@/pages/user/paymentResult";
-import Profile from "@/pages/user/profile";
-
+import BookingList from "@/pages/user/BookingList"
+import PaymentBook from "@/pages/user/paymentBook"
+import PaymentResult from "@/pages/user/paymentResult"
+import Profile from "@/pages/user/profile"
+import MyTour from "@/pages/Manager/DetailMyTour"
 
 const App = () => {
   return (
@@ -41,6 +41,7 @@ const App = () => {
         <Route path="/payresult" element={<PaymentResult />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/bookinglist" element={<BookingList />} />
+        <Route path="/my-tour" element={<MyTour />} />
       </Routes>
     </BrowserRouter>
   )
