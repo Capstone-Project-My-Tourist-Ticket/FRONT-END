@@ -14,6 +14,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover"
+import Footer from "@/components/Footer"
 
 function AddVoucher() {
   const [date, setDate] = React.useState<Date>()
@@ -25,13 +26,26 @@ function AddVoucher() {
       <div className="flex">
         <AdminNavbar />
         <div className="px-6 py-4 w-full">
-          <div className="text-2xl underline underline-offset-8 pb-6">
+          <div className="text-2xl underline underline-offset-8 pb-6 font-bold">
             Add Voucher
           </div>
-          <Input placeholder="Voucher Name" /> <br />
-          <Input placeholder="Voucher Code" /> <br />
+          <Input
+            placeholder="Voucher Name"
+            className="w-[500px] border border-black"
+          />{" "}
+          <br />
+          <Input
+            placeholder="Voucher Code"
+            className="w-[500px] border border-black"
+          />{" "}
+          <br />
           <Textarea placeholder="Description" /> <br />
-          <Input placeholder="Discount Value" type="number" /> <br />
+          <Input
+            placeholder="Discount Value"
+            type="number"
+            className="w-[500px] border border-black"
+          />{" "}
+          <br />
           <Popover>
             <PopoverTrigger asChild>
               <Button
@@ -61,6 +75,7 @@ function AddVoucher() {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   )
 }

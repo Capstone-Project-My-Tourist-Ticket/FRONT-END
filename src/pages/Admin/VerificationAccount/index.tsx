@@ -18,6 +18,7 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination"
 import React from "react"
+import Footer from "@/components/Footer"
 
 function VerificationAccount() {
   return (
@@ -28,7 +29,7 @@ function VerificationAccount() {
       <div className="flex">
         <AdminNavbar />
         <div className="px-6 py-4 w-full">
-          <div className="text-2xl underline underline-offset-8">
+          <div className="text-2xl underline underline-offset-8 font-bold">
             Verification Account Manager
           </div>
           <Table className="bg-white rounded-lg mt-6">
@@ -150,6 +151,7 @@ function VerificationAccount() {
           </footer>
         </div>
       </div>
+      <Footer />
     </div>
   )
 }

@@ -1,6 +1,7 @@
 import AdminHeader from "@/components/Admin/AdminHeader"
 import AdminNavbar from "@/components/Admin/AdminNavbar"
-import { Card, CardContent, CardDescription } from "@/components/ui/card"
+import Footer from "@/components/Footer"
+import { Card, CardDescription } from "@/components/ui/card"
 import { useState } from "react"
 import React from "react"
 
@@ -19,7 +20,9 @@ function TourList() {
       <div className="flex">
         <AdminNavbar />
         <div className="px-6 py-4 w-full">
-          <div className="text-2xl underline underline-offset-8">Tour List</div>
+          <div className="text-2xl underline underline-offset-8 font-bold">
+            Tour List
+          </div>
           <div className="py-4 flex justify-between gap-4">
             <Card className="w-[250px] relative">
               <button
@@ -36,18 +39,21 @@ function TourList() {
                 <img src="/images/admin/toggle.png" />
               </button>
               <img className=" rounded-lg" src="/images/admin/bali.png" />
-              <CardContent className="flex justify-between ">
-                <p className="pt-4 font-bold">Bali</p>
-                <p className="text-red-600 pt-4 text-xs">Report 40</p>
-              </CardContent>
-              <CardDescription className="flex">
-                <img className="w-[15px] ps-1" src="/images/admin/pin.png" />
-                <p className="ms-2 ">Bali</p>
-              </CardDescription>
+              <div className="p-2">
+                <CardDescription className="flex justify-between ">
+                  <p className="pt-3 font-bold text-black text-lg">Bali</p>
+                  <p className="text-red-600 pt-3 text-xs">Report 40</p>
+                </CardDescription>
+                <CardDescription className="flex py-2">
+                  <img className="w-[15px] ps-1" src="/images/admin/pin.png" />
+                  <p className="ms-2 ">Bali</p>
+                </CardDescription>
+              </div>
             </Card>
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   )
 }

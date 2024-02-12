@@ -3,7 +3,7 @@ import React from "react"
 
 function AdminNavbar() {
   return (
-    <div className="bg-white w-[300px] ps-8 py-4 h-screen">
+    <div className="bg-white w-[300px] ps-8 py-4 min-h-screen max-h-max">
       <ul>
         <li className="flex items-center p-2 gap-2">
           <img className="w-[35px]" src="/images/admin/dashboard.png" />

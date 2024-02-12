@@ -3,7 +3,17 @@ import AdminNavbar from "@/components/Admin/AdminNavbar"
 import { Card } from "@/components/ui/card"
 import { useState } from "react"
 import { Link } from "react-router-dom"
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination"
 import React from "react"
+import Footer from "@/components/Footer"
 
 function CityList() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
@@ -47,8 +57,46 @@ function CityList() {
               )}
             </Card>
           </div>
+          <Pagination className="absolute bottom-0 left-1/2 transform -translate-x-1/2">
+            <PaginationContent>
+              <PaginationItem>
+                <PaginationPrevious href="#" />
+              </PaginationItem>
+              <PaginationItem>
+                <PaginationLink
+                  className="bg-white border border-black"
+                  href="#"
+                >
+                  1
+                </PaginationLink>
+              </PaginationItem>
+              <PaginationItem>
+                <PaginationLink className="bg-white" href="#">
+                  2
+                </PaginationLink>
+              </PaginationItem>
+              <PaginationItem className="bg-white">
+                <PaginationEllipsis />
+              </PaginationItem>
+              <PaginationItem>
+                <PaginationLink className="bg-white" href="#">
+                  9
+                </PaginationLink>
+              </PaginationItem>
+              <PaginationItem>
+                <PaginationLink className="bg-white" href="#">
+                  10
+                </PaginationLink>
+              </PaginationItem>
+              <PaginationItem>
+                <PaginationNext href="#" />
+              </PaginationItem>
+            </PaginationContent>
+          </Pagination>
         </div>
       </div>
+
+      <Footer />
     </div>
   )
 }

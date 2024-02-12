@@ -19,15 +19,16 @@ import {
 } from "@/components/ui/pagination"
 
 import React from "react"
+import Footer from "@/components/Footer"
 
 function TransactionList() {
   return (
-    <div className="bg-[#dee2e6]">
+    <div className="bg-[#dee2e6] h-auto">
       <AdminHeader />
       <div className="flex">
         <AdminNavbar />
         <div className="px-6 py-4 w-full">
-          <div className=" py-4 text-2xl underline underline-offset-8 w-10/12 ">
+          <div className=" py-4 text-2xl underline underline-offset-8 w-10/12 font-bold">
             Transaction List
           </div>
           <div className="border border-black rounded-lg text-[#9B9B9B] ps-2 mt-4 bg-white w-[200px] mb-4">
@@ -124,6 +125,7 @@ function TransactionList() {
           </footer>
         </div>
       </div>
+      <Footer />
     </div>
   )
 }
