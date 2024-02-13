@@ -2,6 +2,7 @@ import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carouse
 import Autoplay from "embla-carousel-autoplay";
 import { Card, CardContent } from "./ui/card";
 
+
 const CarouselTour = () => {
   return (
     <Carousel
