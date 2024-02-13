@@ -1,19 +1,22 @@
+import { GetTours } from "@/utils/apis/user/type";
 import { Card, CardContent } from "./ui/card";
 import { MapPin, Star } from "lucide-react";
 
-const CardTour = () => {
+interface Props {
+  data: GetTours;
+}
+
+const CardTour = (props: Props) => {
+  const { data } = props;
   return (
     <Card className="mb-8">
       <CardContent className="p-1">
         <div className="text-3xl font-semibold">
-          <img
-            src={`https://source.unsplash.com/1200x800/?tour,destination,sea`}
-            className="h-50 w-full rounded-sm"
-          />
+          <img src={data.thumbnail} className="h-52 w-full rounded-sm" />
         </div>
         <div className="flex-col p-2 space-y-1">
           <div className="flex justify-between">
-            <p>Ice Age Dingin</p>
+            <p>{data.tour_name}</p>
             <div className="flex">
               {Array.from({ length: 5 }, (_, index) => (
                 <Star
@@ -27,9 +30,10 @@ const CardTour = () => {
           </div>
           <div className="flex gap-2 items-center text-sm ">
             <MapPin size={15} />
-            <p className="text-slate-500">Lampung</p>
+            <p className="text-slate-500">
+              {data.city.city_name.charAt(0).toUpperCase() + data.city.city_name.slice(1)}
+            </p>
           </div>
-          <div className="text-xl text-orange-500">Rp.1000</div>
         </div>
       </CardContent>
     </Card>
