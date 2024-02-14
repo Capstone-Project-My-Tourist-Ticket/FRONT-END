@@ -1,9 +1,12 @@
 import AdminHeader from "@/components/Admin/AdminHeader"
 import { useState } from "react"
 import { Star } from "lucide-react"
+import { Link } from "react-router-dom"
 import React from "react"
+import AdminNavbar from "@/components/Admin/AdminNavbar"
+import Footer from "@/components/Footer"
 
-function MyTour() {
+function DetailMyTour() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
 
   const handleDropdownToggle = () => {
@@ -14,7 +17,7 @@ function MyTour() {
     <div className="bg-[#dee2e6]">
       <AdminHeader />
       <div className="flex">
-        {/* NAVBAR */}
+        <AdminNavbar />
         <div className="p-6">
           <div className="flex">
             <img
@@ -44,7 +47,7 @@ function MyTour() {
           <div className="w-[800px]">
             <div className="flex justify-end">
               <button className="bg-black rounded-lg px-4 py-2 mt-4 font-semibold text-white">
-                Add Package
+                <Link to={`/addpackage`}> Add Package</Link>
               </button>
             </div>
             <div className="bg-white rounded-lg drop-shadow-xl p-6 mt-6">
@@ -76,8 +79,9 @@ function MyTour() {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   )
 }
 
-export default MyTour
+export default DetailMyTour
