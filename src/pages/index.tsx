@@ -1,28 +1,126 @@
 import Logo1 from "@/assets/Logo1.png";
+import Logo from "@/assets/logo.png";
 import CarouselTour from "@/components/Banner";
 import CarouselHome from "@/components/CarouselHome";
 import Footer from "@/components/Footer";
 import { Card, CardContent } from "@/components/ui/card";
-import { Search } from "lucide-react";
+import { useToast } from "@/components/ui/use-toast";
+import { useAuth } from "@/utils/contexts/auth";
+import { Search, UserRound } from "lucide-react";
+import { useEffect, useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { getCity } from "@/utils/apis/user/api";
+import { GetCity } from "@/utils/apis/user/type";
 
 const Home = () => {
+  const [isScrolled, setIsScrolled] = useState(false);
+  const { user, token, changeToken } = useAuth();
+  const navigate = useNavigate();
+  const { toast } = useToast();
+  const [city, setCity] = useState<GetCity[]>([]);
+  const [pageNumber, setPageNumber] = useState(1);
+  const location = useLocation();
+
+  const handleLogout = () => {
+    changeToken();
+    toast({
+      description: "Logout successfully",
+    });
+  };
+
+  const fetchCity = async (pageNumber: number) => {
+    try {
+      const result = await getCity(pageNumber);
+      setCity(result.data);
+      console.log(result.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchCity(pageNumber);
+    const handleScroll = () => {
+      const scrollPosition = window.scrollY;
+      setIsScrolled(scrollPosition > 400);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [pageNumber]);
+
   return (
-    <div className="w-full h-screen flex flex-col">
+    <div className="w-full min-h-screen flex flex-col">
       <div
-        className="min-h-[85%] bg-no-repeat bg-cover bg-center bg-blend-darken bg-black/30 relative"
+        className={`flex justify-between items-center gap-x-10 w-full sticky top-0 z-50 ${
+          isScrolled ? "bg-white" : "bg-transparent"
+        } transition-background duration-500 ease-in-out px-10`}
+      >
+        <img
+          src={isScrolled ? Logo : Logo1}
+          className="p-2 cursor-pointer"
+          onClick={() => navigate("/")}
+        />
+        <ul
+          className={`flex gap-16 mr-96 container justify-end ${
+            isScrolled ? "text-black" : "text-white"
+          }`}
+        >
+          <Link
+            to={"/"}
+            className={`${
+              location.pathname === "/" ? "font-bold border-b-orange-500 border-b text-lg" : ""
+            }`}
+          >
+            <li className="font-semibold">Home</li>
+          </Link>
+          <li className="font-semibold">About</li>
+          <li className="font-semibold">Services</li>
+        </ul>
+        {!token ? (
+          <div className="container text-end">
+            <Link to={"/register"}>
+              <button className="bg-red-500  text-white px-5 py-2 rounded-full">Sign Up</button>
+            </Link>
+          </div>
+        ) : (
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              {user.image ? (
+                <img src={user.image} className="rounded-full w-20 h-10" />
+              ) : (
+                <UserRound
+                  className={`${
+                    isScrolled ? "text-white bg-slate-500" : "text-black bg-white"
+                  }  rounded-full w-20 h-10`}
+                />
+              )}
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="mt-2">
+              <DropdownMenuLabel>Hi {user.full_name}</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem onClick={() => navigate("/profile")}>Profile</DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem onClick={() => handleLogout()}>Logout</DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        )}
+      </div>
+      <div
+        className="h-screen -translate-y-32 bg-no-repeat bg-cover bg-center bg-blend-darken bg-black/30 relative"
         style={{
           backgroundImage: `url(https://source.unsplash.com/1200x800/?tour,destination,indonesia)`,
         }}
       >
-        <div className="flex justify-between items-center mx-10 gap-x-10 top-1/2 right-1/2 ">
-          <img src={Logo1} className="p-2" />
-          <ul className="flex gap-16 mr-96 text-white">
-            <li>Home</li>
-            <li>About</li>
-            <li>Services</li>
-          </ul>
-          <button className="bg-red-500  text-white px-5 py-2 rounded-full">Sign Up</button>
-        </div>
         <div className="absolute top-1/2 right-1/2 translate-x-1/2 translate-y-20 w-full max-w-4xl">
           <div className="flex items-center justify-between bg-[#F5F5F5] py-5 h-8 overflow-hidden rounded-lg text-sm border w-full px-3">
             <input
@@ -33,34 +131,36 @@ const Home = () => {
           </div>
         </div>
       </div>
-      <div className="bg-white pt-10 rounded-tl-[80px] rounded-tr-[80px] -translate-y-8"></div>
-      <div className="pt-0 mt-0">
+      <div className="bg-white pt-10 rounded-tl-[80px] rounded-tr-[80px] -translate-y-40"></div>
+      <div className="pt-0 mt-0 -translate-y-16">
         <CarouselTour />
       </div>
-      <div className="container border-slate-200 border rounded-lg ">
+      <div className="container border-slate-300 border rounded-lg ">
         <p className="font-semibold text-2xl my-8">Top Picks Tourist Attraction</p>
         <CarouselHome />
       </div>
-      <div className="container border-slate-200 border my-6 rounded-lg">
+      <div className="container border-slate-300 border my-6 rounded-lg">
         <p className="font-semibold text-2xl my-8">Travel Around Indonesia</p>
 
         <div className="flex">
-          {Array.from({ length: 5 }, (_, index) => (
-            <Card className="" key={index}>
-              <CardContent className="p-1">
-                <div className="">
-                  <img
-                    src={`https://source.unsplash.com/1200x80${index}/?tour,destination,sea`}
-                    className="h-50 w-full rounded-sm"
-                  />
-                  <p className="flex justify-center text-xl p-3">Bandung</p>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-        <div className="py-4 flex justify-center my-3">
-          <button className="bg-blue-500 py-2 px-4 rounded-lg text-white">Show more</button>
+          {city &&
+            city.map((item, index) => (
+              <Card className="basis-1/4" key={index}>
+                <CardContent className="p-1">
+                  <div className="">
+                    <Link to={`/city/${item.id}`}>
+                      <img src={item.thumbnail} className="h-52 w-full rounded-sm" />
+                      <p className="flex justify-center text-xl p-3">
+                        {item.city_name
+                          .split(" ")
+                          .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+                          .join(" ")}
+                      </p>
+                    </Link>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
         </div>
       </div>
       <Footer />
