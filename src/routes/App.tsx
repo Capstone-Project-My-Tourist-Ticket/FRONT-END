@@ -1,31 +1,30 @@
+import ETiket from "@/components/ETiket"
 import Home from "@/pages"
-import AddCity from "@/pages/Admin/AddCity"
-import AddVoucher from "@/pages/Admin/AddVoucher"
-import CityList from "@/pages/Admin/CityList"
-import Dashboard from "@/pages/Admin/Dashboard"
-import AdminDetailTour from "@/pages/Admin/DetailTour"
-import EditCity from "@/pages/Admin/EditCity"
-import TourList from "@/pages/Admin/TourList"
-import TransactionList from "@/pages/Admin/TransactionList"
-import VerificationAccount from "@/pages/Admin/VerificationAccount"
+import Login from "@/pages/auth/login"
 import Register from "@/pages/auth/register"
 import City from "@/pages/user/detailCity"
 import DetailTour from "@/pages/user/detailTour"
 import { BrowserRouter, Route, Routes } from "react-router-dom"
-import BookingList from "@/pages/user/BookingList"
+import BookingList from "@/pages/user/bookingList"
 import PaymentBook from "@/pages/user/paymentBook"
 import PaymentResult from "@/pages/user/paymentResult"
 import Profile from "@/pages/user/profile"
-import MyTour from "@/pages/pengelola/myTour"
-import ETiket from "@/components/ETiket"
-/* import Login from "@/pages/auth/login" */
 import TransactionHistory from "@/pages/pengelola/transactionHistory"
+import MyTour from "@/pages/pengelola/myTour"
 import AddTour from "@/pages/pengelola/addTour"
 import EditTour from "@/pages/pengelola/editTour"
 import AddPackage from "@/pages/pengelola/addPackage"
-import DetailMyTour from "@/pages/Manager/DetailMyTour"
-import Login from "@/pages/auth/login"
-import ProtectedRoute from "./ProtectedRoute"
+import ProtectedRoute from "@/routes/ProtectedRoute"
+import DetailMyTour from "@/pages/pengelola/detailMyTour"
+import AddCity from "@/pages/Admin/AddCity"
+import AddVoucher from "@/pages/Admin/adminAddVoucher"
+import CityList from "@/pages/Admin/adminCityList"
+import Dashboard from "@/pages/Admin/adminDashboard"
+import AdminDetailTour from "@/pages/Admin/adminDetailDashboard"
+import EditCity from "@/pages/Admin/adminEditCity"
+import TourList from "@/pages/Admin/adminTourList"
+import TransactionList from "@/pages/Admin/adminTransactionList"
+import VerificationAccount from "@/pages/Admin/adminVerification"
 
 const App = () => {
   return (
@@ -51,15 +50,16 @@ const App = () => {
           <Route path="/tour/:id" element={<DetailTour />} />
           <Route path="/admin-tour" element={<AdminDetailTour />} />
           <Route path="/payment" element={<PaymentBook />} />
-          <Route path="/payresult" element={<PaymentResult />} />
+          <Route path="/payresult/:booking_id" element={<PaymentResult />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/bookinglist" element={<BookingList />} />
-          <Route path="/etiket" element={<ETiket />} />
+          <Route path="/etiket/:booking_id" element={<ETiket />} />
           <Route path="/transaction-history" element={<TransactionHistory />} />
           <Route path="/mytour" element={<MyTour />} />
           <Route path="/addtour" element={<AddTour />} />
           <Route path="/edittour" element={<EditTour />} />
           <Route path="/addpackage" element={<AddPackage />} />
+          <Route path="/detailmytour/:id" element={<DetailMyTour />} />
         </Route>
       </Routes>
     </BrowserRouter>

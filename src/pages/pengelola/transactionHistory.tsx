@@ -17,70 +17,68 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
+import { useEffect, useState } from "react";
+import { getTransaction } from "@/utils/apis/pengelola/api";
+import { Transaction } from "@/utils/apis/pengelola/type";
 
 function TransactionHistory() {
+  const [transaction, setTransaction] = useState<Transaction[]>([]);
+  /*   const [pageNumber, setPageNumber] = useState(1); */
+
+  const fetchTransaction = async (/* pageNumber: number */) => {
+    try {
+      const result = await getTransaction(1);
+      setTransaction(result.data);
+      console.log(result.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchTransaction();
+  }, []);
+
   return (
     <div className="bg-[#dee2e6] h-auto">
       <AdminHeader />
       <div className="flex">
         <AdminNavbar />
-        <div className="px-6 py-4 w-full">
+        <div className="px-6 py-4 w-full space-y-6">
           <div className=" py-4 text-2xl underline underline-offset-8 w-10/12 font-bold">
             Transaction History
           </div>
-          <input
+          {/*     <input
             className="border border-black rounded-lg text-slate-900 ps-2 mt-4 bg-white w-[200px] mb-4 p-1 outline-none"
             placeholder="search..."
-          />
+          /> */}
           <Table className="bg-white rounded-lg ">
             <TableHeader>
               <TableRow>
-                <TableHead>No.</TableHead>
+                <TableHead>Tanggal Booking</TableHead>
                 <TableHead>Booking ID</TableHead>
                 <TableHead>Name</TableHead>
                 <TableHead>Tour</TableHead>
                 <TableHead>Tour Package</TableHead>
+                <TableHead>Quantity</TableHead>
                 <TableHead>Price</TableHead>
                 <TableHead>Status</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
-              <TableRow>
-                <TableCell>1</TableCell>
-                <TableCell>294658</TableCell>
-                <TableCell>Dya</TableCell>
-                <TableCell>Pantai Pandawa</TableCell>
-                <TableCell>Regular + Meal</TableCell>
-                <TableCell>10.000.000</TableCell>
-                <TableCell>Settlement</TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell>2</TableCell>
-                <TableCell>246803</TableCell>
-                <TableCell>Jeni</TableCell>
-                <TableCell>Candi Borobudur</TableCell>
-                <TableCell>Regular</TableCell>
-                <TableCell>10.000.000</TableCell>
-                <TableCell>Pending</TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell>3</TableCell>
-                <TableCell>294058</TableCell>
-                <TableCell>Ziva</TableCell>
-                <TableCell>Jatim Park 3</TableCell>
-                <TableCell>Regular</TableCell>
-                <TableCell>10.000.000</TableCell>
-                <TableCell>Expired</TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell>4</TableCell>
-                <TableCell>268658</TableCell>
-                <TableCell>Andy</TableCell>
-                <TableCell>Pulau Komodo</TableCell>
-                <TableCell>Regular + Digigit Kodomo</TableCell>
-                <TableCell>8.000.000</TableCell>
-                <TableCell>Canceled</TableCell>
-              </TableRow>
+              {transaction &&
+                transaction.map((item, index) => (
+                  <TableRow key={index}>
+                    <TableCell>{item.created_at}</TableCell>
+                    <TableCell>{item.booking_id}</TableCell>
+                    <TableCell>{item.full_name}</TableCell>
+                    <TableCell>{item.tour.tour_name}</TableCell>
+                    <TableCell>{item.package.package_name}</TableCell>
+                    <TableCell>{item.quantity}</TableCell>
+                    <TableCell>{item.package.price}</TableCell>
+                    <TableCell>{item.status}</TableCell>
+                  </TableRow>
+                ))}
             </TableBody>
           </Table>
           <footer className="pt-10">

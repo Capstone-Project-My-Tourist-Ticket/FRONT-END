@@ -1,4 +1,4 @@
-import Logo1 from "@/assets/Logo1.png"
+import Logo1 from "@/assets/logo1.png"
 import Logo from "@/assets/logo.png"
 import CarouselTour from "@/components/Banner"
 import CarouselHome from "@/components/CarouselHome"
@@ -17,8 +17,8 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { getCity } from "@/utils/apis/user/api"
-import { GetCity } from "@/utils/apis/user/type"
+import { getCity, getSearch } from "@/utils/apis/user/api"
+import { GetCity, GetTours } from "@/utils/apis/user/type"
 
 const Home = () => {
   const [isScrolled, setIsScrolled] = useState(false)
@@ -26,8 +26,27 @@ const Home = () => {
   const navigate = useNavigate()
   const { toast } = useToast()
   const [city, setCity] = useState<GetCity[]>([])
-  const [pageNumber, setPageNumber] = useState(1)
+  /*   const [pageNumber, setPageNumber] = useState(1); */
   const location = useLocation()
+  const [searchTours, setSearchTours] = useState<GetTours[]>([])
+  const [searchQuery, setSearchQuery] = useState<string>("")
+
+  const search = async (q: string) => {
+    try {
+      if (q.length > 0) {
+        const response = await getSearch(q)
+        console.log(response.data)
+        setSearchTours(response.data)
+      }
+    } catch (error) {
+      setSearchTours([])
+    }
+  }
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const query = e.target.value
+    setSearchQuery(query)
+    search(query)
+  }
 
   const handleLogout = () => {
     changeToken()
@@ -36,9 +55,9 @@ const Home = () => {
     })
   }
 
-  const fetchCity = async (pageNumber: number) => {
+  const fetchCity = async (/* pageNumber: number */) => {
     try {
-      const result = await getCity(pageNumber)
+      const result = await getCity(1)
       setCity(result.data)
       console.log(result.data)
     } catch (error) {
@@ -46,17 +65,25 @@ const Home = () => {
     }
   }
 
-  useEffect(() => {
-    fetchCity(pageNumber)
-    const handleScroll = () => {
-      const scrollPosition = window.scrollY
-      setIsScrolled(scrollPosition > 400)
-    }
-    window.addEventListener("scroll", handleScroll)
-    return () => {
-      window.removeEventListener("scroll", handleScroll)
-    }
-  }, [pageNumber])
+  useEffect(
+    () => {
+      fetchCity()
+      const handleScroll = () => {
+        const scrollPosition = window.scrollY
+        setIsScrolled(scrollPosition > 400)
+      }
+      window.addEventListener("scroll", handleScroll)
+      return () => {
+        window.removeEventListener("scroll", handleScroll)
+      }
+    },
+    [
+      /* pageNumber */
+    ]
+  )
+
+  console.log(searchQuery)
+  console.log(searchTours)
 
   return (
     <div className="w-full min-h-screen flex flex-col">
@@ -100,13 +127,16 @@ const Home = () => {
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               {user.image ? (
-                <img src={user.image} className="rounded-full w-20 h-10" />
+                <img
+                  src={user.image}
+                  className="rounded-full w-20 h-10 cursor-pointer"
+                />
               ) : (
                 <UserRound
                   className={`${
                     isScrolled
                       ? "text-white bg-slate-500"
-                      : "text-black bg-white"
+                      : "text-black bg-white cursor-pointer"
                   }  rounded-full w-20 h-10`}
                 />
               )}
@@ -131,13 +161,37 @@ const Home = () => {
           backgroundImage: `url(https://source.unsplash.com/1200x800/?tour,destination,indonesia)`,
         }}
       >
-        <div className="absolute top-1/2 right-1/2 translate-x-1/2 translate-y-20 w-full max-w-4xl">
-          <div className="flex items-center justify-between bg-[#F5F5F5] py-5 h-8 overflow-hidden rounded-lg text-sm border w-full px-3">
-            <input
-              className="px-5 py-1 outline-none border-none bg-transparent text-zinc-800 w-full"
-              placeholder="I want to go..."
-            />
-            <Search className="text-red-500" />
+        <div className="flex-grow mx-5">
+          <div className="absolute top-1/2 right-1/2 translate-x-1/2 translate-y-20 w-full max-w-4xl">
+            <div className="flex items-center justify-between bg-[#F5F5F5] py-5 h-8 overflow-hidden rounded-lg text-sm border w-full px-3">
+              <input
+                className="px-5 py-1 outline-none border-none bg-transparent text-zinc-800 w-full"
+                placeholder="I want to go..."
+                value={searchQuery}
+                onChange={handleSearch}
+              />
+              <Search className="text-red-500" />
+              {searchQuery && searchTours.length > 0 && (
+                <ul className="absolute z-10 max-h-48 top-10 left-0 right-0 bg-white dark:bg-gray-900 rounded-md mr-4 outline-none border-gray-100 dark:border-gray-800 border-2 border-solid overflow-y-scroll">
+                  {searchTours.map((item, index) => (
+                    <li
+                      key={index}
+                      className="py-1 px-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700"
+                      onClick={() => {
+                        setSearchQuery("")
+                        setSearchTours([])
+                        navigate(`/detail/${item.id}`)
+                      }}
+                    >
+                      <div className="flex gap-4 p-2">
+                        <img src={item.thumbnail} className="w-10" />
+                        <div>{item.tour_name}</div>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
           </div>
         </div>
       </div>
@@ -154,7 +208,7 @@ const Home = () => {
       <div className="container border-slate-300 border my-6 rounded-lg">
         <p className="font-semibold text-2xl my-8">Travel Around Indonesia</p>
 
-        <div className="flex">
+        <div className="grid grid-cols-4">
           {city &&
             city.map((item, index) => (
               <Card className="basis-1/4" key={index}>

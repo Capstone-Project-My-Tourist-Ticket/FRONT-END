@@ -9,7 +9,7 @@ const DetailCity = () => {
   const { id } = useParams();
   const [detail, setDetail] = useState<GetCity>();
   const [toursCity, setToursCity] = useState<GetTours[]>([]);
-  const [pageNumber, setPageNumber] = useState(1);
+  /*  const [pageNumber, setPageNumber] = useState(1); */
 
   useEffect(() => {
     if (id) {
@@ -21,7 +21,7 @@ const DetailCity = () => {
     try {
       const result = await getDetailCity(id as string);
       setDetail(result.data);
-      const resultCity = await getToursByCity(`${pageNumber}`, result.data.id);
+      const resultCity = await getToursByCity(`${result.data.id}`, 1);
       setToursCity(resultCity.data);
       console.log(resultCity.data);
     } catch (error) {
