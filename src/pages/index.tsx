@@ -1,14 +1,14 @@
-import Logo1 from "@/assets/Logo1.png";
-import Logo from "@/assets/logo.png";
-import CarouselTour from "@/components/Banner";
-import CarouselHome from "@/components/CarouselHome";
-import Footer from "@/components/Footer";
-import { Card, CardContent } from "@/components/ui/card";
-import { useToast } from "@/components/ui/use-toast";
-import { useAuth } from "@/utils/contexts/auth";
-import { Search, UserRound } from "lucide-react";
-import { useEffect, useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import Logo1 from "@/assets/Logo1.png"
+import Logo from "@/assets/logo.png"
+import CarouselTour from "@/components/Banner"
+import CarouselHome from "@/components/CarouselHome"
+import Footer from "@/components/Footer"
+import { Card, CardContent } from "@/components/ui/card"
+import { useToast } from "@/components/ui/use-toast"
+import { useAuth } from "@/utils/contexts/auth"
+import { Search, UserRound } from "lucide-react"
+import { useEffect, useState } from "react"
+import { Link, useLocation, useNavigate } from "react-router-dom"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -16,47 +16,47 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { getCity } from "@/utils/apis/user/api";
-import { GetCity } from "@/utils/apis/user/type";
+} from "@/components/ui/dropdown-menu"
+import { getCity } from "@/utils/apis/user/api"
+import { GetCity } from "@/utils/apis/user/type"
 
 const Home = () => {
-  const [isScrolled, setIsScrolled] = useState(false);
-  const { user, token, changeToken } = useAuth();
-  const navigate = useNavigate();
-  const { toast } = useToast();
-  const [city, setCity] = useState<GetCity[]>([]);
-  const [pageNumber, setPageNumber] = useState(1);
-  const location = useLocation();
+  const [isScrolled, setIsScrolled] = useState(false)
+  const { user, token, changeToken } = useAuth()
+  const navigate = useNavigate()
+  const { toast } = useToast()
+  const [city, setCity] = useState<GetCity[]>([])
+  const [pageNumber, setPageNumber] = useState(1)
+  const location = useLocation()
 
   const handleLogout = () => {
-    changeToken();
+    changeToken()
     toast({
       description: "Logout successfully",
-    });
-  };
+    })
+  }
 
   const fetchCity = async (pageNumber: number) => {
     try {
-      const result = await getCity(pageNumber);
-      setCity(result.data);
-      console.log(result.data);
+      const result = await getCity(pageNumber)
+      setCity(result.data)
+      console.log(result.data)
     } catch (error) {
-      console.log(error);
+      console.log(error)
     }
-  };
+  }
 
   useEffect(() => {
-    fetchCity(pageNumber);
+    fetchCity(pageNumber)
     const handleScroll = () => {
-      const scrollPosition = window.scrollY;
-      setIsScrolled(scrollPosition > 400);
-    };
-    window.addEventListener("scroll", handleScroll);
+      const scrollPosition = window.scrollY
+      setIsScrolled(scrollPosition > 400)
+    }
+    window.addEventListener("scroll", handleScroll)
     return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, [pageNumber]);
+      window.removeEventListener("scroll", handleScroll)
+    }
+  }, [pageNumber])
 
   return (
     <div className="w-full min-h-screen flex flex-col">
@@ -78,7 +78,9 @@ const Home = () => {
           <Link
             to={"/"}
             className={`${
-              location.pathname === "/" ? "font-bold border-b-orange-500 border-b text-lg" : ""
+              location.pathname === "/"
+                ? "font-bold border-b-orange-500 border-b text-lg"
+                : ""
             }`}
           >
             <li className="font-semibold">Home</li>
@@ -89,7 +91,9 @@ const Home = () => {
         {!token ? (
           <div className="container text-end">
             <Link to={"/register"}>
-              <button className="bg-red-500  text-white px-5 py-2 rounded-full">Sign Up</button>
+              <button className="bg-red-500  text-white px-5 py-2 rounded-full">
+                Sign Up
+              </button>
             </Link>
           </div>
         ) : (
@@ -100,7 +104,9 @@ const Home = () => {
               ) : (
                 <UserRound
                   className={`${
-                    isScrolled ? "text-white bg-slate-500" : "text-black bg-white"
+                    isScrolled
+                      ? "text-white bg-slate-500"
+                      : "text-black bg-white"
                   }  rounded-full w-20 h-10`}
                 />
               )}
@@ -108,9 +114,13 @@ const Home = () => {
             <DropdownMenuContent className="mt-2">
               <DropdownMenuLabel>Hi {user.full_name}</DropdownMenuLabel>
               <DropdownMenuSeparator />
-              <DropdownMenuItem onClick={() => navigate("/profile")}>Profile</DropdownMenuItem>
+              <DropdownMenuItem onClick={() => navigate("/profile")}>
+                Profile
+              </DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem onClick={() => handleLogout()}>Logout</DropdownMenuItem>
+              <DropdownMenuItem onClick={() => handleLogout()}>
+                Logout
+              </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         )}
@@ -136,7 +146,9 @@ const Home = () => {
         <CarouselTour />
       </div>
       <div className="container border-slate-300 border rounded-lg ">
-        <p className="font-semibold text-2xl my-8">Top Picks Tourist Attraction</p>
+        <p className="font-semibold text-2xl my-8">
+          Top Picks Tourist Attraction
+        </p>
         <CarouselHome />
       </div>
       <div className="container border-slate-300 border my-6 rounded-lg">
@@ -149,11 +161,17 @@ const Home = () => {
                 <CardContent className="p-1">
                   <div className="">
                     <Link to={`/city/${item.id}`}>
-                      <img src={item.thumbnail} className="h-52 w-full rounded-sm" />
+                      <img
+                        src={item.thumbnail}
+                        className="h-52 w-full rounded-sm"
+                      />
                       <p className="flex justify-center text-xl p-3">
                         {item.city_name
                           .split(" ")
-                          .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+                          .map(
+                            (word) =>
+                              word.charAt(0).toUpperCase() + word.slice(1)
+                          )
                           .join(" ")}
                       </p>
                     </Link>
@@ -165,7 +183,7 @@ const Home = () => {
       </div>
       <Footer />
     </div>
-  );
-};
+  )
+}
 
-export default Home;
+export default Home

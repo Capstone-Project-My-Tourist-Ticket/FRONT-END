@@ -7,58 +7,113 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion"
-import React from "react"
+import React, { useEffect, useState } from "react"
 import Footer from "@/components/Footer"
+import axiosWithConfig from "@/utils/apis/axiosWithConfig"
+import { AxiosResponse } from "axios"
+
+interface Detail {
+  id: number
+  city_id: number
+  user_id: number
+  tour_name: string
+  description: string
+  image: string
+  thumbnail: string
+  address: string
+  latitude: number
+  longitude: number
+  created_at: string
+  updated_at: string
+  city: {
+    id: number
+    city_name: string
+    image: string
+    thumbnail: string
+  }
+}
+
+interface Packages {
+  id: number
+  tour_id: number
+  package_name: string
+  price: number
+}
 
 function AdminDetailTour() {
+  const [data, setData] = useState<Detail[]>([])
+  const [paket, setPaket] = useState<Packages[]>([])
+
+  useEffect(() => {
+    axiosWithConfig
+      .get(`https://benarja.my.id/tours/31`)
+      .then((response: AxiosResponse<{ data: Detail }>) => {
+        console.log(response.data)
+        setData([response.data.data])
+      })
+      .catch((error) => console.error("Error fetching data:", error))
+  }, [])
+
+  useEffect(() => {
+    axiosWithConfig
+      .get(`https://benarja.my.id/packages/31`)
+      .then((response) => {
+        console.log(response.data)
+
+        if (Array.isArray(response.data)) {
+          setPaket(response.data)
+        } else if (response.data && response.data.data) {
+          setPaket([response.data.data])
+        } else {
+          console.error("Error: Invalid response structure", response)
+        }
+      })
+      .catch((error) => console.error("Error fetching package data:", error))
+  }, [])
+
   return (
     <div>
       <header>
         <AdminHeader />
       </header>
-      <img
-        className="w-screen h-[500px]"
-        src={`https://media.safarway.com/content/594c745c-f837-4df9-b6a1-3b1011f71dc6_sm.jpg`}
-      />
-      <div className="bg-white p-5 rounded-tl-[80px] rounded-tr-[80px] -translate-y-10"></div>
+      {data.map((item, index) => (
+        <div key={index}>
+          <img className="w-screen h-[500px]" src={item.thumbnail} />
+          <div className="bg-white p-5 rounded-tl-[80px] rounded-tr-[80px] -translate-y-10"></div>
+          <div className="px-6 rounded-lg">
+            <h1 className="font-bold text-2xl">{item.tour_name}</h1>
+            <div className="flex gap-2 items-center pt-2">
+              <MapPin size={15} />
+              <p className="text-slate-500">{item.address}</p>
+            </div>
+            <p className="py-6">{item.description}</p>
+          </div>
+        </div>
+      ))}
+      {paket.map((packageItem, index) => (
+        <div key={index}>
+          <div className="px-6 rounded-lg">
+            <h1 className="font-bold text-2xl">Package</h1>
+            <div className="flex justify-between py-4">
+              <div className="bg-[#dee2e6] rounded-lg w-[700px]">
+                <div className="bg-white m-6 p-4 rounded-lg drop-shadow-lg">
+                  <h1 className="font-bold pb-4">{packageItem.package_name}</h1>
+                  <p className="text-red-600">{packageItem.price}</p>
+                </div>
+              </div>
+              <div className="bg-[#dee2e6] rounded-lg w-[500px] h-full">
+                <div className="bg-white m-6 p-4 rounded-lg drop-shadow-lg ">
+                  <p className="font-bold text-blue-500 pb-4">
+                    Paket ber3 - Reguler Ice Age
+                  </p>
+                  <p className="font-bold">Paket ber5 - Reguler Ice Age</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      ))}
       <div className="px-6 rounded-lg">
-        <h1 className="font-bold text-2xl">Ice Age Artic Adventure</h1>
-        <div className="flex gap-2 items-center pt-2">
-          <MapPin size={15} />
-          <p className="text-slate-500">
-            Jl. Konoha , RW 10 RT 03, Kelurahan West Blue, Kecamatan East Blue,
-            Lampung Selatan, Lampung , Indonesia{" "}
-          </p>
-        </div>
-        <p className="py-6">
-          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nisi facere
-          architecto in, saepe perferendis repellat labore natus odit explicabo
-          totam. Voluptates veniam possimus adipisci dicta dolore? Perferendis
-          reprehenderit earum optio.
-        </p>
-        <h1 className="font-bold text-2xl">Package</h1>
-        <div className="flex justify-between py-4">
-          <div className="bg-[#dee2e6] rounded-lg w-[700px]">
-            <div className="bg-white m-6 p-4 rounded-lg drop-shadow-lg">
-              <h1 className="font-bold pb-4">Paket Ber3 - Reguler Ice Age</h1>
-              <p className="line-through">Rp. 350.000</p>
-              <p className="text-red-600">Rp. 220.000</p>
-            </div>
-            <div className="bg-white m-6 p-4 rounded-lg drop-shadow-lg">
-              <h1 className="font-bold pb-4">Paket Ber5 - Reguler Ice Age</h1>
-              <p className="line-through">Rp. 350.000</p>
-              <p className="text-red-600">Rp. 220.000</p>
-            </div>
-          </div>
-          <div className="bg-[#dee2e6] rounded-lg w-[500px] h-full">
-            <div className="bg-white m-6 p-4 rounded-lg drop-shadow-lg ">
-              <p className="font-bold text-blue-500 pb-4">
-                Paket ber3 - Reguler Ice Age
-              </p>
-              <p className="font-bold">Paket ber5 - Reguler Ice Age</p>
-            </div>
-          </div>
-        </div>
         <hr className="border border-black" />
         <p className="font-bold ">Reviews</p>
         <div className="flex items-center pb-6">
@@ -107,10 +162,19 @@ function AdminDetailTour() {
           </div>
         </div>
         <hr className="border border-black" />
-        <div className="pb-6">
-          <h1 className="font-bold py-4">Location</h1>
-          <Map draggable={false} />
-        </div>
+        {data.map((item, index) => (
+          <div key={index}>
+            <div className="pb-6">
+              <h1 className="font-bold py-4">Location</h1>
+              <Map
+                draggable={false}
+                latitude={item.latitude}
+                longitude={item.longitude}
+              />
+            </div>
+          </div>
+        ))}
+
         <hr className="border border-black" />
         <div className="flex flex-col space-y-3 pb-6">
           <p className="font-semibold text-lg border-t-2 pt-4">More Info</p>

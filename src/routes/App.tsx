@@ -43,7 +43,7 @@ const App = () => {
           />
           <Route path="/add-voucher" element={<AddVoucher />} />
           <Route path="/add-city" element={<AddCity />} />
-          <Route path="/edit-city" element={<EditCity />} />
+          <Route path="/edit-city/:id" element={<EditCity />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/city/:id" element={<City />} />

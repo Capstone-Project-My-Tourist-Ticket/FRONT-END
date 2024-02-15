@@ -1,11 +1,11 @@
 import AdminHeader from "@/components/Admin/AdminHeader"
 import AdminNavbar from "@/components/Admin/AdminNavbar"
-import axios from "axios"
 import { useState } from "react"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import * as React from "react"
 import Footer from "@/components/Footer"
+import axiosWithConfig from "@/utils/apis/axiosWithConfig"
 
 function AddVoucher() {
   const [post, setPost] = useState({
@@ -15,9 +15,6 @@ function AddVoucher() {
     discount_value: "",
     expired_voucher: "",
   })
-
-  const token =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdXRob3JpemVkIjp0cnVlLCJleHAiOjE3MDc4Mjk4MzYsInVzZXJJZCI6ODZ9.AzJzOw8BtCQBwK0F7YN1vV-IglW98d0tLj-YcGghEqw"
 
   const handleInput = (
     event:
@@ -44,10 +41,9 @@ function AddVoucher() {
 
     formData.append("expired_voucher", post.expired_voucher)
 
-    axios
+    axiosWithConfig
       .post("https://benarja.my.id/vouchers", formData, {
         headers: {
-          Authorization: `Bearer ${token}`,
           "Content-Type": "multipart/form-data",
         },
       })

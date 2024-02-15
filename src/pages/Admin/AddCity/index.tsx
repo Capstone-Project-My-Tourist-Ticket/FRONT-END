@@ -1,10 +1,10 @@
 import AdminHeader from "@/components/Admin/AdminHeader"
 import AdminNavbar from "@/components/Admin/AdminNavbar"
 import Footer from "@/components/Footer"
-import axios from "axios"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import React, { useState } from "react"
+import axiosWithConfig from "@/utils/apis/axiosWithConfig"
 
 function AddCity() {
   const [post, setPost] = useState({
@@ -13,10 +13,6 @@ function AddCity() {
     image: "",
     thumbnail: "",
   })
-  console.log(post, "aaaa")
-
-  const token =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdXRob3JpemVkIjp0cnVlLCJleHAiOjE3MDc4MTg5NDgsInVzZXJJZCI6ODZ9.tECCETHJNcE2wuObZ5kjf9RqcNENFh_8hR7e4AwzLVM"
 
   const handleInput = (
     event:
@@ -52,10 +48,9 @@ function AddCity() {
       formData.append("thumbnail", post.thumbnail)
     }
 
-    axios
+    axiosWithConfig
       .post("https://benarja.my.id/citys", formData, {
         headers: {
-          Authorization: `Bearer ${token}`,
           "Content-Type": "multipart/form-data",
         },
       })
@@ -96,7 +91,7 @@ function AddCity() {
                 className="border border-black"
                 onChange={handleInput}
                 name="thumbnail"
-              />{" "}
+              />
               <br />
             </div>
             <div className="grid w-full max-w-sm items-center gap-1.5">
@@ -106,7 +101,7 @@ function AddCity() {
                 className="border border-black"
                 onChange={handleInput}
                 name="image"
-              />{" "}
+              />
               <br />
             </div>
             <button className="bg-black rounded-lg text-white w-[500px] p-2">

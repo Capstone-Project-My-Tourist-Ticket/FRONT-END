@@ -1,82 +1,82 @@
-import Layout from "@/components/Layout";
-import { Dot, MapPin, MinusCircle, PlusCircle } from "lucide-react";
+import Layout from "@/components/Layout"
+import { Dot, MapPin, MinusCircle, PlusCircle } from "lucide-react"
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from "@/components/ui/accordion";
-import ReviewsComp from "@/components/Review";
-import Map from "@/components/Map";
-import { getDetailTours, getPackages } from "@/utils/apis/user/api";
-import { useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
-import { GetPackages, GetTours } from "@/utils/apis/user/type";
-import { formattedAmount } from "@/utils/formattedAmount";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
-import { addDays } from "date-fns";
+} from "@/components/ui/accordion"
+import ReviewsComp from "@/components/Review"
+import Map from "@/components/Map"
+import { getDetailTours, getPackages } from "@/utils/apis/user/api"
+import { useParams } from "react-router-dom"
+import { useEffect, useState } from "react"
+import { GetPackages, GetTours } from "@/utils/apis/user/type"
+import { formattedAmount } from "@/utils/formattedAmount"
+import DatePicker from "react-datepicker"
+import "react-datepicker/dist/react-datepicker.css"
+import { addDays } from "date-fns"
 
 const DetailTour = () => {
-  const { id } = useParams();
-  const [tourDetail, setTourDetail] = useState<GetTours>();
-  const [packages, setPackages] = useState<GetPackages[]>([]);
-  const [editableCount, setEditableCount] = useState<string>("1");
+  const { id } = useParams()
+  const [tourDetail, setTourDetail] = useState<GetTours>()
+  const [packages, setPackages] = useState<GetPackages[]>([])
+  const [editableCount, setEditableCount] = useState<string>("1")
 
-  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
-  const minTomorrow = addDays(new Date(), 1);
+  const [selectedDate, setSelectedDate] = useState<Date | null>(null)
+  const minTomorrow = addDays(new Date(), 1)
 
   const handleDateChange = (date: Date | null) => {
-    setSelectedDate(date);
-  };
+    setSelectedDate(date)
+  }
 
-  let currentDate: any = new Date();
+  const currentDate: any = new Date()
 
   const dates: Date[] = Array.from({ length: 8 }, (_, i) => {
-    const date = new Date(currentDate);
-    date.setDate(currentDate.getDate() + (i + 1));
-    return date;
-  });
+    const date = new Date(currentDate)
+    date.setDate(currentDate.getDate() + (i + 1))
+    return date
+  })
 
-  console.log(dates, "aw la");
+  console.log(dates, "aw la")
 
   const handleIncrement = () => {
-    setEditableCount((prevCount) => (parseInt(prevCount, 10) + 1).toString());
-  };
+    setEditableCount((prevCount) => (parseInt(prevCount, 10) + 1).toString())
+  }
 
   const handleDecrement = () => {
     setEditableCount((prevCount) => {
-      const newCount = parseInt(prevCount, 10) - 1;
-      return newCount >= 1 ? newCount.toString() : "1";
-    });
-  };
+      const newCount = parseInt(prevCount, 10) - 1
+      return newCount >= 1 ? newCount.toString() : "1"
+    })
+  }
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const inputValue = e.target.value;
+    const inputValue = e.target.value
     if (/^[1-9]\d*$/.test(inputValue)) {
-      setEditableCount(inputValue);
+      setEditableCount(inputValue)
     }
-  };
+  }
 
   useEffect(() => {
-    window.scrollTo(0, 0);
+    window.scrollTo(0, 0)
     if (id) {
-      fetchDetailCity();
+      fetchDetailCity()
     }
-  }, [id]);
+  }, [id])
 
   const fetchDetailCity = async () => {
     try {
-      const result = await getDetailTours(id as string);
-      setTourDetail(result.data);
-      console.log(result.data);
-      const resultPackages = await getPackages(`${result.data.id}`);
-      setPackages(resultPackages.data);
-      console.log(resultPackages.data);
+      const result = await getDetailTours(id as string)
+      setTourDetail(result.data)
+      console.log(result.data)
+      const resultPackages = await getPackages(`${result.data.id}`)
+      setPackages(resultPackages.data)
+      console.log(resultPackages.data)
     } catch (error) {
-      console.log(error);
+      console.log(error)
     }
-  };
+  }
 
   return (
     <Layout>
@@ -104,7 +104,9 @@ const DetailTour = () => {
                     className="w-full bg-white shadow-lg p-5 rounded-lg"
                   >
                     <AccordionItem value="item-1" className="border-b-0">
-                      <AccordionTrigger className="text-xl">{item.package_name}</AccordionTrigger>
+                      <AccordionTrigger className="text-xl">
+                        {item.package_name}
+                      </AccordionTrigger>
                       <AccordionContent>
                         <div className="flex flex-col space-y-5">
                           <p className=" font-semibold">Includes :</p>
@@ -129,10 +131,17 @@ const DetailTour = () => {
                                   className="flex flex-col border py-2 px-5 rounded-lg items-center cursor-pointer   "
                                   onClick={() => handleDateChange(item)}
                                 >
-                                  <p>{item.toLocaleDateString("en-US", { weekday: "short" })}</p>
-                                  <p>{`${item.getDate()} ${item.toLocaleDateString("en-US", {
-                                    month: "short",
-                                  })}`}</p>
+                                  <p>
+                                    {item.toLocaleDateString("en-US", {
+                                      weekday: "short",
+                                    })}
+                                  </p>
+                                  <p>{`${item.getDate()} ${item.toLocaleDateString(
+                                    "en-US",
+                                    {
+                                      month: "short",
+                                    }
+                                  )}`}</p>
                                 </div>
                               ))}
                             <DatePicker
@@ -149,7 +158,9 @@ const DetailTour = () => {
                           <div className="flex items-center justify-between text-lg font-semibold border p-3 rounded-lg">
                             <p>{item.package_name}</p>
                             <div className="flex items-center gap-10">
-                              <p className="text-red-500">{formattedAmount(item.price)}</p>
+                              <p className="text-red-500">
+                                {formattedAmount(item.price)}
+                              </p>
                               <div className="flex items-center justify-center gap-1">
                                 <div className="w-8 h-8 rounded-full  text-blue-500 cursor-pointer flex justify-center items-center">
                                   <MinusCircle onClick={handleDecrement} />
@@ -172,7 +183,9 @@ const DetailTour = () => {
                             <div>
                               <p>Total</p>
                               <p className="text-lg font-semibold">
-                                {formattedAmount(Number(editableCount) * item.price)}
+                                {formattedAmount(
+                                  Number(editableCount) * item.price
+                                )}
                               </p>
                             </div>
                             <button className="bg-blue-500 text-white px-10 py-2 rounded-lg">
@@ -189,7 +202,10 @@ const DetailTour = () => {
           <div className="w-full border-t-2 space-y-4 border-b-2">
             <p className="text-xl font-semibold mt-4">Reviews</p>
             <p className="text-2xl font-semibold">
-              4.5 <span className="text-slate-500 text-sm">/5.0 From 4504 Reviews</span>
+              4.5{" "}
+              <span className="text-slate-500 text-sm">
+                /5.0 From 4504 Reviews
+              </span>
             </p>
             <ReviewsComp />
             <div className="flex flex-col space-y-5">
@@ -218,11 +234,12 @@ const DetailTour = () => {
                       <li>Sebelum membeli tiket, perlu reservasi</li>
                       <li>Reservasi dapat dilakukan hingga 90 hari sebelum</li>
                       <li>
-                        kunjungan. E-tiket tidak perlu dicetak. Cukup tunjukkan e-tiket dari
-                        smartphone
+                        kunjungan. E-tiket tidak perlu dicetak. Cukup tunjukkan
+                        e-tiket dari smartphone
                       </li>
                       <li>
-                        kamu saat penukaran atau di pintu masuk. Mohon sesuaikan kecerahan layarmu.
+                        kamu saat penukaran atau di pintu masuk. Mohon sesuaikan
+                        kecerahan layarmu.
                       </li>
                     </ul>
                   </AccordionContent>
@@ -235,12 +252,20 @@ const DetailTour = () => {
                     <h2 className="font-semibold  mt-6 mb-4">General</h2>
                     <ul className="list-disc pl-5">
                       <li>Harga sudah termasuk pajak.</li>
-                      <li>Tiket yang sudah dibeli tidak dapat dikembalikan (non-refundable).</li>
-                      <li>Tiket yang sudah dibeli tidak dapat dijadwalkan ulang.</li>
-                      <li>Pembeli wajib mengisi data diri pribadi saat memesan.</li>
                       <li>
-                        Penjualan tiket sewaktu-waktu dapat dihentikan atau dimulai oleh tiket.com
-                        sesuai dengan kebijakan dari penyelenggara atau tiket.com.
+                        Tiket yang sudah dibeli tidak dapat dikembalikan
+                        (non-refundable).
+                      </li>
+                      <li>
+                        Tiket yang sudah dibeli tidak dapat dijadwalkan ulang.
+                      </li>
+                      <li>
+                        Pembeli wajib mengisi data diri pribadi saat memesan.
+                      </li>
+                      <li>
+                        Penjualan tiket sewaktu-waktu dapat dihentikan atau
+                        dimulai oleh tiket.com sesuai dengan kebijakan dari
+                        penyelenggara atau tiket.com.
                       </li>
                     </ul>
                     <h2 className="font-semibold  mt-6 mb-4">E-Ticket</h2>
@@ -256,7 +281,7 @@ const DetailTour = () => {
         </div>
       </div>
     </Layout>
-  );
-};
+  )
+}
 
-export default DetailTour;
+export default DetailTour
