@@ -1,5 +1,5 @@
-import AdminHeader from "@/components/Admin/AdminHeader"
-import AdminNavbar from "@/components/Admin/AdminNavbar"
+import AdminHeader from "@/components/Admin/AdminHeader";
+import AdminNavbar from "@/components/Admin/AdminNavbar";
 import {
   Table,
   TableBody,
@@ -7,7 +7,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table"
+} from "@/components/ui/table";
 import {
   Pagination,
   PaginationContent,
@@ -16,10 +16,9 @@ import {
   PaginationLink,
   PaginationNext,
   PaginationPrevious,
-} from "@/components/ui/pagination"
+} from "@/components/ui/pagination";
 
-import React from "react"
-import Footer from "@/components/Footer"
+import Footer from "@/components/Footer";
 
 function TransactionList() {
   return (
@@ -92,10 +91,7 @@ function TransactionList() {
                   <PaginationPrevious href="#" />
                 </PaginationItem>
                 <PaginationItem>
-                  <PaginationLink
-                    className="bg-white border border-black"
-                    href="#"
-                  >
+                  <PaginationLink className="bg-white border border-black" href="#">
                     1
                   </PaginationLink>
                 </PaginationItem>
@@ -127,7 +123,7 @@ function TransactionList() {
       </div>
       <Footer />
     </div>
-  )
+  );
 }
 
-export default TransactionList
+export default TransactionList;

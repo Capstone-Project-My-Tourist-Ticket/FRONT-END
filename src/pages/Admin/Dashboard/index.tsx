@@ -1,5 +1,5 @@
-import AdminHeader from "@/components/Admin/AdminHeader"
-import AdminNavbar from "@/components/Admin/AdminNavbar"
+import AdminHeader from "@/components/Admin/AdminHeader";
+import AdminNavbar from "@/components/Admin/AdminNavbar";
 import {
   Table,
   TableBody,
@@ -7,11 +7,10 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table"
-import { Card, CardDescription } from "@/components/ui/card"
+} from "@/components/ui/table";
+import { Card, CardDescription } from "@/components/ui/card";
 
-import React from "react"
-import Footer from "@/components/Footer"
+import Footer from "@/components/Footer";
 
 function Dashboard() {
   return (
@@ -85,15 +84,10 @@ function Dashboard() {
                     <img className=" rounded-lg" src="/images/admin/bali.png" />
                     <div className="px-2">
                       <CardDescription className="flex">
-                        <p className="font-bold py-1 text-black text-lg">
-                          Bali
-                        </p>
+                        <p className="font-bold py-1 text-black text-lg">Bali</p>
                       </CardDescription>
                       <CardDescription className="flex">
-                        <img
-                          className="w-[15px] ps-1"
-                          src="/images/admin/pin.png"
-                        />
+                        <img className="w-[15px] ps-1" src="/images/admin/pin.png" />
                         <p className="ms-2">Bali</p>
                       </CardDescription>
                       <CardDescription>
@@ -109,7 +103,7 @@ function Dashboard() {
         <Footer />
       </div>
     </div>
-  )
+  );
 }
 
-export default Dashboard
+export default Dashboard;

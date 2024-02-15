@@ -5,6 +5,7 @@ import { getBookingCustomer } from "@/utils/apis/user/api";
 import { ResBooking } from "@/utils/apis/user/type";
 import { formattedAmount } from "@/utils/formattedAmount";
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 const BookingList = () => {
   const [booking, setBooking] = useState<ResBooking[]>([]);
@@ -23,6 +24,7 @@ const BookingList = () => {
     }
   };
   useEffect(() => {
+    window.scrollTo(0, 0);
     fetchBooking();
   }, []);
 
@@ -48,7 +50,7 @@ const BookingList = () => {
                         {item.status === "settlement" && (
                           <>
                             <button
-                              onClick={() => handleButtonETiket("/etiket")}
+                              onClick={() => handleButtonETiket(`/etiket/${item.id}`)}
                               className="bg-slate-200 text-black font-semibold w-32 py-2 rounded-lg mt-3 border border-slate-300 shadow-inner shadow-white"
                             >
                               E-Ticket
@@ -58,13 +60,15 @@ const BookingList = () => {
                         )}
                       </div>
                     </div>
-                    <button
-                      className={`${
-                        item.status === "settlement" ? "bg-green-600" : "bg-blue-500"
-                      } text-white font-semibold w-full py-2 rounded-lg mt-3 `}
-                    >
-                      {item.status === "settlement" ? "Paid" : "Continue to Payment"}
-                    </button>
+                    <Link to={item.status !== "settlement" ? `/payresult/${item.id}` : ``}>
+                      <button
+                        className={`${
+                          item.status === "settlement" ? "bg-green-600" : "bg-blue-500"
+                        } text-white font-semibold w-full py-2 rounded-lg mt-3 `}
+                      >
+                        {item.status === "settlement" ? "Paid" : "Continue to Payment"}
+                      </button>
+                    </Link>
                   </div>
                 </div>
               ))}

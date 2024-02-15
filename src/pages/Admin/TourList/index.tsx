@@ -1,16 +1,15 @@
-import AdminHeader from "@/components/Admin/AdminHeader"
-import AdminNavbar from "@/components/Admin/AdminNavbar"
-import Footer from "@/components/Footer"
-import { Card, CardDescription } from "@/components/ui/card"
-import { useState } from "react"
-import React from "react"
+import AdminHeader from "@/components/Admin/AdminHeader";
+import AdminNavbar from "@/components/Admin/AdminNavbar";
+import Footer from "@/components/Footer";
+import { Card, CardDescription } from "@/components/ui/card";
+import { useState } from "react";
 
 function TourList() {
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false)
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const handleDropdownToggle = () => {
-    setIsDropdownOpen((prevState) => !prevState)
-  }
+    setIsDropdownOpen((prevState) => !prevState);
+  };
 
   return (
     <div className="bg-[#dee2e6]">
@@ -20,15 +19,10 @@ function TourList() {
       <div className="flex">
         <AdminNavbar />
         <div className="px-6 py-4 w-full">
-          <div className="text-2xl underline underline-offset-8 font-bold">
-            Tour List
-          </div>
+          <div className="text-2xl underline underline-offset-8 font-bold">Tour List</div>
           <div className="py-4 flex justify-between gap-4">
             <Card className="w-[250px] relative">
-              <button
-                onClick={handleDropdownToggle}
-                className="absolute top-0 right-0 p-2 z-10"
-              >
+              <button onClick={handleDropdownToggle} className="absolute top-0 right-0 p-2 z-10">
                 {isDropdownOpen && (
                   <div className="absolute top-12 right-1 bg-white rounded-md shadow-md p-2">
                     <div className="flex flex-col">
@@ -55,7 +49,7 @@ function TourList() {
       </div>
       <Footer />
     </div>
-  )
+  );
 }
 
-export default TourList
+export default TourList;
