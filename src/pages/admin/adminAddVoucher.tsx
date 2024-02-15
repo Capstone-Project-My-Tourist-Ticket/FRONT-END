@@ -12,7 +12,7 @@ import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import Footer from "@/components/Footer";
 
-function AddVoucher() {
+function AdminAddVoucher() {
   const [date, setDate] = React.useState<Date>();
   return (
     <div className="bg-[#dee2e6]">
@@ -59,4 +59,4 @@ function AddVoucher() {
   );
 }
 
-export default AddVoucher;
+export default AdminAddVoucher;

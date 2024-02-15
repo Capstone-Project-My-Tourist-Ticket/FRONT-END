@@ -1,14 +1,14 @@
 import ETiket from "@/components/ETiket";
 import Home from "@/pages";
-import AddCity from "@/pages/admin/AddCity";
-import AddVoucher from "@/pages/admin/AddVoucher";
-import CityList from "@/pages/admin/CityList";
-import Dashboard from "@/pages/admin/Dashboard";
-import AdminDetailTour from "@/pages/admin/DetailTour";
-import EditCity from "@/pages/admin/EditCity";
-import TourList from "@/pages/admin/TourList";
-import TransactionList from "@/pages/admin/TransactionList";
-import VerificationAccount from "@/pages/admin/VerificationAccount";
+import AdminAddCity from "@/pages/admin/adminAddCity";
+import AddVoucher from "@/pages/admin/adminAddVoucher";
+import CityList from "@/pages/admin/adminCityList";
+import Dashboard from "@/pages/admin/adminDashboard";
+import AdminDetailTour from "@/pages/admin/adminDetailDashboard";
+import EditCity from "@/pages/admin/adminEditCity";
+import TourList from "@/pages/admin/adminTourList";
+import TransactionList from "@/pages/admin/adminTransactionList";
+import VerificationAccount from "@/pages/admin/adminVerification";
 import Login from "@/pages/auth/login";
 import Register from "@/pages/auth/register";
 import City from "@/pages/user/detailCity";
@@ -38,7 +38,7 @@ const App = () => {
           <Route path="/city-list" element={<CityList />} />
           <Route path="/verification-account" element={<VerificationAccount />} />
           <Route path="/add-voucher" element={<AddVoucher />} />
-          <Route path="/add-city" element={<AddCity />} />
+          <Route path="/add-city" element={<AdminAddCity />} />
           <Route path="/edit-city" element={<EditCity />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
