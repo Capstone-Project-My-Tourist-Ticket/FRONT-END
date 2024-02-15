@@ -1,3 +1,4 @@
+import Logo from "@/assets/logo1.png";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -25,7 +26,7 @@ function AdminHeader() {
 
   return (
     <div className="flex bg-[#1C2930] h-[65px] items-center justify-between p-8">
-      <img className="w-[130px]" src="/images/admin/logo.png" alt="LOGO" />
+      <img className="w-[130px]" src={Logo} alt="LOGO" />
       <div>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
