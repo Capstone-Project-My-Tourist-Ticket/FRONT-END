@@ -48,7 +48,7 @@ function MyTour() {
             </Link>
           </div>
 
-          <div className="py-8 grid grid-cols-4 ">
+          <div className="py-8 grid grid-cols-4 gap-10">
             {myTour &&
               myTour.map((item, index) => (
                 <Card className="w-[250px] relative" key={index}>

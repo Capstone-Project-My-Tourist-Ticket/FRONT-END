@@ -12,8 +12,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { ArrowLeft, FileImage, Loader2, Trash2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { Link, useNavigate } from "react-router-dom";
 
 const AddTour = () => {
+  const navigate = useNavigate();
   const [city, setCity] = useState<GetCity[]>([]);
   const [thumbnail, setThumbnail] = useState<string>("");
   const [image, setImage] = useState<string>("");
@@ -32,10 +34,10 @@ const AddTour = () => {
   const handleAddTour = async (body: IAddTourType) => {
     try {
       const result = await createTour(body);
-
       toast({
         description: result.message,
       });
+      navigate("/mytour");
     } catch (error) {
       toast({
         description: (error as Error).message,
@@ -66,11 +68,13 @@ const AddTour = () => {
       <div className="flex">
         <AdminNavbar />
         <div className="space-y-5 px-6 pt-4 pb-10 mx-16">
-          <div className="text-2xl py-6 font-bold space-y-4">
-            <div className="flex gap-2 items-center">
-              <ArrowLeft className="text-slate-500" />
-              <p className="text-md text-slate-500 font-semi-bold">Back</p>
-            </div>
+          <div className="text-2xl py-6 font-bold space-y-4 ">
+            <Link to={"/mytour"}>
+              <div className="flex gap-2 items-center">
+                <ArrowLeft className="text-slate-500" />
+                <p className="text-md text-slate-500 font-semi-bold">Back</p>
+              </div>
+            </Link>
             <p>Add Tour</p>
           </div>
           <form onSubmit={handleSubmit(handleAddTour)}>
@@ -85,7 +89,7 @@ const AddTour = () => {
               </p>
               <select
                 id="city"
-                className=" w-full px-4 py-2 rounded-md outline-none border border-black overflow-y-scroll"
+                className=" w-full px-4 py-2  rounded-md outline-none border border-black overflow-y-scroll"
                 {...register("city_id", { valueAsNumber: true })}
               >
                 <option value={""} disabled hidden selected>

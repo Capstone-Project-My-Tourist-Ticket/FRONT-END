@@ -2,14 +2,15 @@ import DialogVoucher from "@/components/DialogVoucher";
 import Layout from "@/components/Layout";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-/* import { useToast } from "@/components/ui/use-toast"; */
-import { /* createBooking,  */ getListVoucher } from "@/utils/apis/user/api";
+import { useToast } from "@/components/ui/use-toast";
+import { createBooking, getListVoucher } from "@/utils/apis/user/api";
 import { GetVoucher, IBookingType, bookingSchema } from "@/utils/apis/user/type";
 import { formattedAmount } from "@/utils/formattedAmount";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Loader2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 interface Voucher {
   id: number;
@@ -20,16 +21,15 @@ const PaymentBook = () => {
   const { state } = useLocation();
   const currentDate = new Date(state.dates);
   const dateString = currentDate.toDateString();
-  /* console.log(dateString); */
-  console.log(state);
+  const navigate = useNavigate();
 
   const [voucher, setVoucher] = useState<GetVoucher[]>([]);
   const [selectedVoucher, setSelectedVoucher] = useState<Voucher>();
-  /*  const { toast } = useToast(); */
+  const { toast } = useToast();
   const {
     register,
     handleSubmit,
-    formState: { /* isSubmitting, */ errors },
+    formState: { isSubmitting, errors },
   } = useForm<IBookingType>({
     resolver: zodResolver(bookingSchema),
   });
@@ -44,22 +44,28 @@ const PaymentBook = () => {
     }
   };
   const handleBooking = async (body: IBookingType) => {
-    body.tour_id = state.data.id;
-    body.package_id = state.selectedPackage.id;
-    body.voucher_id = selectedVoucher?.id || 0;
-    body.quantity = state.count;
-    /*  try {
-      const result = await createBooking(body);
+    const payload = {
+      ...body,
+      tour_id: state.data.id,
+      package_id: state.selectedPackage.id,
+      voucher_id: selectedVoucher?.id || 0,
+      quantity: Number(state.count),
+      booking_date: dateString,
+    };
+    console.log(payload, "payload");
+    try {
+      const result = await createBooking(payload);
 
       toast({
         description: result.message,
       });
+      navigate(`/payresult/${result.data.booking_id}`);
     } catch (error) {
       toast({
         description: (error as Error).message,
         variant: "destructive",
       });
-    } */
+    }
   };
 
   const totalPayment = () => {
@@ -109,7 +115,9 @@ const PaymentBook = () => {
                       </Label>
                     </div>
                   </RadioGroup>
-                  {errors.greeting && errors.greeting.message}
+                  <p className="text-sm text-red-500 ">
+                    {errors.greeting && errors.greeting.message}
+                  </p>
                   <div className="flex flex-col space-y-5 border-b pb-10">
                     <input
                       type="text"
@@ -117,21 +125,23 @@ const PaymentBook = () => {
                       className="border px-5 py-2 outline-none w-full rounded-md"
                       {...register("full_name")}
                     />
-                    {errors.full_name && errors.full_name.message}
+
                     <input
                       type="text"
                       placeholder="PhoneNumber"
                       className="border px-5 py-2 outline-none w-full rounded-md"
                       {...register("phone_number")}
                     />
-                    {errors.phone_number && errors.phone_number.message}
+                    <p className="text-sm text-red-500 ">
+                      {errors.phone_number && errors.phone_number.message}
+                    </p>
                     <input
                       type="email"
                       placeholder="Email"
                       className="border px-5 py-2 outline-none w-full rounded-md"
                       {...register("email")}
                     />
-                    {errors.email && errors.email.message}
+                    <p className="text-sm text-red-500 ">{errors.email && errors.email.message}</p>
                   </div>
                   <div className="space-y-8">
                     <p className="font-bold text-lg">Payment Method</p>
@@ -173,7 +183,7 @@ const PaymentBook = () => {
                         </Label>
                       </div>
                     </RadioGroup>
-                    {errors.bank && errors.bank.message}
+                    <p className="text-sm text-red-500 ">{errors.bank && errors.bank.message}</p>
                   </div>
                 </div>
               </div>
@@ -181,29 +191,40 @@ const PaymentBook = () => {
                 <div className="flex flex-col space-y-8 p-8">
                   <div className="flex justify-between">
                     <p>Price</p>
-                    <p>{formattedAmount(state.selectedPackage.price)}</p>
+                    <p className="font-semibold">{formattedAmount(state.selectedPackage.price)}</p>
                   </div>
                   <div className="flex justify-between">
                     <p>Subtotal</p>
-                    <p>{formattedAmount(state.selectedPackage.price * state.count)}</p>
+                    <p className="font-semibold">
+                      {formattedAmount(state.selectedPackage.price * state.count)}
+                    </p>
                   </div>
-                  <div className="flex justify-between border-b pb-5">
-                    <p hidden={selectedVoucher ? false : true}>Voucher</p>
-                    <p hidden={selectedVoucher ? false : true}>
+                  <div className="flex justify-between border-b pb-5 ">
+                    <p className="font-semibold" hidden={selectedVoucher ? false : true}>
+                      Voucher
+                    </p>
+                    <p className="font-semibold" hidden={selectedVoucher ? false : true}>
                       -{formattedAmount(selectedVoucher?.discount!)}
                     </p>
                   </div>
                   <div className="flex justify-between">
                     <p className="font-bold text-lg">Total Payment</p>
-                    <p className="font-bold text-lg">
+                    <p className="font-bold text-lg text-red-500">
                       {selectedVoucher?.discount
                         ? formattedAmount(totalPayment())
                         : formattedAmount(state.selectedPackage.price * state.count)}
                     </p>
                   </div>
                   <div className="flex justify-end">
-                    <button className="bg-blue-500 text-white w-44 py-2 rounded-lg ">
-                      Checkout
+                    <button className="bg-blue-500 text-white w-44 py-2 rounded-lg">
+                      {isSubmitting ? (
+                        <p className="flex items-center gap-x-3 text-sm">
+                          <Loader2 className={"animate-spin text-xl text-center ml-6"} /> Please
+                          wait
+                        </p>
+                      ) : (
+                        "Submit"
+                      )}
                     </button>
                   </div>
                 </div>

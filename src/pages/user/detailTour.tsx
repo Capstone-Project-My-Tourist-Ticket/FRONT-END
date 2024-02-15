@@ -179,7 +179,7 @@ const DetailTour = () => {
                           <div className="flex items-center justify-between text-lg font-semibold border p-3 rounded-lg">
                             <p>{item.package_name}</p>
                             <div className="flex items-center gap-10">
-                              <p className="text-red-500">{formattedAmount(item.price)}</p>
+                              <p className="">{formattedAmount(item.price)}</p>
                               <div className="flex items-center justify-center gap-1">
                                 <div className="w-8 h-8 rounded-full  text-blue-500 cursor-pointer flex justify-center items-center">
                                   <MinusCircle onClick={handleDecrement} />
@@ -201,7 +201,7 @@ const DetailTour = () => {
                           <div className="flex items-center justify-between">
                             <div>
                               <p>Total</p>
-                              <p className="text-lg font-semibold">
+                              <p className="text-xl text-red-500 font-bold">
                                 {formattedAmount(Number(editableCount) * item.price)}
                               </p>
                             </div>

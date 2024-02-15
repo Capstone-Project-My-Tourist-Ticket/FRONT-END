@@ -5,8 +5,10 @@ import {
   GetTours,
   GetVoucher,
   IBookingType,
+  IReviewType,
   IUserType,
   ResBooking,
+  ResPayment,
   getBookingDetail,
 } from "./type";
 import axiosWithConfig from "../axiosWithConfig";
@@ -140,11 +142,23 @@ export const getListVoucher = async () => {
 };
 
 export const createBooking = async (body: IBookingType) => {
-  /*   try {
+  try {
     const response = await axiosWithConfig.post(`/bookings`, body);
-    return response.data as { message: string };
+    return response.data as ResponsePayload<ResPayment>;
   } catch (error: any) {
     throw new Error(error.message);
-  } */
-  console.log(body);
+  }
+};
+export const createReview = async (body: IReviewType, booking_id: string) => {
+  try {
+    const response = await axiosWithConfig.post(`/bookings/${booking_id}/review`, body);
+    if (response.status === 200) {
+      return response.data as { message: string };
+    }
+  } catch (error: any) {
+    const isError = error.response.data.message;
+    if (isError.includes("error creating review")) {
+      throw new Error("Anda sudah memberikan review");
+    }
+  }
 };

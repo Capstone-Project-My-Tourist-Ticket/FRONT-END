@@ -62,7 +62,7 @@ function AddPackage() {
 
       <div className="flex">
         <AdminNavbar />
-        <div className="space-y-5 px-6 pt-4 pb-10 mx-16">
+        <div className="space-y-5 px-6 pt-4 pb-10 ml-80 mx-16">
           <p className="text-2xl py-6 font-bold">Add Package</p>
           <form onSubmit={handleSubmit(handleAddTour)}>
             <div className="flex flex-col space-y-8">

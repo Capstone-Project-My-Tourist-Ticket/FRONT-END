@@ -49,9 +49,9 @@ function DetailMyTour() {
   return (
     <div className="bg-[#dee2e6]">
       <AdminHeader />
-      <div className="flex">
+      <div className=" flex">
         <AdminNavbar />
-        <div className="p-6">
+        <div className="p-6 ml-52">
           {detail && (
             <div className="flex">
               <img className="w-[200px] h-32" src={detail.thumbnail} />
