@@ -4,7 +4,7 @@ import Footer from "@/components/Footer";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 
-function AddCity() {
+function AdminAddCity() {
   return (
     <div className="bg-[#dee2e6]">
       <header>
@@ -31,4 +31,4 @@ function AddCity() {
   );
 }
 
-export default AddCity;
+export default AdminAddCity;
