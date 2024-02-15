@@ -1,4 +1,4 @@
-import Logo from "@/assets/Logo.png";
+import Logo from "@/assets/logo.png";
 import { useToast } from "@/components/ui/use-toast";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";

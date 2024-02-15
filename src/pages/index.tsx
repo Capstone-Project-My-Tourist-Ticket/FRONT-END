@@ -1,4 +1,4 @@
-import Logo1 from "@/assets/Logo1.png";
+import Logo1 from "@/assets/logo1.png";
 import Logo from "@/assets/logo.png";
 import CarouselTour from "@/components/Banner";
 import CarouselHome from "@/components/CarouselHome";

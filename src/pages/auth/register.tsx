@@ -1,4 +1,4 @@
-import Logo from "@/assets/Logo.png";
+import Logo from "@/assets/logo.png";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/components/ui/use-toast";
