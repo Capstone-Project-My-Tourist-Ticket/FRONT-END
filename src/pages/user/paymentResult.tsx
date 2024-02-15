@@ -64,7 +64,7 @@ const PaymentResult = () => {
                   </div>
                   <input
                     disabled
-                    className="w-full bg-[#F4F7FE] rounded-md py-1 px-3"
+                    className="w-full bg-[#F4F7FE] rounded-md py-1 px-3 font-bold"
                     value={bookingDetail.va_number}
                   />
                 </div>
@@ -72,7 +72,7 @@ const PaymentResult = () => {
                   <p className="font-semibold">Total Payment</p>
                   <input
                     disabled
-                    className="w-full bg-[#F4F7FE] rounded-md py-1 px-3"
+                    className="w-full bg-[#F4F7FE] rounded-md py-1 px-3 font-bold"
                     value={formattedAmount(bookingDetail.gross_amount)}
                   />
                 </div>

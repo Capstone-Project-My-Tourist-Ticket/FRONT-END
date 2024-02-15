@@ -38,7 +38,7 @@ const DetailCity = () => {
           <p>{detail?.description}</p>
         </div>
 
-        <div className="container grid grid-cols-4">
+        <div className="container grid grid-cols-4 gap-x-4">
           {toursCity && toursCity.map((item, index) => <CardTour data={item} key={index} />)}
         </div>
       </div>

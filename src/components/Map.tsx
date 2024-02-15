@@ -5,6 +5,9 @@ import { FieldErrors, UseFormSetValue } from "react-hook-form";
 import { Marker } from "react-leaflet";
 import { MapContainer } from "react-leaflet/MapContainer";
 import { TileLayer } from "react-leaflet/TileLayer";
+import markerBaru from "@/assets/marker.png";
+import L from "leaflet";
+import { useLocation } from "react-router-dom";
 
 interface MapProps {
   draggable: boolean;
@@ -15,6 +18,7 @@ interface MapProps {
 }
 
 const Map = (props: MapProps) => {
+  const location = useLocation();
   const { draggable, width, setValue, error, posisi } = props;
   const [dragged, setDragged] = useState<{ lat: number; lng: number }>({
     lat: -6.330995309852224,
@@ -23,6 +27,10 @@ const Map = (props: MapProps) => {
   const [searchTerm, setSearchTerm] = useState<string>("");
   const mapRef = useRef<any>();
   const marker = useRef<any>();
+  const icon = new L.Icon({
+    iconUrl: markerBaru,
+    iconSize: [40, 40],
+  });
 
   const handleMarkerDragEnd = (event: any) => {
     setDragged({ lat: event.target.getLatLng().lat, lng: event.target.getLatLng().lng });
@@ -39,7 +47,6 @@ const Map = (props: MapProps) => {
         `https://nominatim.openstreetmap.org/search?addressdetails=1&q=${searchTerm}&format=jsonv2&limit=1`
       );
       setDragged({ lat: Number(response.data[0].lat), lng: Number(response.data[0].lon) });
-      setSearchTerm("");
       console.log(response.data);
     } catch (error) {
       console.error("Error fetching geocoding data:", error);
@@ -48,15 +55,14 @@ const Map = (props: MapProps) => {
 
   useEffect(() => {
     mapRef.current?.panTo(marker.current.getLatLng());
-    setDragged(posisi!);
+    if (posisi) {
+      setDragged(posisi);
+    }
     if (setValue) {
-      setValue("latitude", Number(dragged.lat));
-      setValue("longitude", Number(dragged.lng));
+      setValue("latitude", Number(dragged?.lat));
+      setValue("longitude", Number(dragged?.lng));
     }
   }, [dragged, posisi]);
-
-  /*   const position: LatLngTuple = [latitude, longitude]; */
-
   return (
     <div>
       <MapContainer
@@ -71,6 +77,7 @@ const Map = (props: MapProps) => {
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
         <Marker
+          icon={icon}
           ref={marker}
           position={dragged}
           draggable={draggable}
@@ -79,24 +86,26 @@ const Map = (props: MapProps) => {
       </MapContainer>
       <p className="text-sm text-red-500 ">{error?.latitude && error.latitude.message}</p>
       <p className="text-sm text-red-500 ">{error?.longitude && error.longitude.message}</p>
-      <div className="flex border-slate-300 border-2">
-        <input
-          className="p-2 w-full outline-none"
-          type="text"
-          placeholder="Search location..."
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          onKeyDown={(e) => {
-            if (e.key === "Enter") {
-              e.preventDefault();
-              handleSearch();
-            }
-          }}
-        />
-        <button type="button" onClick={handleSearch} className="p-2 bg-slate-500 text-white">
-          Search
-        </button>
-      </div>
+      {location.pathname === "/addtour" || location.pathname === "/edittour" ? (
+        <div className="flex border-slate-300 border-2">
+          <input
+            className="p-2 w-full outline-none"
+            type="text"
+            placeholder="Search location..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                e.preventDefault();
+                handleSearch();
+              }
+            }}
+          />
+          <button type="button" onClick={handleSearch} className="p-2 bg-slate-500 text-white">
+            Search
+          </button>
+        </div>
+      ) : null}
     </div>
   );
 };

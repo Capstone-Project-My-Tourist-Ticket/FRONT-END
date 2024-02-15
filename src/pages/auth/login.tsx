@@ -52,7 +52,7 @@ const Login = () => {
       <div
         className="hidden md:block w-3/6 xl:w-4/6 bg-black/20 bg-blend-overlay bg-no-repeat bg-cover bg-center relative"
         style={{
-          backgroundImage: `url(https://source.unsplash.com/1200x800?wisata)`,
+          backgroundImage: `url(https://source.unsplash.com/1200x800?tour)`,
         }}
       ></div>
       <div className="w-full -translate-x-10 md:w-6/12 xl:w-4/12 p-16 rounded-tl-[50px] rounded-bl-[50px] bg-white">
