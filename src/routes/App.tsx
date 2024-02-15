@@ -24,6 +24,7 @@ import AddTour from "@/pages/pengelola/addTour";
 import EditTour from "@/pages/pengelola/editTour";
 import AddPackage from "@/pages/pengelola/addPackage";
 import ProtectedRoute from "./ProtectedRoute";
+import DetailMyTour from "@/pages/pengelola/detailMyTour";
 
 const App = () => {
   return (
@@ -45,15 +46,16 @@ const App = () => {
           <Route path="/tour/:id" element={<DetailTour />} />
           <Route path="/admin-tour" element={<AdminDetailTour />} />
           <Route path="/payment" element={<PaymentBook />} />
-          <Route path="/payresult" element={<PaymentResult />} />
+          <Route path="/payresult/:booking_id" element={<PaymentResult />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/bookinglist" element={<BookingList />} />
-          <Route path="/etiket" element={<ETiket />} />
+          <Route path="/etiket/:booking_id" element={<ETiket />} />
           <Route path="/transaction-history" element={<TransactionHistory />} />
           <Route path="/mytour" element={<MyTour />} />
           <Route path="/addtour" element={<AddTour />} />
           <Route path="/edittour" element={<EditTour />} />
           <Route path="/addpackage" element={<AddPackage />} />
+          <Route path="/detailmytour/:id" element={<DetailMyTour />} />
         </Route>
       </Routes>
     </BrowserRouter>

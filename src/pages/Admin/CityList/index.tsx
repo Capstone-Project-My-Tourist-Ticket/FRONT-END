@@ -1,8 +1,8 @@
-import AdminHeader from "@/components/Admin/AdminHeader"
-import AdminNavbar from "@/components/Admin/AdminNavbar"
-import { Card } from "@/components/ui/card"
-import { useState } from "react"
-import { Link } from "react-router-dom"
+import AdminHeader from "@/components/Admin/AdminHeader";
+import AdminNavbar from "@/components/Admin/AdminNavbar";
+import { Card } from "@/components/ui/card";
+import { useState } from "react";
+import { Link } from "react-router-dom";
 import {
   Pagination,
   PaginationContent,
@@ -11,16 +11,15 @@ import {
   PaginationLink,
   PaginationNext,
   PaginationPrevious,
-} from "@/components/ui/pagination"
-import React from "react"
-import Footer from "@/components/Footer"
+} from "@/components/ui/pagination";
+import Footer from "@/components/Footer";
 
 function CityList() {
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false)
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const handleDropdownToggle = () => {
-    setIsDropdownOpen((prevState) => !prevState)
-  }
+    setIsDropdownOpen((prevState) => !prevState);
+  };
 
   return (
     <div className="bg-[#dee2e6]">
@@ -41,10 +40,7 @@ function CityList() {
               style={{ backgroundImage: "url(/images/admin/city.png)" }}
               className="bg-cover w-[180px] h-[180px] relative"
             >
-              <button
-                onClick={handleDropdownToggle}
-                className="absolute top-0 right-0 p-2"
-              >
+              <button onClick={handleDropdownToggle} className="absolute top-0 right-0 p-2">
                 <img src="/images/admin/toggle.png" />
               </button>
               {isDropdownOpen && (
@@ -63,10 +59,7 @@ function CityList() {
                 <PaginationPrevious href="#" />
               </PaginationItem>
               <PaginationItem>
-                <PaginationLink
-                  className="bg-white border border-black"
-                  href="#"
-                >
+                <PaginationLink className="bg-white border border-black" href="#">
                   1
                 </PaginationLink>
               </PaginationItem>
@@ -98,7 +91,7 @@ function CityList() {
 
       <Footer />
     </div>
-  )
+  );
 }
 
-export default CityList
+export default CityList;

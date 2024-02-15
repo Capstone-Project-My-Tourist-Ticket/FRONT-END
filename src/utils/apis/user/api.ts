@@ -1,5 +1,14 @@
 import { ResponsePayload, ResponsePayloadPagination } from "@/utils/types/api";
-import { GetCity, GetPackages, GetTours, IUserType, ResBooking } from "./type";
+import {
+  GetCity,
+  GetPackages,
+  GetTours,
+  GetVoucher,
+  IBookingType,
+  IUserType,
+  ResBooking,
+  getBookingDetail,
+} from "./type";
 import axiosWithConfig from "../axiosWithConfig";
 
 export const getUser = async () => {
@@ -23,6 +32,15 @@ export const getTours = async (pageNumber: number, limit: number) => {
 export const getCity = async (pageNumber: number) => {
   try {
     const response = await axiosWithConfig.get(`/citys?page=${pageNumber}`);
+    return response.data as ResponsePayloadPagination<GetCity[]>;
+  } catch (error: any) {
+    throw new Error(error.message);
+  }
+};
+
+export const getCityAddTour = async () => {
+  try {
+    const response = await axiosWithConfig.get(`/citys?page=1`);
     return response.data as ResponsePayloadPagination<GetCity[]>;
   } catch (error: any) {
     throw new Error(error.message);
@@ -96,4 +114,37 @@ export const getBookingCustomer = async () => {
   } catch (error: any) {
     throw new Error(error.message);
   }
+};
+
+export const getSearch = async (q: string) => {
+  const response = await axiosWithConfig.get(`tours/search?tour_name=${q}`);
+  return response.data;
+};
+
+export const getDetailBooking = async (booking_id: string) => {
+  try {
+    const response = await axiosWithConfig.get(`/bookings/users/${booking_id}`);
+    return response.data as ResponsePayload<getBookingDetail>;
+  } catch (error: any) {
+    throw new Error(error.message);
+  }
+};
+
+export const getListVoucher = async () => {
+  try {
+    const response = await axiosWithConfig.get(`/vouchers`);
+    return response.data as ResponsePayloadPagination<GetVoucher[]>;
+  } catch (error: any) {
+    throw new Error(error.message);
+  }
+};
+
+export const createBooking = async (body: IBookingType) => {
+  /*   try {
+    const response = await axiosWithConfig.post(`/bookings`, body);
+    return response.data as { message: string };
+  } catch (error: any) {
+    throw new Error(error.message);
+  } */
+  console.log(body);
 };

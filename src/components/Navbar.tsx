@@ -51,7 +51,7 @@ const Navbar = () => {
               {user.image ? (
                 <img src={user.image} className="rounded-full w-24 h-12 cursor-pointer" />
               ) : (
-                <UserRound className="text-white bg-slate-500 rounded-full w-10 h-10 cursor-auto" />
+                <UserRound className="text-white bg-slate-500 rounded-full w-10 h-10 cursor-pointer" />
               )}
             </div>
           </DropdownMenuTrigger>

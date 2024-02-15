@@ -9,19 +9,29 @@ import {
 import ReviewsComp from "@/components/Review";
 import Map from "@/components/Map";
 import { getDetailTours, getPackages } from "@/utils/apis/user/api";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { GetPackages, GetTours } from "@/utils/apis/user/type";
 import { formattedAmount } from "@/utils/formattedAmount";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { addDays } from "date-fns";
+import { useToast } from "@/components/ui/use-toast";
+
+interface Package {
+  package_name: string;
+  price: number;
+  id: number;
+}
 
 const DetailTour = () => {
   const { id } = useParams();
   const [tourDetail, setTourDetail] = useState<GetTours>();
   const [packages, setPackages] = useState<GetPackages[]>([]);
   const [editableCount, setEditableCount] = useState<string>("1");
+  const [posisi, setPosisi] = useState<{ lat: number; lng: number }>();
+  const navigate = useNavigate();
+  const { toast } = useToast();
 
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const minTomorrow = addDays(new Date(), 1);
@@ -58,6 +68,25 @@ const DetailTour = () => {
     }
   };
 
+  const handlePayment = (selectedPackage: Package) => {
+    if (selectedDate !== null) {
+      navigate("/payment", {
+        state: {
+          data: tourDetail,
+          dates: selectedDate,
+          count: editableCount,
+          selectedPackage: selectedPackage,
+        },
+      });
+    }
+    if (selectedDate === null) {
+      toast({
+        description: "silakan pilih tanggal booking",
+        variant: "destructive",
+      });
+    }
+  };
+
   useEffect(() => {
     window.scrollTo(0, 0);
     if (id) {
@@ -69,6 +98,7 @@ const DetailTour = () => {
     try {
       const result = await getDetailTours(id as string);
       setTourDetail(result.data);
+      setPosisi({ lat: result.data.latitude, lng: result.data.longitude });
       console.log(result.data);
       const resultPackages = await getPackages(`${result.data.id}`);
       setPackages(resultPackages.data);
@@ -175,7 +205,16 @@ const DetailTour = () => {
                                 {formattedAmount(Number(editableCount) * item.price)}
                               </p>
                             </div>
-                            <button className="bg-blue-500 text-white px-10 py-2 rounded-lg">
+                            <button
+                              className="bg-blue-500 text-white px-10 py-2 rounded-lg"
+                              onClick={() =>
+                                handlePayment({
+                                  package_name: item.package_name,
+                                  price: item.price,
+                                  id: item.id,
+                                })
+                              }
+                            >
                               Book
                             </button>
                           </div>
@@ -194,13 +233,7 @@ const DetailTour = () => {
             <ReviewsComp />
             <div className="flex flex-col space-y-5">
               <p className="font-semibold text-lg border-t-2 pt-4">Location</p>
-              {tourDetail && (
-                <Map
-                  draggable={false}
-                  latitude={tourDetail?.latitude!}
-                  longitude={tourDetail?.longitude!}
-                />
-              )}
+              {tourDetail && <Map posisi={posisi} draggable={false} width={1340} />}
             </div>
             <div className="flex flex-col space-y-3 pb-6">
               <p className="font-semibold text-lg border-t-2 pt-4">More Info</p>

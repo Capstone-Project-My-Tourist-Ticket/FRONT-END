@@ -25,7 +25,7 @@ function EditTour() {
                 Choose city
               </option>
             </select>
-            <Map draggable={true} />
+            <Map draggable={true} width={800} />
             <Input placeholder="Address" className="border border-black focus-visible:ring-0" />
             <Textarea placeholder="Description" />
             <Input placeholder="Thumbnail" type="file" className="border border-black" />

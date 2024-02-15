@@ -79,3 +79,47 @@ export interface ResBooking {
     tour_name: string;
   };
 }
+
+export interface getBookingDetail {
+  booking_id: string;
+  full_name: string;
+  greeting: string;
+  booking_date: string;
+  va_number: string;
+  bank: string;
+  gross_amount: number;
+  quantity: number;
+  tour: {
+    tour_name: string;
+    address: string;
+    image: string;
+  };
+  package: {
+    package_name: string;
+  };
+  voucher: {
+    voucher_name: string;
+  };
+}
+
+export interface GetVoucher {
+  id: number;
+  name: string;
+  code: string;
+  description: string;
+  discount_value: number;
+  expired_voucher: string;
+}
+
+export const bookingSchema = z.object({
+  tour_id: z.number({ required_error: "tour id is required" }),
+  package_id: z.number({ required_error: "package id tiket is required" }),
+  voucher_id: z.number({ required_error: "voucher is required" }).optional(),
+  bank: z.string().min(1, { message: "Enter your bank " }),
+  phone_number: z.string().min(1, { message: "Enter your phone number" }),
+  greeting: z.string().min(1, { message: "choose greetings" }),
+  full_name: z.string().min(1, { message: "choose greetings" }),
+  email: z.string().min(1, { message: "choose greetings" }),
+  quantity: z.number({ required_error: "quantity is required" }),
+});
+export type IBookingType = z.infer<typeof bookingSchema>;

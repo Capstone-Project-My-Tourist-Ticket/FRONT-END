@@ -25,6 +25,7 @@ const ProtectedRoute = ({ children }: { children?: ReactNode }) => {
     "/mytour",
     "/edit-tour",
     "/addpackage",
+    "/etiket",
   ];
   const adminProtected = [
     "/dashboard",

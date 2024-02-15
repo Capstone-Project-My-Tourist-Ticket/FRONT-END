@@ -1,14 +1,13 @@
-import AdminHeader from "@/components/Admin/AdminHeader"
-import Map from "@/components/Map"
-import { MapPin } from "lucide-react"
+import AdminHeader from "@/components/Admin/AdminHeader";
+import Map from "@/components/Map";
+import { MapPin } from "lucide-react";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from "@/components/ui/accordion"
-import React from "react"
-import Footer from "@/components/Footer"
+} from "@/components/ui/accordion";
+import Footer from "@/components/Footer";
 
 function AdminDetailTour() {
   return (
@@ -26,15 +25,14 @@ function AdminDetailTour() {
         <div className="flex gap-2 items-center pt-2">
           <MapPin size={15} />
           <p className="text-slate-500">
-            Jl. Konoha , RW 10 RT 03, Kelurahan West Blue, Kecamatan East Blue,
-            Lampung Selatan, Lampung , Indonesia{" "}
+            Jl. Konoha , RW 10 RT 03, Kelurahan West Blue, Kecamatan East Blue, Lampung Selatan,
+            Lampung , Indonesia{" "}
           </p>
         </div>
         <p className="py-6">
-          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nisi facere
-          architecto in, saepe perferendis repellat labore natus odit explicabo
-          totam. Voluptates veniam possimus adipisci dicta dolore? Perferendis
-          reprehenderit earum optio.
+          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nisi facere architecto in, saepe
+          perferendis repellat labore natus odit explicabo totam. Voluptates veniam possimus
+          adipisci dicta dolore? Perferendis reprehenderit earum optio.
         </p>
         <h1 className="font-bold text-2xl">Package</h1>
         <div className="flex justify-between py-4">
@@ -52,9 +50,7 @@ function AdminDetailTour() {
           </div>
           <div className="bg-[#dee2e6] rounded-lg w-[500px] h-full">
             <div className="bg-white m-6 p-4 rounded-lg drop-shadow-lg ">
-              <p className="font-bold text-blue-500 pb-4">
-                Paket ber3 - Reguler Ice Age
-              </p>
+              <p className="font-bold text-blue-500 pb-4">Paket ber3 - Reguler Ice Age</p>
               <p className="font-bold">Paket ber5 - Reguler Ice Age</p>
             </div>
           </div>
@@ -109,41 +105,29 @@ function AdminDetailTour() {
         <hr className="border border-black" />
         <div className="pb-6">
           <h1 className="font-bold py-4">Location</h1>
-          <Map draggable={false} />
+          <Map draggable={false} width={1340} />
         </div>
         <hr className="border border-black" />
         <div className="flex flex-col space-y-3 pb-6">
           <p className="font-semibold text-lg border-t-2 pt-4">More Info</p>
-          <Accordion
-            type="single"
-            collapsible
-            className="w-2/4 bg-white shadow-lg p-5 rounded-lg"
-          >
+          <Accordion type="single" collapsible className="w-2/4 bg-white shadow-lg p-5 rounded-lg">
             <AccordionItem value="item-1" className="border-b-0">
-              <AccordionTrigger className="font-semibold text-lg">
-                Penukaran Tiket
-              </AccordionTrigger>
+              <AccordionTrigger className="font-semibold text-lg">Penukaran Tiket</AccordionTrigger>
               <AccordionContent>
                 <ul className="list-disc pl-5">
                   <li>Sebelum membeli tiket, perlu reservasi</li>
                   <li>Reservasi dapat dilakukan hingga 90 hari sebelum</li>
                   <li>
-                    kunjungan. E-tiket tidak perlu dicetak. Cukup tunjukkan
-                    e-tiket dari smartphone
+                    kunjungan. E-tiket tidak perlu dicetak. Cukup tunjukkan e-tiket dari smartphone
                   </li>
                   <li>
-                    kamu saat penukaran atau di pintu masuk. Mohon sesuaikan
-                    kecerahan layarmu.
+                    kamu saat penukaran atau di pintu masuk. Mohon sesuaikan kecerahan layarmu.
                   </li>
                 </ul>
               </AccordionContent>
             </AccordionItem>
           </Accordion>
-          <Accordion
-            type="single"
-            collapsible
-            className="w-2/4 bg-white shadow-lg p-5 rounded-lg"
-          >
+          <Accordion type="single" collapsible className="w-2/4 bg-white shadow-lg p-5 rounded-lg">
             <AccordionItem value="item-1" className="border-b-0">
               <AccordionTrigger className="font-semibold text-lg">
                 Syarat & Ketentuan
@@ -152,18 +136,12 @@ function AdminDetailTour() {
                 <h2 className="font-semibold  mt-6 mb-4">General</h2>
                 <ul className="list-disc pl-5">
                   <li>Harga sudah termasuk pajak.</li>
-                  <li>
-                    Tiket yang sudah dibeli tidak dapat dikembalikan
-                    (non-refundable).
-                  </li>
-                  <li>
-                    Tiket yang sudah dibeli tidak dapat dijadwalkan ulang.
-                  </li>
+                  <li>Tiket yang sudah dibeli tidak dapat dikembalikan (non-refundable).</li>
+                  <li>Tiket yang sudah dibeli tidak dapat dijadwalkan ulang.</li>
                   <li>Pembeli wajib mengisi data diri pribadi saat memesan.</li>
                   <li>
-                    Penjualan tiket sewaktu-waktu dapat dihentikan atau dimulai
-                    oleh tiket.com sesuai dengan kebijakan dari penyelenggara
-                    atau tiket.com.
+                    Penjualan tiket sewaktu-waktu dapat dihentikan atau dimulai oleh tiket.com
+                    sesuai dengan kebijakan dari penyelenggara atau tiket.com.
                   </li>
                 </ul>
                 <h2 className="font-semibold  mt-6 mb-4">E-Ticket</h2>
@@ -178,6 +156,6 @@ function AdminDetailTour() {
       </div>
       <Footer />
     </div>
-  )
+  );
 }
-export default AdminDetailTour
+export default AdminDetailTour;
