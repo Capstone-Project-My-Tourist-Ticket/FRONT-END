@@ -1,6 +1,6 @@
 import ETiket from "@/components/ETiket";
 import Home from "@/pages";
-import AddCity from "../pages/admin/AddCity";
+import AddCity from "@/pages/admin/AddCity";
 import AddVoucher from "@/pages/admin/AddVoucher";
 import CityList from "@/pages/admin/CityList";
 import Dashboard from "@/pages/admin/Dashboard";
@@ -23,7 +23,7 @@ import MyTour from "@/pages/pengelola/myTour";
 import AddTour from "@/pages/pengelola/addTour";
 import EditTour from "@/pages/pengelola/editTour";
 import AddPackage from "@/pages/pengelola/addPackage";
-import ProtectedRoute from "./ProtectedRoute";
+import ProtectedRoute from "@/routes/ProtectedRoute";
 import DetailMyTour from "@/pages/pengelola/detailMyTour";
 
 const App = () => {
