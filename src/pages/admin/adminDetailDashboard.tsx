@@ -7,7 +7,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion"
-import React, { useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 import Footer from "@/components/Footer"
 import axiosWithConfig from "@/utils/apis/axiosWithConfig"
 import { AxiosResponse } from "axios"
@@ -59,14 +59,14 @@ interface ProductReviews {
   reviews: Review[]
 }
 
-interface Report {
+/* interface Report {
   id: number
   tour_id: number
   user_id: number
   text_report: string
   created_at: string
   updated_at: string
-}
+} */
 
 function AdminDetailTour() {
   const { id } = useParams()
