@@ -136,7 +136,7 @@ function Dashboard() {
                 </Table>
               </div>
               <p className="pt-4 px-6 font-semibold text-2xl">Top 5 Tour</p>
-              <div className="px-6 pt-4 flex justify-between pb-6">
+              <div className="px-6 pt-4 flex gap-5 pb-6">
                 {topTours.map((tour) => (
                   <Card className="w-[180px]" key={tour.id}>
                     <img

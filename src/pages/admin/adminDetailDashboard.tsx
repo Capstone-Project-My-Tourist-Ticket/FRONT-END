@@ -11,6 +11,7 @@ import React, { useEffect, useState } from "react"
 import Footer from "@/components/Footer"
 import axiosWithConfig from "@/utils/apis/axiosWithConfig"
 import { AxiosResponse } from "axios"
+import { useParams } from "react-router-dom"
 
 interface Detail {
   id: number
@@ -38,38 +39,67 @@ interface Packages {
   tour_id: number
   package_name: string
   price: number
+  jumlah_tiket: number
+}
+
+interface Review {
+  user_id: number
+  text_review: string
+  start_rate: number
+  created_at: string
+  user: {
+    full_name: string
+    image: string
+  }
+}
+
+interface ProductReviews {
+  total_review: number
+  average_review: number
+  reviews: Review[]
+}
+
+interface Report {
+  id: number
+  tour_id: number
+  user_id: number
+  text_report: string
+  created_at: string
+  updated_at: string
 }
 
 function AdminDetailTour() {
+  const { id } = useParams()
   const [data, setData] = useState<Detail[]>([])
   const [paket, setPaket] = useState<Packages[]>([])
+  const [productreview, setProductReview] = useState<ProductReviews[]>([])
 
   useEffect(() => {
     axiosWithConfig
-      .get(`https://benarja.my.id/tours/31`)
+      .get(`https://benarja.my.id/tours/${id}`)
       .then((response: AxiosResponse<{ data: Detail }>) => {
-        console.log(response.data)
         setData([response.data.data])
       })
       .catch((error) => console.error("Error fetching data:", error))
-  }, [])
+  }, [id])
 
   useEffect(() => {
     axiosWithConfig
-      .get(`https://benarja.my.id/packages/31`)
-      .then((response) => {
-        console.log(response.data)
-
-        if (Array.isArray(response.data)) {
-          setPaket(response.data)
-        } else if (response.data && response.data.data) {
-          setPaket([response.data.data])
-        } else {
-          console.error("Error: Invalid response structure", response)
-        }
+      .get(`https://benarja.my.id/packages/${id}`)
+      .then((response: AxiosResponse<{ data: Packages }>) => {
+        setPaket([response.data.data])
       })
-      .catch((error) => console.error("Error fetching package data:", error))
-  }, [])
+      .catch((error) => console.error("Error fetching data:", error))
+  }, [id])
+
+  useEffect(() => {
+    axiosWithConfig
+      .get(`https://benarja.my.id/tours/${id}/reviews`)
+      .then((response: AxiosResponse<{ data: ProductReviews }>) => {
+        setProductReview([response.data.data])
+      })
+      .catch((error) => console.error("Error fetching data:", error))
+  }, [id])
 
   return (
     <div>
@@ -116,34 +146,36 @@ function AdminDetailTour() {
       <div className="px-6 rounded-lg">
         <hr className="border border-black" />
         <p className="font-bold ">Reviews</p>
-        <div className="flex items-center pb-6">
-          <p className="font-bold text-2xl">4.5</p>
-          <p>/5.0 From 4504 Review</p>
-        </div>
-        <div className="flex justify-between w-[700px] pb-6">
-          <div className=" bg-white rounded-lg  p-4  drop-shadow-xl">
-            <div className="flex justify-between w-[250px]">
-              <div className="flex items-center">
-                <p className="font-bold text-xl">4.5</p>
-                <p>/5.0</p>
-              </div>
-              <p className="items-center">31 Dec 2023</p>
+        {productreview.map((nilai, index) => (
+          <div key={index}>
+            <div className="flex items-center pb-6">
+              <p className="font-bold text-2xl">{nilai.average_review}</p>
+              <p>/5.0 From {nilai.total_review} Review</p>
             </div>
-            <p className="font-semibold">Arja Cihuy</p>
-            <p>Tempatnya Keren</p>
-          </div>
-          <div className=" bg-white rounded-lg  p-4  drop-shadow-xl">
-            <div className="flex justify-between w-[250px]">
-              <div className="flex items-center">
-                <p className="font-bold text-xl">4.5</p>
-                <p>/5.0</p>
+            <div className="flex justify-between w-[700px] pb-6">
+              <div className="bg-white rounded-lg p-4 drop-shadow-xl">
+                <div className=" w-[250px]">
+                  <div className="flex items-center">
+                    <p className="font-bold text-xl">{nilai.average_review}</p>
+                    <p>/5.0</p>
+                  </div>
+                  {nilai.reviews.map((review) => (
+                    <div key={review.user_id}>
+                      <p>{review.created_at}</p>
+                      {review.user && (
+                        <>
+                          <p className="font-bold">{review.user.full_name}</p>
+                          <p>{review.text_review}</p>
+                        </>
+                      )}
+                    </div>
+                  ))}
+                </div>
               </div>
-              <p className="items-center">31 Dec 2023</p>
             </div>
-            <p className="font-semibold">Arja Cihuy</p>
-            <p>Tempatnya Keren</p>
           </div>
-        </div>
+        ))}
+
         <h1 className="font-bold py-2">Reports</h1>
         <div className="flex justify-between w-[700px] pb-6">
           <div className=" bg-white rounded-lg  p-4  drop-shadow-xl">
@@ -168,8 +200,7 @@ function AdminDetailTour() {
               <h1 className="font-bold py-4">Location</h1>
               <Map
                 draggable={false}
-                latitude={item.latitude}
-                longitude={item.longitude}
+                posisi={{ lat: item.latitude, lng: item.longitude }}
               />
             </div>
           </div>

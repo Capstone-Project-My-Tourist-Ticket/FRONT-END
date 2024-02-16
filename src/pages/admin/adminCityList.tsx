@@ -84,7 +84,7 @@ function CityList() {
               <Link to={"/add-city"}> Add</Link>
             </button>
           </div>
-          <div className="w-full flex flex-wrap justify-between py-4">
+          <div className="w-full flex flex-wrap gap-5 py-4">
             {data.map((item, index) => (
               <Card
                 key={index}

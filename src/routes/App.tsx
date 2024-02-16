@@ -16,15 +16,15 @@ import EditTour from "@/pages/pengelola/editTour"
 import AddPackage from "@/pages/pengelola/addPackage"
 import ProtectedRoute from "@/routes/ProtectedRoute"
 import DetailMyTour from "@/pages/pengelola/detailMyTour"
-import AddCity from "@/pages/Admin/AddCity"
-import AddVoucher from "@/pages/Admin/adminAddVoucher"
 import CityList from "@/pages/Admin/adminCityList"
 import Dashboard from "@/pages/Admin/adminDashboard"
-import AdminDetailTour from "@/pages/Admin/adminDetailDashboard"
-import EditCity from "@/pages/Admin/adminEditCity"
 import TourList from "@/pages/Admin/adminTourList"
 import TransactionList from "@/pages/Admin/adminTransactionList"
 import VerificationAccount from "@/pages/Admin/adminVerification"
+import AddCity from "@/pages/Admin/adminAddCity"
+import EditCity from "@/pages/Admin/adminEditCity"
+import AddVoucher from "@/pages/Admin/adminAddVoucher"
+import AdminDetailTour from "@/pages/Admin/adminDetailDashboard"
 
 const App = () => {
   return (
@@ -48,7 +48,7 @@ const App = () => {
           <Route path="/city/:id" element={<City />} />
           <Route path="/detailmytour" element={<DetailMyTour />} />
           <Route path="/tour/:id" element={<DetailTour />} />
-          <Route path="/admin-tour" element={<AdminDetailTour />} />
+          <Route path="/admin-tour/:id" element={<AdminDetailTour />} />
           <Route path="/payment" element={<PaymentBook />} />
           <Route path="/payresult/:booking_id" element={<PaymentResult />} />
           <Route path="/profile" element={<Profile />} />

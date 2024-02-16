@@ -35,6 +35,10 @@ interface Tour {
     image: string
     thumbnail: string
   }
+  package: {
+    price: number
+  }
+  report_count: number
 }
 
 function TourList() {
@@ -111,7 +115,9 @@ function TourList() {
                       <p className="pt-3 font-bold text-black text-sm">
                         {item.tour_name}
                       </p>
-                      <p className="text-red-600 pt-3 text-xs">Report 40</p>
+                      <p className="text-red-600 pt-3 text-xs">
+                        Report {item.report_count}
+                      </p>
                     </CardDescription>
                     <CardDescription className="flex py-2">
                       <img
