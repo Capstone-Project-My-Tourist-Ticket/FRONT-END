@@ -1,5 +1,5 @@
 import Layout from "@/components/Layout";
-import { Dot, MapPin, MinusCircle, PlusCircle } from "lucide-react";
+import { Dot, Flag, MapPin, MinusCircle, PlusCircle } from "lucide-react";
 import {
   Accordion,
   AccordionContent,
@@ -8,15 +8,21 @@ import {
 } from "@/components/ui/accordion";
 import ReviewsComp from "@/components/Review";
 import Map from "@/components/Map";
-import { getDetailTours, getPackages } from "@/utils/apis/user/api";
+import { getAllReview, getDetailTours, getPackages } from "@/utils/apis/user/api";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { GetPackages, GetTours } from "@/utils/apis/user/type";
+import { GetPackages, GetReview, GetTours } from "@/utils/apis/user/type";
 import { formattedAmount } from "@/utils/formattedAmount";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { addDays } from "date-fns";
 import { useToast } from "@/components/ui/use-toast";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger}
+from "@/components/ui/dropdown-menu"
 
 interface Package {
   package_name: string;
@@ -27,6 +33,7 @@ interface Package {
 const DetailTour = () => {
   const { id } = useParams();
   const [tourDetail, setTourDetail] = useState<GetTours>();
+  const [review, setReview] = useState<GetReview>();
   const [packages, setPackages] = useState<GetPackages[]>([]);
   const [editableCount, setEditableCount] = useState<string>("1");
   const [posisi, setPosisi] = useState<{ lat: number; lng: number }>();
@@ -35,9 +42,11 @@ const DetailTour = () => {
 
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const minTomorrow = addDays(new Date(), 1);
+  const [activeIndex, setActiveIndex] = useState(null);
 
-  const handleDateChange = (date: Date | null) => {
+  const handleDateChange = (date: Date | null, index : any) => {
     setSelectedDate(date);
+    setActiveIndex(index)
   };
 
   let currentDate: any = new Date();
@@ -48,7 +57,7 @@ const DetailTour = () => {
     return date;
   });
 
-  console.log(dates, "aw la");
+  console.log(dates);
 
   const handleIncrement = () => {
     setEditableCount((prevCount) => (parseInt(prevCount, 10) + 1).toString());
@@ -87,11 +96,14 @@ const DetailTour = () => {
     }
   };
 
+ 
+
   useEffect(() => {
     window.scrollTo(0, 0);
     if (id) {
       fetchDetailCity();
     }
+    fetchAllReview()
   }, [id]);
 
   const fetchDetailCity = async () => {
@@ -108,13 +120,43 @@ const DetailTour = () => {
     }
   };
 
+  const fetchAllReview = async () => {
+    try {
+      const result = await getAllReview(id as string);
+      setReview(result.data);
+      console.log(result.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <Layout>
       <div className="w-full min-h-screen flex flex-col">
         <img src={tourDetail?.image} className="w-full h-[500px]" />
         <div className="bg-white p-5 rounded-tl-[80px] rounded-tr-[80px] -translate-y-10"></div>
+        
         <div className="container flex flex-col space-y-4">
+        <div className="itemscenter flex justify-between">
           <p className="text-2xl font-semibold">{tourDetail?.tour_name}</p>
+          <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+      <Flag className="cursor-pointer" size={20}/>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent className="w-56 mr-16">
+         <DropdownMenuItem>
+            Laporkan unsur penipuan
+          </DropdownMenuItem>
+          <DropdownMenuItem>
+            Laporkan unsur sara
+          </DropdownMenuItem>
+          <DropdownMenuItem>
+            Alasan lainnya
+          </DropdownMenuItem>
+          </DropdownMenuContent>
+      </DropdownMenu> 
+          
+        </div>
           <div className="flex gap-2 items-center">
             <MapPin size={15} />
             <p className="text-slate-500">{tourDetail?.address}</p>
@@ -151,13 +193,16 @@ const DetailTour = () => {
                               ))}
                           </div>
                           <p className=" font-semibold">Visit Event Date</p>
-                          <div className="flex justify-between items-center gap-4">
+                          <div className="flex justify-between items-center gap-2">
                             {dates &&
                               dates.map((item, index) => (
                                 <div
                                   key={index}
-                                  className="flex flex-col border py-2 px-5 rounded-lg items-center cursor-pointer   "
-                                  onClick={() => handleDateChange(item)}
+                                  className={`flex flex-col border-2 py-2 px-5 rounded-lg items-center cursor-pointer transition-all duration-300 shadow-md ${
+                                    activeIndex === index ? 'border-blue-500' : 'border-transparent'
+                                  }`}
+                                  onClick={() => handleDateChange(item, index)}
+
                                 >
                                   <p>{item.toLocaleDateString("en-US", { weekday: "short" })}</p>
                                   <p>{`${item.getDate()} ${item.toLocaleDateString("en-US", {
@@ -176,7 +221,7 @@ const DetailTour = () => {
                             />
                           </div>
                           <p className=" font-semibold">Ticket Quantity</p>
-                          <div className="flex items-center justify-between text-lg font-semibold border p-3 rounded-lg">
+                          <div className="flex items-center justify-between text-lg font-semibold border p-3 rounded-lg ">
                             <p>{item.package_name}</p>
                             <div className="flex items-center gap-10">
                               <p className="">{formattedAmount(item.price)}</p>
@@ -227,10 +272,12 @@ const DetailTour = () => {
           </div>
           <div className="w-full border-t-2 space-y-4 border-b-2">
             <p className="text-xl font-semibold mt-4">Reviews</p>
+            { review && 
             <p className="text-2xl font-semibold">
-              4.5 <span className="text-slate-500 text-sm">/5.0 From 4504 Reviews</span>
+              {review.average_review} <span className="text-slate-500 text-sm">/5.0 From {review.total_review} Reviews</span>
             </p>
-            <ReviewsComp />
+            }
+            <ReviewsComp data={review?.reviews!} />
             <div className="flex flex-col space-y-5">
               <p className="font-semibold text-lg border-t-2 pt-4">Location</p>
               {tourDetail && <Map posisi={posisi} draggable={false} width={1340} />}

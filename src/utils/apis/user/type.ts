@@ -146,3 +146,21 @@ export const reviewSchema = z.object({
   star_rate: z.number({ required_error: "Enter your rate" }),
 });
 export type IReviewType = z.infer<typeof reviewSchema>;
+
+
+export interface GetReview {
+  total_review: number,
+  average_review: number,
+  reviews: UserReview[]
+}
+
+export interface UserReview {
+    user_id: number,
+    text_review: string,
+    start_rate: number,
+    created_at: string,
+    user: {
+      full_name: string,
+      image: string
+}
+}
