@@ -51,7 +51,7 @@ const Home = () => {
   const handleLogout = () => {
     changeToken()
     toast({
-      description: "Logout successfully",
+      description: "Logout s  uccessfully",
     })
   }
 
@@ -129,7 +129,7 @@ const Home = () => {
               {user.image ? (
                 <img
                   src={user.image}
-                  className="rounded-full w-20 h-10 cursor-pointer"
+                  className="rounded-full w-32 h-10 cursor-pointer"
                 />
               ) : (
                 <UserRound
@@ -137,7 +137,7 @@ const Home = () => {
                     isScrolled
                       ? "text-white bg-slate-500"
                       : "text-black bg-white cursor-pointer"
-                  }  rounded-full w-20 h-10`}
+                  }  rounded-full w-32 h-10`}
                 />
               )}
             </DropdownMenuTrigger>

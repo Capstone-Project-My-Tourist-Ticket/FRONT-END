@@ -4,7 +4,7 @@
 
 ## 🌐 Deployment
 
-- [Vercel](https://e-commerce-seven-coral.vercel.app/)
+- [Vercel](https://my-tourist-tiket.vercel.app/)
 
 ## 🖼 Prototype
 
