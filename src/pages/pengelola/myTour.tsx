@@ -8,7 +8,8 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { getMyTourPengelola } from "@/utils/apis/pengelola/api";
+import { useToast } from "@/components/ui/use-toast";
+import { deleteTour, getMyTourPengelola } from "@/utils/apis/pengelola/api";
 import { IMyTour } from "@/utils/apis/pengelola/type";
 import { MoreHorizontal } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -16,6 +17,7 @@ import { Link } from "react-router-dom";
 
 function MyTour() {
   const [myTour, setMyTour] = useState<IMyTour[]>([]);
+  const { toast } = useToast();
 
   const fetchMyTour = async () => {
     try {
@@ -24,6 +26,24 @@ function MyTour() {
       console.log(result.data);
     } catch (error) {
       console.log(error);
+    }
+  };
+
+  const handleDeleteTour = async (id : number) => {
+    const isConfirmed = window.confirm("Are you sure you want to delete?");
+    try {
+  if (isConfirmed) {
+      const result = await deleteTour(id);
+      fetchMyTour();
+      toast({
+        description: result.message,
+      });
+    }
+    } catch (error) {
+      toast({
+        description: (error as Error).message,
+        variant: "destructive",
+      });
     }
   };
 
@@ -48,7 +68,7 @@ function MyTour() {
             </Link>
           </div>
 
-          <div className="py-8 grid grid-cols-4 gap-10">
+          <div className="py-8 md:grid-cols-3 grid grid-cols-4 gap-10">
             {myTour &&
               myTour.map((item, index) => (
                 <Card className="w-[250px] relative" key={index}>
@@ -59,10 +79,13 @@ function MyTour() {
                       </div>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent className="mt-2 mr-6">
-                      <DropdownMenuSeparator />
+                      <Link to={`/edittour/${item.id}`}>
                       <DropdownMenuItem className="cursor-pointer">Edit</DropdownMenuItem>
+                      </Link>
                       <DropdownMenuSeparator />
-                      <DropdownMenuItem className="cursor-pointer">Delete</DropdownMenuItem>
+                      
+                      <DropdownMenuItem className="cursor-pointer" onClick={()=> handleDeleteTour(item.id)}>Delete</DropdownMenuItem>
+                     
                     </DropdownMenuContent>
                   </DropdownMenu>
                   <Link to={`/detailmytour/${item.id}`}>
@@ -71,7 +94,6 @@ function MyTour() {
                   <div className="p-2">
                     <CardDescription className="flex justify-between ">
                       <p className="pt-3 font-bold text-black text-lg">{item.tour_name}</p>
-                      <p className="text-red-600 pt-3 text-xs"> 40</p>
                     </CardDescription>
                     <CardDescription className="flex py-2">
                       <img className="w-[15px] ps-1" src="/images/admin/pin.png" />

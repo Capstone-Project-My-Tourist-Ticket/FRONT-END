@@ -57,7 +57,7 @@ const App = () => {
           <Route path="/transaction-history" element={<TransactionHistory />} />
           <Route path="/mytour" element={<MyTour />} />
           <Route path="/addtour" element={<AddTour />} />
-          <Route path="/edittour" element={<EditTour />} />
+          <Route path="/edittour/:id" element={<EditTour />} />
           <Route path="/addpackage" element={<AddPackage />} />
           <Route path="/detailmytour/:id" element={<DetailMyTour />} />
         </Route>

@@ -11,15 +11,17 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useToast } from "@/components/ui/use-toast";
+import { deletePackage } from "@/utils/apis/pengelola/api";
 
 function DetailMyTour() {
   const navigate = useNavigate();
   const { id } = useParams();
   const [detail, setDetail] = useState<GetTours>();
   const [packages, setPackages] = useState<GetPackages[]>([]);
+  const { toast } = useToast();
 
   const fetchDetailTour = async () => {
     try {
@@ -34,6 +36,23 @@ function DetailMyTour() {
     }
   };
 
+  const handleDeletePackage = async (id : number) => {
+    const isConfirmed = window.confirm("Are you sure you want to delete?");
+    try {
+  if (isConfirmed) {
+      const result = await deletePackage(id);
+      fetchDetailTour();
+      toast({
+        description: result.message,
+      });
+    }
+    } catch (error) {
+      toast({
+        description: (error as Error).message,
+        variant: "destructive",
+      });
+    }
+  };
   const handleNavigateAddPackage = () => {
     navigate("/addPackage", {
       state: { data: detail?.id },
@@ -94,10 +113,7 @@ function DetailMyTour() {
                         </div>
                       </DropdownMenuTrigger>
                       <DropdownMenuContent className="mt-2 mr-6">
-                        <DropdownMenuSeparator />
-                        <DropdownMenuItem className="cursor-pointer">Edit</DropdownMenuItem>
-                        <DropdownMenuSeparator />
-                        <DropdownMenuItem className="cursor-pointer">Delete</DropdownMenuItem>
+                        <DropdownMenuItem className="cursor-pointer" onClick={()=>handleDeletePackage(item.id)}>Delete</DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>
                   </div>
