@@ -14,7 +14,6 @@ import {
 } from "@/components/ui/dropdown-menu"
 import axiosWithConfig from "@/utils/apis/axiosWithConfig"
 import { useState, useEffect } from "react"
-import React from "react"
 
 interface Tour {
   id: number
