@@ -2,6 +2,7 @@ import { ResponsePayload, ResponsePayloadPagination } from "@/utils/types/api";
 import {
   GetCity,
   GetPackages,
+  GetReview,
   GetTours,
   GetVoucher,
   IBookingType,
@@ -160,5 +161,14 @@ export const createReview = async (body: IReviewType, booking_id: string) => {
     if (isError.includes("error creating review")) {
       throw new Error("Anda sudah memberikan review");
     }
+  }
+};
+
+export const getAllReview = async (id:string) => {
+  try {
+    const response = await axiosWithConfig.get(`/tours/${id}/reviews`);
+    return response.data as ResponsePayloadPagination<GetReview>;
+  } catch (error: any) {
+    throw new Error(error.message);
   }
 };
