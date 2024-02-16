@@ -231,18 +231,18 @@ const PaymentBook = () => {
               </div>
             </form>
             <div className="bg-white w-1/3 rounded-lg h-[350px] shadow-lg">
-              <div className="flex flex-col space-y-4 p-5">
+              <div className="flex flex-col space-y-3 p-5">
                 <div className="flex gap-4 items-center border-b-2 pb-5">
                   <img src={state.data.image} className="w-24 h-14" />
                   <p className="font-bold">{state.data.tour_name}</p>
                 </div>
                 <div className="border-b-2 pb-5">
-                  <p>{state.selectedPackage.package_name}</p>
-                  <p>{state.count} Pax</p>
+                  <p className="font-semibold">{state.selectedPackage.package_name}</p>
+                  <p className="font-semibold">{state.count} Pax</p>
                 </div>
                 <div className="border-b-2 pb-5">
                   <p className="font-sm text-slate-500">Selected date</p>
-                  <p>{dateString}</p>
+                  <p className="font-semibold">{dateString}</p>
                 </div>
                 <div className="flex justify-center items-center">
                   <DialogVoucher onSelectVoucher={setSelectedVoucher} data={voucher} />

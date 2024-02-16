@@ -21,6 +21,7 @@ const Navbar = () => {
     toast({
       description: "Logout successfully",
     });
+    navigate("/")
   };
   return (
     <div className="flex w-full items-center justify-center gap-x-10 bg-white z-50 sticky top-0 px-10">

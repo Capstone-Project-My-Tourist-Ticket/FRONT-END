@@ -16,6 +16,7 @@ const PaymentResult = () => {
   const [bookingDetail, setBookingDetail] = useState<getBookingDetail>();
 
   useEffect(() => {
+    window.scrollTo(0, 0)
     if (booking_id) {
       fetchDetailBooking();
     }
@@ -241,7 +242,7 @@ const PaymentResult = () => {
             )}
           </div>
           <div className="bg-white w-1/4 rounded-lg h-[420px] shadow-lg">
-            <div className="flex flex-col space-y-4 p-5">
+            <div className="flex flex-col space-y-3 p-5">
               <img src={bookingDetail?.tour.image} className="h-44" />
               <p className="font-bold">Booking Id: {bookingDetail?.booking_id.toUpperCase()}</p>
               <div className="flex flex-col">
@@ -250,8 +251,8 @@ const PaymentResult = () => {
                   {bookingDetail?.booking_date}
                 </p>
               </div>
-              <p>{bookingDetail?.package.package_name}</p>
-              <p>{bookingDetail?.quantity} Pax</p>
+              <p className="font-semibold">{bookingDetail?.package.package_name}</p>
+              <p className="font-semibold">{bookingDetail?.quantity} Pax</p>
             </div>
           </div>
         </div>
