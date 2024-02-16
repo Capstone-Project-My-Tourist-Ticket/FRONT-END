@@ -2,11 +2,14 @@ import { ResponsePayload, ResponsePayloadPagination } from "@/utils/types/api"
 import {
   GetCity,
   GetPackages,
+  GetReview,
   GetTours,
   GetVoucher,
   IBookingType,
+  IReviewType,
   IUserType,
   ResBooking,
+  ResPayment,
   getBookingDetail,
 } from "./type"
 import axiosWithConfig from "../axiosWithConfig"
@@ -142,11 +145,35 @@ export const getListVoucher = async () => {
 }
 
 export const createBooking = async (body: IBookingType) => {
-  /*   try {
-    const response = await axiosWithConfig.post(`/bookings`, body);
-    return response.data as { message: string };
+  try {
+    const response = await axiosWithConfig.post(`/bookings`, body)
+    return response.data as ResponsePayload<ResPayment>
   } catch (error: any) {
-    throw new Error(error.message);
-  } */
-  console.log(body)
+    throw new Error(error.message)
+  }
+}
+export const createReview = async (body: IReviewType, booking_id: string) => {
+  try {
+    const response = await axiosWithConfig.post(
+      `/bookings/${booking_id}/review`,
+      body
+    )
+    if (response.status === 200) {
+      return response.data as { message: string }
+    }
+  } catch (error: any) {
+    const isError = error.response.data.message
+    if (isError.includes("error creating review")) {
+      throw new Error("Anda sudah memberikan review")
+    }
+  }
+}
+
+export const getAllReview = async (id: string) => {
+  try {
+    const response = await axiosWithConfig.get(`/tours/${id}/reviews`)
+    return response.data as ResponsePayloadPagination<GetReview>
+  } catch (error: any) {
+    throw new Error(error.message)
+  }
 }

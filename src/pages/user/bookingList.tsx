@@ -55,7 +55,7 @@ const BookingList = () => {
                             >
                               E-Ticket
                             </button>
-                            <DialogReview />
+                            <DialogReview booking_id={item.id} />
                           </>
                         )}
                       </div>

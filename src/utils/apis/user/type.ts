@@ -112,14 +112,55 @@ export interface GetVoucher {
 }
 
 export const bookingSchema = z.object({
-  tour_id: z.number({ required_error: "tour id is required" }),
-  package_id: z.number({ required_error: "package id tiket is required" }),
-  voucher_id: z.number({ required_error: "voucher is required" }).optional(),
   bank: z.string().min(1, { message: "Enter your bank " }),
   phone_number: z.string().min(1, { message: "Enter your phone number" }),
   greeting: z.string().min(1, { message: "choose greetings" }),
-  full_name: z.string().min(1, { message: "choose greetings" }),
-  email: z.string().min(1, { message: "choose greetings" }),
-  quantity: z.number({ required_error: "quantity is required" }),
+  full_name: z.string().min(1, { message: "choose name" }),
+  email: z.string().min(1, { message: "choose email" }),
 });
 export type IBookingType = z.infer<typeof bookingSchema>;
+
+export interface ResPayment {
+  booking_id: string;
+  user_id: number;
+  tour_id: number;
+  package_id: number;
+  voucher_id: number;
+  payment_type: string;
+  gross_amount: number;
+  status: string;
+  va_number: string;
+  bank: string;
+  booking_date: string;
+  phone_number: string;
+  greeting: string;
+  full_name: string;
+  email: string;
+  quantity: number;
+  payment_expired: string;
+  created_at: string;
+}
+
+export const reviewSchema = z.object({
+  text_review: z.string().min(1, { message: "Enter your review " }),
+  star_rate: z.number({ required_error: "Enter your rate" }),
+});
+export type IReviewType = z.infer<typeof reviewSchema>;
+
+
+export interface GetReview {
+  total_review: number,
+  average_review: number,
+  reviews: UserReview[]
+}
+
+export interface UserReview {
+    user_id: number,
+    text_review: string,
+    start_rate: number,
+    created_at: string,
+    user: {
+      full_name: string,
+      image: string
+}
+}

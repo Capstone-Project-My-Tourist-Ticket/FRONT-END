@@ -6,7 +6,7 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import { Card, CardContent } from "./ui/card";
-import { MapPin, Star } from "lucide-react";
+import { MapPin } from "lucide-react";
 import { GetTours } from "@/utils/apis/user/type";
 import { getTours } from "@/utils/apis/user/api";
 import { useEffect, useState } from "react";
@@ -51,16 +51,6 @@ const CarouselHome = () => {
                   <div className="flex-col p-2 space-y-1">
                     <div className="flex justify-between">
                       <p className="font-semibold text-lg">{item.tour_name}</p>
-                      <div className="flex">
-                        {Array.from({ length: 5 }, (_, index) => (
-                          <Star
-                            key={index}
-                            fill={"yellow"}
-                            className="stroke-slate-300 drop-shadow-sm"
-                            size={20}
-                          />
-                        ))}
-                      </div>
                     </div>
                     <div className="flex gap-2 items-center text-sm ">
                       <MapPin size={15} />
