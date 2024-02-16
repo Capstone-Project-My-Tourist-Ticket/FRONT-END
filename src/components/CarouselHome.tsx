@@ -33,7 +33,7 @@ const CarouselHome = () => {
     <Carousel
       opts={{
         align: "start",
-        loop: true,
+        loop: false,
       }}
       className="w-full"
     >

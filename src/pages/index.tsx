@@ -53,6 +53,7 @@ const Home = () => {
     toast({
       description: "Logout s  uccessfully",
     })
+    navigate("/")
   }
 
   const fetchCity = async (/* pageNumber: number */) => {

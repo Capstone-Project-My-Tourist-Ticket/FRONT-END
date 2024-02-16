@@ -177,3 +177,12 @@ export const getAllReview = async (id: string) => {
     throw new Error(error.message)
   }
 }
+
+export const cancelBooking = async (id: string) => {
+  try {
+    const response = await axiosWithConfig.put(`/bookings/${id}`)
+    return response.data as { message: string }
+  } catch (error: any) {
+    throw new Error(error.message)
+  }
+}
