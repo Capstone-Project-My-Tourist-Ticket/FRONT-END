@@ -1,5 +1,5 @@
-import AdminHeader from "@/components/Admin/AdminHeader";
-import AdminNavbar from "@/components/Admin/AdminNavbar";
+import AdminHeader from "@/components/Admin/AdminHeader"
+import AdminNavbar from "@/components/Admin/AdminNavbar"
 import {
   Table,
   TableBody,
@@ -7,7 +7,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
+} from "@/components/ui/table"
 import {
   Pagination,
   PaginationContent,
@@ -16,10 +16,51 @@ import {
   PaginationLink,
   PaginationNext,
   PaginationPrevious,
-} from "@/components/ui/pagination";
-import Footer from "@/components/Footer";
+} from "@/components/ui/pagination"
+import React, { useEffect, useState } from "react"
+import Footer from "@/components/Footer"
+import axiosWithConfig from "@/utils/apis/axiosWithConfig"
+
+interface Pengelola {
+  id: number
+  full_name: string
+  no_ktp: string
+  address: string
+  phone_number: string
+  email: string
+  role: string
+  status: string
+}
 
 function VerificationAccount() {
+  const [data, setData] = useState<Pengelola[]>([])
+
+  const fetchData = async () => {
+    try {
+      const response = await axiosWithConfig.get(
+        "https://benarja.my.id/users/admin"
+      )
+
+      if (response.status !== 200) {
+        throw new Error("Failed to fetch data")
+      }
+
+      const jsonResponse = response.data
+
+      if (jsonResponse && jsonResponse.data) {
+        setData(jsonResponse.data)
+      } else {
+        console.error("API response does not contain data:", jsonResponse)
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error)
+    }
+  }
+
+  useEffect(() => {
+    fetchData()
+  }, [])
+
   return (
     <div className="bg-[#dee2e6]">
       <header>
@@ -44,70 +85,24 @@ function VerificationAccount() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              <TableRow>
-                <TableCell>1</TableCell>
-                <TableCell>3</TableCell>
-                <TableCell>Dya</TableCell>
-                <TableCell>dya@gmail.com</TableCell>
-                <TableCell>392836</TableCell>
-                <TableCell>Kelapa Gading</TableCell>
-                <TableCell className="flex gap-4">
-                  <button>
-                    <img src="/images/admin/ceklis.png" />
-                  </button>
-                  <button>
-                    <img src="/images/admin/x.png" />
-                  </button>
-                </TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell>2</TableCell>
-                <TableCell>5</TableCell>
-                <TableCell>Jeni</TableCell>
-                <TableCell>jeni@gmail.com</TableCell>
-                <TableCell>927262</TableCell>
-                <TableCell>Babelan</TableCell>
-                <TableCell className="flex gap-4">
-                  <button>
-                    <img src="/images/admin/ceklis.png" />
-                  </button>
-                  <button>
-                    <img src="/images/admin/x.png" />
-                  </button>
-                </TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell>3</TableCell>
-                <TableCell>10</TableCell>
-                <TableCell>Ziva</TableCell>
-                <TableCell>ziva@gmail.com</TableCell>
-                <TableCell>092638</TableCell>
-                <TableCell>Harapan Indah</TableCell>
-                <TableCell className="flex gap-4">
-                  <button>
-                    <img src="/images/admin/ceklis.png" />
-                  </button>
-                  <button>
-                    <img src="/images/admin/x.png" />
-                  </button>
-                </TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell>4</TableCell>
-                <TableCell>18</TableCell>
-                <TableCell>Andy</TableCell>
-                <TableCell>andy@gmail.com</TableCell>
-                <TableCell>302428</TableCell>
-                <TableCell>Kelapa Gading</TableCell>
-                <TableCell className="flex gap-4">
-                  <button>
-                    <img src="/images/admin/ceklis.png" />
-                  </button>
-                  <button>
-                    <img src="/images/admin/x.png" />
-                  </button>
-                </TableCell>
-              </TableRow>
+              {data.map((item, index) => (
+                <TableRow key={index}>
+                  <TableCell>{index + 1}</TableCell>
+                  <TableCell>{item.id}</TableCell>
+                  <TableCell>{item.full_name}</TableCell>
+                  <TableCell>{item.email}</TableCell>
+                  <TableCell>{item.no_ktp}</TableCell>
+                  <TableCell>{item.address}</TableCell>
+                  <TableCell className="flex gap-4">
+                    <button>
+                      <img src="/images/admin/ceklis.png" />
+                    </button>
+                    <button>
+                      <img src="/images/admin/x.png" />
+                    </button>
+                  </TableCell>
+                </TableRow>
+              ))}
             </TableBody>
           </Table>
           <footer className="pt-10">
@@ -117,7 +112,10 @@ function VerificationAccount() {
                   <PaginationPrevious href="#" />
                 </PaginationItem>
                 <PaginationItem>
-                  <PaginationLink className="bg-white border border-black" href="#">
+                  <PaginationLink
+                    className="bg-white border border-black"
+                    href="#"
+                  >
                     1
                   </PaginationLink>
                 </PaginationItem>
@@ -149,7 +147,7 @@ function VerificationAccount() {
       </div>
       <Footer />
     </div>
-  );
+  )
 }
 
-export default VerificationAccount;
+export default VerificationAccount
