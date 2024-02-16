@@ -30,6 +30,8 @@ const Profile = () => {
     },
   });
 
+
+
   useEffect(() => {
     setValue("full_name", user?.full_name as string);
     setValue("phone_number", user?.phone_number as string);

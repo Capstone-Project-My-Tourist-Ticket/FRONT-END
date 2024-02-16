@@ -103,12 +103,12 @@ const DetailTour = () => {
   useEffect(() => {
     window.scrollTo(0, 0)
     if (id) {
-      fetchDetailCity()
+      fetchDetailTour()
     }
     fetchAllReview()
   }, [id])
 
-  const fetchDetailCity = async () => {
+  const fetchDetailTour = async () => {
     try {
       const result = await getDetailTours(id as string)
       setTourDetail(result.data)
