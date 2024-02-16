@@ -127,7 +127,9 @@ function AdminDetailTour() {
             <div className="flex justify-between py-4">
               <div className="bg-[#dee2e6] rounded-lg w-[700px]">
                 <div className="bg-white m-6 p-4 rounded-lg drop-shadow-lg">
-                  <h1 className="font-bold pb-4">{packageItem.package_name}</h1>
+                  <h1 className="font-bold text-black pb-4">
+                    {packageItem.package_name}
+                  </h1>
                   <p className="text-red-600">{packageItem.price}</p>
                 </div>
               </div>
