@@ -1,5 +1,5 @@
-import AdminHeader from "@/components/Admin/AdminHeader";
-import AdminNavbar from "@/components/Admin/AdminNavbar";
+import AdminHeader from "@/components/Admin/AdminHeader"
+import AdminNavbar from "@/components/Admin/AdminNavbar"
 import {
   Table,
   TableBody,
@@ -7,7 +7,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
+} from "@/components/ui/table"
 import {
   Pagination,
   PaginationContent,
@@ -16,11 +16,71 @@ import {
   PaginationLink,
   PaginationNext,
   PaginationPrevious,
-} from "@/components/ui/pagination";
+} from "@/components/ui/pagination"
 
-import Footer from "@/components/Footer";
+import React, { useEffect, useState } from "react"
+import Footer from "@/components/Footer"
+import axiosWithConfig from "@/utils/apis/axiosWithConfig"
+
+interface Transaction {
+  booking_id: string
+  user_id: number
+  tour_id: number
+  package_id: number
+  voucher_id: null
+  payment_type: string
+  gross_amount: number
+  status: string
+  va_number: number
+  bank: string
+  booking_date: string
+  phone_number: number
+  greeting: string
+  full_name: string
+  email: string
+  quantity: number
+  payment_expired: string
+  created_at: string
+  tour: {
+    id: number
+    tour_name: string
+  }
+  package: {
+    id: number
+    package_name: string
+    price: number
+  }
+}
 
 function TransactionList() {
+  const [data, setData] = useState<Transaction[]>([])
+
+  const fetchData = async () => {
+    try {
+      const response = await axiosWithConfig.get(
+        "https://benarja.my.id/bookings/admin"
+      )
+
+      if (response.status !== 200) {
+        throw new Error("Failed to fetch data")
+      }
+
+      const jsonResponse = response.data
+
+      if (jsonResponse.data && Array.isArray(jsonResponse.data)) {
+        setData(jsonResponse.data)
+      } else {
+        console.error("API response does not contain an array:", jsonResponse)
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error)
+    }
+  }
+
+  useEffect(() => {
+    fetchData()
+  }, [])
+
   return (
     <div className="bg-[#dee2e6] h-auto">
       <AdminHeader />
@@ -33,7 +93,8 @@ function TransactionList() {
           <div className="border border-black rounded-lg text-[#9B9B9B] ps-2 mt-4 bg-white w-[200px] mb-4">
             Search
           </div>
-          <Table className="bg-white rounded-lg ">
+
+          <Table className="bg-white rounded-lg">
             <TableHeader>
               <TableRow>
                 <TableHead>No.</TableHead>
@@ -46,44 +107,20 @@ function TransactionList() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              <TableRow>
-                <TableCell>1</TableCell>
-                <TableCell>294658</TableCell>
-                <TableCell>Dya</TableCell>
-                <TableCell>Pantai Pandawa</TableCell>
-                <TableCell>Regular + Meal</TableCell>
-                <TableCell>10.000.000</TableCell>
-                <TableCell>Settlement</TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell>2</TableCell>
-                <TableCell>246803</TableCell>
-                <TableCell>Jeni</TableCell>
-                <TableCell>Candi Borobudur</TableCell>
-                <TableCell>Regular</TableCell>
-                <TableCell>10.000.000</TableCell>
-                <TableCell>Pending</TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell>3</TableCell>
-                <TableCell>294058</TableCell>
-                <TableCell>Ziva</TableCell>
-                <TableCell>Jatim Park 3</TableCell>
-                <TableCell>Regular</TableCell>
-                <TableCell>10.000.000</TableCell>
-                <TableCell>Expired</TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell>4</TableCell>
-                <TableCell>268658</TableCell>
-                <TableCell>Andy</TableCell>
-                <TableCell>Pulau Komodo</TableCell>
-                <TableCell>Regular + Digigit Kodomo</TableCell>
-                <TableCell>8.000.000</TableCell>
-                <TableCell>Canceled</TableCell>
-              </TableRow>
+              {data.map((item, index) => (
+                <TableRow key={index}>
+                  <TableCell>{index + 1}</TableCell>
+                  <TableCell>{item.booking_id}</TableCell>
+                  <TableCell>{item.full_name}</TableCell>
+                  <TableCell>{item.tour.tour_name}</TableCell>
+                  <TableCell>{item.package.package_name}</TableCell>
+                  <TableCell>{item.gross_amount}</TableCell>
+                  <TableCell>{item.status}</TableCell>
+                </TableRow>
+              ))}
             </TableBody>
           </Table>
+
           <footer className="pt-10">
             <Pagination>
               <PaginationContent>
@@ -91,7 +128,10 @@ function TransactionList() {
                   <PaginationPrevious href="#" />
                 </PaginationItem>
                 <PaginationItem>
-                  <PaginationLink className="bg-white border border-black" href="#">
+                  <PaginationLink
+                    className="bg-white border border-black"
+                    href="#"
+                  >
                     1
                   </PaginationLink>
                 </PaginationItem>
@@ -123,7 +163,7 @@ function TransactionList() {
       </div>
       <Footer />
     </div>
-  );
+  )
 }
 
-export default TransactionList;
+export default TransactionList

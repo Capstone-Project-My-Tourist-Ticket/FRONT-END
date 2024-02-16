@@ -1,8 +1,8 @@
-import AdminHeader from "@/components/Admin/AdminHeader";
-import AdminNavbar from "@/components/Admin/AdminNavbar";
-import { Card } from "@/components/ui/card";
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import AdminHeader from "@/components/Admin/AdminHeader"
+import AdminNavbar from "@/components/Admin/AdminNavbar"
+import { Card } from "@/components/ui/card"
+import { useState, useEffect } from "react"
+import { Link, useNavigate } from "react-router-dom"
 import {
   Pagination,
   PaginationContent,
@@ -11,15 +11,64 @@ import {
   PaginationLink,
   PaginationNext,
   PaginationPrevious,
-} from "@/components/ui/pagination";
-import Footer from "@/components/Footer";
+} from "@/components/ui/pagination"
+import React from "react"
+import Footer from "@/components/Footer"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import axiosWithConfig from "@/utils/apis/axiosWithConfig"
+
+interface City {
+  city_name: string
+  created_at: string
+  description: string
+  id: number
+  image: string
+  thumbnail: string
+  updated_at: string
+}
 
 function CityList() {
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [data, setData] = useState<City[]>([])
+  const navigate = useNavigate()
 
-  const handleDropdownToggle = () => {
-    setIsDropdownOpen((prevState) => !prevState);
-  };
+  const fetchData = async () => {
+    try {
+      const response = await fetch("https://benarja.my.id/citys")
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch data")
+      }
+      const jsonResponse = await response.json()
+
+      if (jsonResponse.data && Array.isArray(jsonResponse.data)) {
+        setData(jsonResponse.data)
+      } else {
+        console.error("API response does not contain an array:", jsonResponse)
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error)
+    }
+  }
+  useEffect(() => {
+    fetchData()
+  }, [])
+
+  const deleteCity = async (id: number) => {
+    try {
+      await axiosWithConfig.delete(`https://benarja.my.id/citys/${id}`)
+      fetchData()
+    } catch (error) {
+      console.error("Failed to delete city", error)
+    }
+  }
 
   return (
     <div className="bg-[#dee2e6]">
@@ -35,23 +84,36 @@ function CityList() {
               <Link to={"/add-city"}> Add</Link>
             </button>
           </div>
-          <div className="w-full flex justify-between py-4">
-            <Card
-              style={{ backgroundImage: "url(/images/admin/city.png)" }}
-              className="bg-cover w-[180px] h-[180px] relative"
-            >
-              <button onClick={handleDropdownToggle} className="absolute top-0 right-0 p-2">
-                <img src="/images/admin/toggle.png" />
-              </button>
-              {isDropdownOpen && (
-                <div className="absolute top-12 right-1 bg-white rounded-md shadow-md p-2">
-                  <div className="flex flex-col">
-                    <Link to={"/edit-city"}>Edit</Link>
-                    <button>Delete</button>
-                  </div>
-                </div>
-              )}
-            </Card>
+          <div className="w-full flex flex-wrap gap-5 py-4">
+            {data.map((item, index) => (
+              <Card
+                key={index}
+                style={{ backgroundImage: `url(${item.image})` }}
+                className="bg-cover w-[180px] h-[180px] relative my-4"
+              >
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <button className="absolute top-0 right-0 p-2">
+                      <img src="/images/admin/toggle.png" />
+                    </button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent className="w-56">
+                    <DropdownMenuLabel>Action</DropdownMenuLabel>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuGroup>
+                      <DropdownMenuItem
+                        onClick={() => navigate(`/edit-city/${item.id}`)}
+                      >
+                        Edit
+                      </DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => deleteCity(item.id)}>
+                        Delete
+                      </DropdownMenuItem>
+                    </DropdownMenuGroup>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </Card>
+            ))}
           </div>
           <Pagination className="absolute bottom-0 left-1/2 transform -translate-x-1/2">
             <PaginationContent>
@@ -59,7 +121,10 @@ function CityList() {
                 <PaginationPrevious href="#" />
               </PaginationItem>
               <PaginationItem>
-                <PaginationLink className="bg-white border border-black" href="#">
+                <PaginationLink
+                  className="bg-white border border-black"
+                  href="#"
+                >
                   1
                 </PaginationLink>
               </PaginationItem>
@@ -91,7 +156,7 @@ function CityList() {
 
       <Footer />
     </div>
-  );
+  )
 }
 
-export default CityList;
+export default CityList
