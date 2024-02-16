@@ -39,9 +39,9 @@ const Navbar = () => {
         <li className="font-semibold">Services</li>
       </ul>
       {!token ? (
-        <div className="container text-end">
+        <div className=" text-end">
           <Link to={"/register"}>
-            <button className="bg-red-500  text-white px-5 py-2 rounded-full">Sign Up</button>
+            <button className="bg-red-500 w-32  text-white px-5 py-2 rounded-full">Sign Up</button>
           </Link>
         </div>
       ) : (
