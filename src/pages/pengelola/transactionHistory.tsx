@@ -8,36 +8,35 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import {
-  Pagination,
-  PaginationContent,
-  PaginationEllipsis,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from "@/components/ui/pagination";
 import { useEffect, useState } from "react";
 import { getTransaction } from "@/utils/apis/pengelola/api";
 import { Transaction } from "@/utils/apis/pengelola/type";
+import Pagination from "@/components/Pagination";
 
 function TransactionHistory() {
   const [transaction, setTransaction] = useState<Transaction[]>([]);
-  /*   const [pageNumber, setPageNumber] = useState(1); */
+    const [pageNumber, setPageNumber] = useState(1);
+    const [totalPage, setTotalPage] = useState<number>(0);
 
-  const fetchTransaction = async (/* pageNumber: number */) => {
+  const fetchTransaction = async (pageNumber: number) => {
     try {
-      const result = await getTransaction(1);
+      const result = await getTransaction(pageNumber);
       setTransaction(result.data);
+      setTotalPage(result.total_page)
       console.log(result.data);
     } catch (error) {
       console.log(error);
     }
   };
 
+  const handlePageClick = (data :{ selected: number }) => {
+    setPageNumber(data.selected + 1);
+  };
+
+
   useEffect(() => {
-    fetchTransaction();
-  }, []);
+    fetchTransaction(pageNumber);
+  }, [pageNumber]);
 
   return (
     <div className="bg-[#dee2e6] h-auto">
@@ -81,40 +80,8 @@ function TransactionHistory() {
                 ))}
             </TableBody>
           </Table>
-          <footer className="pt-10">
-            <Pagination>
-              <PaginationContent>
-                <PaginationItem>
-                  <PaginationPrevious href="#" />
-                </PaginationItem>
-                <PaginationItem>
-                  <PaginationLink className="bg-white border border-black" href="#">
-                    1
-                  </PaginationLink>
-                </PaginationItem>
-                <PaginationItem>
-                  <PaginationLink className="bg-white" href="#">
-                    2
-                  </PaginationLink>
-                </PaginationItem>
-                <PaginationItem className="bg-white">
-                  <PaginationEllipsis />
-                </PaginationItem>
-                <PaginationItem>
-                  <PaginationLink className="bg-white" href="#">
-                    9
-                  </PaginationLink>
-                </PaginationItem>
-                <PaginationItem>
-                  <PaginationLink className="bg-white" href="#">
-                    10
-                  </PaginationLink>
-                </PaginationItem>
-                <PaginationItem>
-                  <PaginationNext href="#" />
-                </PaginationItem>
-              </PaginationContent>
-            </Pagination>
+          <footer className="pt-10 flex justify-center">
+            <Pagination totalPage={totalPage} page={pageNumber} handlePageClick={handlePageClick}/>
           </footer>
         </div>
       </div>
