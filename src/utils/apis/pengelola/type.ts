@@ -79,6 +79,35 @@ export const tourSchema = z.object({
   city_id: z.number({ required_error: "city is required" }),
 });
 
+export const editSchema = z.object({
+  tour_name: z.string().min(1, { message: "Enter your tour name" }),
+  description: z.string().min(1, { message: "Enter description" }),
+  image: z
+    .any()
+    .refine((files) => !files[0] || files?.[0]?.size <= MAX_FILE_SIZE, "Max image size is 5MB")
+    .refine(
+      (files) => ACCEPTED_IMAGE_TYPES.includes(files?.[0]?.type),
+      "Only .jpg, .jpeg, .png formats are supported"
+    )
+    .optional()
+    .or(z.literal("")),
+  thumbnail: z
+    .any()
+    .refine((files) => !files[0] || files?.[0]?.size <= MAX_FILE_SIZE, "Max image size is 5MB")
+    .refine(
+      (files) => ACCEPTED_IMAGE_TYPES.includes(files?.[0]?.type),
+      "Only .jpg, .jpeg, .png formats are supported"
+    )
+    .optional()
+    .or(z.literal("")),
+  address: z.string().min(1, { message: "Enter your address" }),
+  latitude: z.number({ required_error: "latitude is required" }),
+  longitude: z.number({ required_error: "longitude is required" }),
+  city_id: z.number({ required_error: "city is required" }),
+});
+
+
+export type IEditTourType = z.infer<typeof editSchema>;
 export type IAddTourType = z.infer<typeof tourSchema>;
 
 export const addPackageSchema = z.object({

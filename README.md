@@ -1,6 +1,6 @@
-# Red Store Ecommerce
+# My Tourist Ticket
 
-![App Screenshot](https://github.com/Capstone-Project-My-Tourist-Ticket/FRONT-END/blob/main/src/assets/logo1.png)
+![App Screenshot](https://github.com/Capstone-Project-My-Tourist-Ticket/FRONT-END/blob/main/src/assets/logo.png)
 
 ## 🌐 Deployment
 

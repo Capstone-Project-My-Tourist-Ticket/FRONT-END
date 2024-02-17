@@ -132,21 +132,14 @@ const [totalPage, setTotalPage] = useState<number>(0);
         ) : (
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
+            <div className={`cursor-pointer `}>
               {user.image ? (
-                <img
-                  src={user.image}
-                  className="rounded-full w-32 h-10 cursor-pointer"
-                />
+                <img src={user.image} className="rounded-full w-12 h-12 cursor-pointer" />
               ) : (
-                <UserRound
-                  className={`${
-                    isScrolled
-                      ? "text-white bg-slate-500"
-                      : "text-black bg-white cursor-pointer"
-                  }  rounded-full w-32 h-10`}
-                />
+                <UserRound className="text-white bg-slate-500 rounded-full w-10 h-10 cursor-pointer" />
               )}
-            </DropdownMenuTrigger>
+            </div>
+          </DropdownMenuTrigger>
             <DropdownMenuContent className="mt-2">
               <DropdownMenuLabel>Hi {user.full_name}</DropdownMenuLabel>
               <DropdownMenuSeparator />

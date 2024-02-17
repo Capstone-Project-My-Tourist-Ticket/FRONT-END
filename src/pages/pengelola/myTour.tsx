@@ -79,7 +79,7 @@ function MyTour() {
                       </div>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent className="mt-2 mr-6">
-                      <Link to={`/edittour/${item.id}`}>
+                      <Link to={`/edit-tour/${item.id}`}>
                       <DropdownMenuItem className="cursor-pointer">Edit</DropdownMenuItem>
                       </Link>
                       <DropdownMenuSeparator />

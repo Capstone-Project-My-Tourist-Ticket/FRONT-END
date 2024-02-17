@@ -1,6 +1,6 @@
 import { ResponsePayloadPagination } from "@/utils/types/api";
 import axiosWithConfig from "../axiosWithConfig";
-import { IAddPackage, IAddTourType, IMyTour, Transaction } from "./type";
+import { IAddPackage, IAddTourType, IEditTourType, IMyTour, Transaction } from "./type";
 
 export const getTransaction = async (pageNumber: number) => {
   try {
@@ -56,8 +56,8 @@ export const createPackage = async (body: IAddPackage, tour_id: number) => {
   }
 };
 
-export const updateTour = async (body: IAddTourType, id : string) => {
-    const formData = new FormData()
+export const updateTour = async (body: IEditTourType, id : string) => {
+    const formData: any = new FormData()
 
     formData.append("tour_name", body.tour_name);
     formData.append("description", body.description);
@@ -65,13 +65,13 @@ export const updateTour = async (body: IAddTourType, id : string) => {
     formData.append("thumbnail", body.thumbnail[0]);
     formData.append("address", body.address);
     formData.append("latitude", body.latitude);
-    formData.append("longitude", body.longitude);
+    formData.append("longitude", body.latitude);
     formData.append("city_id", body.city_id);
     try {
       const response = await axiosWithConfig.put(`/tours/${id}`, formData);
       return response.data as { message: string };
     } catch (error: any) {
-      throw new Error(error.message);
+      throw new Error(error.response.data.message);
     }
   }
 
@@ -89,6 +89,6 @@ export const updateTour = async (body: IAddTourType, id : string) => {
       const response = await axiosWithConfig.delete(`packages/${id}`);
       return response.data as { message: string };
     } catch (error: any) {
-      throw new Error(error.message);
+      throw new Error (error.response.data.message);
     }
   };

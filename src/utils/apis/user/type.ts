@@ -37,6 +37,9 @@ export interface GetTours {
   created_at: string;
   updated_at: string;
   city: CityRes;
+  package: {
+    price : number;
+  }
 }
 
 export interface CityRes {

@@ -186,3 +186,16 @@ export const cancelBooking = async (id: string) => {
     throw new Error(error.message)
   }
 }
+
+export const reportTour = async (id: string, body: {
+  text_report: string
+}) => {
+  try {
+    const response = await axiosWithConfig.post(`/tours/${id}/report`, body)
+    if (response.status === 200) {
+      return response.data as { message: string };
+    }
+  } catch (error: any) {
+    throw Error(error.response.data.message);
+  }
+}

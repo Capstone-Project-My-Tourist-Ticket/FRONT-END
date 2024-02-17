@@ -14,6 +14,7 @@ const DetailCity = () => {
   const [totalPage, setTotalPage] = useState<number>(0);
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     if (id) {
       fetchDetailCity(pageNumber);
     }
