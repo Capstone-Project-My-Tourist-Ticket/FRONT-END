@@ -19,6 +19,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { getCity, getSearch } from "@/utils/apis/user/api"
 import { GetCity, GetTours } from "@/utils/apis/user/type"
+import Pagination from "@/components/Pagination"
 
 const Home = () => {
   const [isScrolled, setIsScrolled] = useState(false)
@@ -26,7 +27,8 @@ const Home = () => {
   const navigate = useNavigate()
   const { toast } = useToast()
   const [city, setCity] = useState<GetCity[]>([])
-  /*   const [pageNumber, setPageNumber] = useState(1); */
+const [pageNumber, setPageNumber] = useState(1);
+const [totalPage, setTotalPage] = useState<number>(0);
   const location = useLocation()
   const [searchTours, setSearchTours] = useState<GetTours[]>([])
   const [searchQuery, setSearchQuery] = useState<string>("")
@@ -48,18 +50,23 @@ const Home = () => {
     search(query)
   }
 
+  const handlePageClick = (data :{ selected: number }) => {
+    setPageNumber(data.selected + 1);
+  };
+
   const handleLogout = () => {
     changeToken()
     toast({
-      description: "Logout s  uccessfully",
+      description: "Logout successfully",
     })
     navigate("/")
   }
 
-  const fetchCity = async (/* pageNumber: number */) => {
+  const fetchCity = async (pageNumber: number) => {
     try {
-      const result = await getCity(1)
+      const result = await getCity(pageNumber)
       setCity(result.data)
+      setTotalPage(result.total_page)
       console.log(result.data)
     } catch (error) {
       console.log(error)
@@ -68,7 +75,7 @@ const Home = () => {
 
   useEffect(
     () => {
-      fetchCity()
+      fetchCity(pageNumber)
       const handleScroll = () => {
         const scrollPosition = window.scrollY
         setIsScrolled(scrollPosition > 400)
@@ -78,9 +85,7 @@ const Home = () => {
         window.removeEventListener("scroll", handleScroll)
       }
     },
-    [
-      /* pageNumber */
-    ]
+    [pageNumber]
   )
 
   console.log(searchQuery)
@@ -127,21 +132,14 @@ const Home = () => {
         ) : (
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
+            <div className={`cursor-pointer `}>
               {user.image ? (
-                <img
-                  src={user.image}
-                  className="rounded-full w-32 h-10 cursor-pointer"
-                />
+                <img src={user.image} className="rounded-full w-12 h-12 cursor-pointer" />
               ) : (
-                <UserRound
-                  className={`${
-                    isScrolled
-                      ? "text-white bg-slate-500"
-                      : "text-black bg-white cursor-pointer"
-                  }  rounded-full w-32 h-10`}
-                />
+                <UserRound className="text-white bg-slate-500 rounded-full w-10 h-10 cursor-pointer" />
               )}
-            </DropdownMenuTrigger>
+            </div>
+          </DropdownMenuTrigger>
             <DropdownMenuContent className="mt-2">
               <DropdownMenuLabel>Hi {user.full_name}</DropdownMenuLabel>
               <DropdownMenuSeparator />
@@ -234,6 +232,10 @@ const Home = () => {
                 </CardContent>
               </Card>
             ))}
+            
+        </div>
+        <div className="flex justify-center my-4">
+        <Pagination totalPage={totalPage} page={pageNumber} handlePageClick={handlePageClick}/>
         </div>
       </div>
       <Footer />

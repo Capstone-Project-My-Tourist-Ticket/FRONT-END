@@ -31,7 +31,7 @@ export const PengelolaRegister = async (body: RegisterTypePengelola) => {
     const response = await axiosWithConfig.post("/users", body);
     if (response.status === 200) {
       return response.data as { message: string };
-    }
+    } 
   } catch (error: any) {
     const isError = error.response.data.message;
     if (isError.includes("Duplicate entry")) {

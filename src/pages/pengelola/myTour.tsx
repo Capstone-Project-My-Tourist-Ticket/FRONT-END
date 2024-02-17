@@ -68,7 +68,7 @@ function MyTour() {
             </Link>
           </div>
 
-          <div className="py-8 md:grid-cols-3 grid grid-cols-4 gap-10">
+          <div className="py-8 grid-cols-3 grid lg:grid-cols-4 gap-10">
             {myTour &&
               myTour.map((item, index) => (
                 <Card className="w-[250px] relative" key={index}>
@@ -79,7 +79,7 @@ function MyTour() {
                       </div>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent className="mt-2 mr-6">
-                      <Link to={`/edittour/${item.id}`}>
+                      <Link to={`/edit-tour/${item.id}`}>
                       <DropdownMenuItem className="cursor-pointer">Edit</DropdownMenuItem>
                       </Link>
                       <DropdownMenuSeparator />

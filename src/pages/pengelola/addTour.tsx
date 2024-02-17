@@ -183,13 +183,13 @@ const AddTour = () => {
               </div>
               <p className="text-sm text-red-500">{errors.image?.message as string}</p>
               <button
-                className="bg-black rounded-lg text-white w-full p-2"
+                className="flex justify-center items-center bg-black rounded-lg text-white w-full p-2"
                 disabled={isSubmitting}
                 aria-disabled={isSubmitting}
               >
                 {isSubmitting ? (
                   <p className="flex items-center gap-x-3 text-sm">
-                    <Loader2 className={"animate-spin text-xl "} /> Please wait
+                    <Loader2 className={" animate-spin text-xl "} /> Please wait
                   </p>
                 ) : (
                   "Add Tour"

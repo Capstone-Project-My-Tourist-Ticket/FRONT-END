@@ -5,6 +5,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { useToast } from "@/components/ui/use-toast";
 import { createBooking, getListVoucher } from "@/utils/apis/user/api";
 import { GetVoucher, IBookingType, bookingSchema } from "@/utils/apis/user/type";
+import { useAuth } from "@/utils/contexts/auth";
 import { formattedAmount } from "@/utils/formattedAmount";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
@@ -19,6 +20,7 @@ interface Voucher {
 
 const PaymentBook = () => {
   const { state } = useLocation();
+  const { user } = useAuth()
   const currentDate = new Date(state.dates);
   const dateString = currentDate.toDateString();
   const navigate = useNavigate();
@@ -29,10 +31,12 @@ const PaymentBook = () => {
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { isSubmitting, errors },
   } = useForm<IBookingType>({
     resolver: zodResolver(bookingSchema),
   });
+
 
   const fetchVoucher = async () => {
     try {
@@ -77,6 +81,9 @@ const PaymentBook = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
     fetchVoucher();
+    setValue("full_name", user?.full_name as string);
+    setValue("phone_number", user?.phone_number as string);
+    setValue("email", user?.email as string);
   }, []);
 
   return (

@@ -15,11 +15,12 @@ interface MapProps {
   setValue?: UseFormSetValue<IAddTourType>
   error?: FieldErrors<IAddTourType>
   posisi?: { lat: number; lng: number }
+  id?: number
 }
 
 const Map = (props: MapProps) => {
   const location = useLocation()
-  const { draggable, width, setValue, error, posisi } = props
+  const { draggable, width, setValue, error, posisi, id } = props
   const [dragged, setDragged] = useState<{ lat: number; lng: number }>({
     lat: -6.330995309852224,
     lng: 106.70471191406251,
@@ -96,7 +97,7 @@ const Map = (props: MapProps) => {
       <p className="text-sm text-red-500 ">
         {error?.longitude && error.longitude.message}
       </p>
-      {location.pathname === "/addtour" || location.pathname === "/edittour" ? (
+      {location.pathname === "/addtour" || location.pathname === `/edit-tour/${id}` ? (
         <div className="flex border-slate-300 border-2">
           <input
             className="p-2 w-full outline-none"

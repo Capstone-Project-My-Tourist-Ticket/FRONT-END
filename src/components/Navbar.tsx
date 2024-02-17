@@ -50,7 +50,7 @@ const Navbar = () => {
           <DropdownMenuTrigger asChild>
             <div className={`cursor-pointer `}>
               {user.image ? (
-                <img src={user.image} className="rounded-full w-       h-12 cursor-pointer" />
+                <img src={user.image} className="rounded-full w-12 h-12 cursor-pointer" />
               ) : (
                 <UserRound className="text-white bg-slate-500 rounded-full w-10 h-10 cursor-pointer" />
               )}
