@@ -24,24 +24,30 @@ const Login = () => {
   const handleLogin = async (body: LoginType) => {
     try {
       const result = await userLogin(body);
-      if (result.data.status === "pending") {
+      changeToken(result!.data.token);
+      toast({
+        description: result?.message,
+      });
+      if (result!.data.status === "pending") {
         throw new Error("Mohon tunggu akun dalam proses peninjauan oleh Admin");
       }
-      changeToken(result.data.token);
-      console.log(result.data);
-      if (result.data.role === "admin") {
+      if (result!.data.role === "admin") {
         return navigate("/dashboard");
       }
-      if (result.data.role === "costumer") {
+      if (result!.data.role === "costumer") {
         navigate("/");
       }
-      if (result.data.role === "pengelola" && result.data.status === "approved") {
+      if (
+        result!.data.role === "pengelola" &&
+        result!.data.status === "approved"
+      ) {
         navigate("/transaction-history");
       }
     } catch (error) {
       if (error instanceof Error) {
         toast({
-          description: error.message,
+          title: "Oops! Something went wrong.",
+          description: error.message.toString(),
           variant: "destructive",
         });
       }
@@ -75,7 +81,11 @@ const Login = () => {
               disabled={isSubmitting}
               aria-disabled={isSubmitting}
             />
-            {errors.email && <p className="text-sm text-red-500 -mt-3">{errors.email.message}</p>}
+            {errors.email && (
+              <p className="text-sm text-red-500 -mt-3">
+                {errors.email.message}
+              </p>
+            )}
             <input
               type="password"
               placeholder="Password"
@@ -85,7 +95,9 @@ const Login = () => {
               aria-disabled={isSubmitting}
             />
             {errors.password && (
-              <p className="text-sm text-red-500 -mt-3">{errors.password.message}</p>
+              <p className="text-sm text-red-500 -mt-3">
+                {errors.password.message}
+              </p>
             )}
           </div>
           <div className="flex flex-col w-full gap-y-3">
