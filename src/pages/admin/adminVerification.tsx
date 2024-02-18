@@ -114,31 +114,31 @@ function VerificationAccount() {
       <div className="flex">
         <AdminNavbar />
         <div className="px-6 py-4 w-full">
-          <div className="text-2xl underline underline-offset-8 font-bold">
+          <div className="text-[20px] underline underline-offset-8 font-bold">
             Verification Account Manager
           </div>
           <Table className="bg-white rounded-lg mt-6">
             <TableHeader>
               <TableRow>
-                <TableHead className="text-black font-semibold text-lg">
+                <TableHead className="text-black font-semibold text-[15px]">
                   No.
                 </TableHead>
-                <TableHead className="text-black font-semibold text-lg">
+                <TableHead className="text-black font-semibold text-[15px]">
                   User ID
                 </TableHead>
-                <TableHead className="text-black font-semibold text-lg">
+                <TableHead className="text-black font-semibold text-[15px]">
                   Manager Name
                 </TableHead>
-                <TableHead className="text-black font-semibold text-lg">
+                <TableHead className="text-black font-semibold text-[15px]">
                   Email
                 </TableHead>
-                <TableHead className="text-black font-semibold text-lg">
+                <TableHead className="text-black font-semibold text-[15px]">
                   No KTP
                 </TableHead>
-                <TableHead className="text-black font-semibold text-lg">
+                <TableHead className="text-black font-semibold text-[15px]">
                   Address
                 </TableHead>
-                <TableHead className="text-black font-semibold text-lg">
+                <TableHead className="text-black font-semibold text-[15px]">
                   Action
                 </TableHead>
               </TableRow>
@@ -146,22 +146,22 @@ function VerificationAccount() {
             <TableBody>
               {data.map((item, index) => (
                 <TableRow key={index + (currentPage - 1) * 10}>
-                  <TableCell className="text-black text-sm">
+                  <TableCell className="text-black text-[12px]">
                     {(currentPage - 1) * 10 + index + 1}
                   </TableCell>
-                  <TableCell className="text-black text-sm">
+                  <TableCell className="text-black text-[12px]">
                     {item.id}
                   </TableCell>
-                  <TableCell className="text-black text-sm">
+                  <TableCell className="text-black text-[12px]">
                     {item.full_name}
                   </TableCell>
-                  <TableCell className="text-black text-sm">
+                  <TableCell className="text-black text-[12px]">
                     {item.email}
                   </TableCell>
-                  <TableCell className="text-black text-sm">
+                  <TableCell className="text-black text-[12px]">
                     {item.no_ktp}
                   </TableCell>
-                  <TableCell className="text-black text-sm">
+                  <TableCell className="text-black text-[12px]">
                     {item.address}
                   </TableCell>
                   <TableCell className="flex gap-4">

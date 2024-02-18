@@ -107,12 +107,12 @@ function TourList() {
       <div className="flex">
         <AdminNavbar />
         <div className="px-6 py-4 w-full">
-          <div className="text-2xl underline underline-offset-8 font-bold">
+          <div className="text-[20px] underline underline-offset-8 font-bold">
             Tour List
           </div>
-          <div className="py-4 flex flex-wrap gap-x-14 gap-y-5">
+          <div className="py-4 flex flex-wrap gap-x-5 gap-y-5">
             {data.map((item, index) => (
-              <Card className="w-[200px] relative " key={index}>
+              <Card className="w-[230px]  relative drop-shadow-xl " key={index}>
                 <button className="absolute top-0 right-0 p-2 z-10">
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
@@ -134,21 +134,21 @@ function TourList() {
                 </button>
                 <Link to={`/admin-tour/${item.id}`}>
                   <img className="w-[250px] h-[130px]" src={item.image} />
-                  <div className="p-1">
+                  <div className="p-2">
                     <CardDescription className="flex justify-between ">
-                      <p className="pt-3 pb-1 font-bold text-black text-sm">
+                      <p className="pt-3 pb-1 font-bold text-black text-[14px]">
                         {item.tour_name}
                       </p>
-                      <p className="text-red-600 pt-3 text-xs font-semibold">
+                      <p className="text-red-600 pt-3 text-[10px] font-semibold">
                         Report {item.report_count}
                       </p>
                     </CardDescription>
-                    <CardDescription className="flex py-2">
+                    <CardDescription className="flex py-2 items-center">
                       <img
-                        className="w-[20px] ps-1"
+                        className="w-[15px] h-[15px] ps-1"
                         src="/images/admin/pin.png"
                       />
-                      <p className="ms-2 text-sm">{item.city.city_name}</p>
+                      <p className="ms-2 text-[12px]">{item.city.city_name}</p>
                     </CardDescription>
                   </div>
                 </Link>
