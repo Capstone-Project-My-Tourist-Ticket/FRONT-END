@@ -16,7 +16,7 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination"
-import  { useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 import Footer from "@/components/Footer"
 import axiosWithConfig from "@/utils/apis/axiosWithConfig"
 
