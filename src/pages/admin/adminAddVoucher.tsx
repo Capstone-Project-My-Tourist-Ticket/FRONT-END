@@ -87,21 +87,21 @@ function AddVoucher() {
       <div className="flex">
         <AdminNavbar />
         <div className="px-6 py-4 w-full">
-          <div className="text-2xl underline underline-offset-8 pb-6 font-bold">
+          <div className="text-[20px] underline underline-offset-8 pb-6 font-bold">
             Add Voucher
           </div>
           <form onSubmit={handleSubmit}>
             <Input
               placeholder="Voucher Name"
               name="name"
-              className="w-[500px] border border-black"
+              className="w-[500px] border border-black text-[12px]"
               onChange={handleInput}
             />
             <br />
             <Input
               placeholder="Voucher Code"
               name="code"
-              className="w-[500px] border border-black"
+              className="w-[500px] border border-black text-[12px]"
               onChange={handleInput}
             />
             <br />
@@ -109,13 +109,14 @@ function AddVoucher() {
               placeholder="Description"
               onChange={handleInput}
               name="description"
-            />{" "}
+              className="text-[12px]"
+            />
             <br />
             <Input
               placeholder="Discount Value"
               name="discount_value"
               type="number"
-              className="w-[500px] border border-black"
+              className="w-[500px] border border-black text-[12px]"
               onChange={handleInput}
             />
             <br />
@@ -123,11 +124,11 @@ function AddVoucher() {
               placeholder="Expired Voucher"
               name="expired_voucher"
               type="date"
-              className="w-[500px] border border-black"
+              className="w-[500px] border border-black text-[12px]"
               onChange={handleInput}
             />
             <div className="py-10">
-              <button className="bg-black hover:bg-gray-700 active:bg-gray-800 rounded-lg text-white w-[500px] p-2">
+              <button className="bg-black hover:bg-gray-700 active:bg-gray-800 rounded-lg text-white w-[500px] p-2 text-[15px]">
                 Add
               </button>
             </div>
