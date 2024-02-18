@@ -43,7 +43,7 @@ interface Report {
   }
 }
 
-const DetailTour = () => {
+const AdminDetailTour = () => {
   const { id } = useParams()
   const [tourDetail, setTourDetail] = useState<GetTours>()
   const [reportData, setReportData] = useState<Report[]>([])
@@ -322,4 +322,4 @@ const DetailTour = () => {
   )
 }
 
-export default DetailTour
+export default AdminDetailTour
