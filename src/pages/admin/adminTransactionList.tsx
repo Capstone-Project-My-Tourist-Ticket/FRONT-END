@@ -11,7 +11,6 @@ import {
 import {
   Pagination,
   PaginationContent,
-  PaginationEllipsis,
   PaginationItem,
   PaginationLink,
   PaginationNext,
@@ -54,11 +53,13 @@ interface Transaction {
 
 function TransactionList() {
   const [data, setData] = useState<Transaction[]>([])
+  const [currentPage, setCurrentPage] = useState<number>(1)
+  const [totalPages, setTotalPages] = useState<number>(1)
 
   const fetchData = async () => {
     try {
       const response = await axiosWithConfig.get(
-        "https://benarja.my.id/bookings/admin"
+        `https://benarja.my.id/bookings/admin?page=${currentPage}&limit=10`
       )
 
       if (response.status !== 200) {
@@ -69,6 +70,7 @@ function TransactionList() {
 
       if (jsonResponse.data && Array.isArray(jsonResponse.data)) {
         setData(jsonResponse.data)
+        setTotalPages(jsonResponse.total_page)
       } else {
         console.error("API response does not contain an array:", jsonResponse)
       }
@@ -79,7 +81,18 @@ function TransactionList() {
 
   useEffect(() => {
     fetchData()
-  }, [])
+  }, [currentPage, totalPages])
+
+  const handlePageChange = (newPage: number) => {
+    if (newPage >= 1 && newPage <= totalPages) {
+      console.log("Changing to page:", newPage)
+      setCurrentPage(newPage)
+    }
+  }
+
+  useEffect(() => {
+    fetchData()
+  }, [currentPage])
 
   return (
     <div className="bg-[#dee2e6] h-auto">
@@ -87,35 +100,59 @@ function TransactionList() {
       <div className="flex">
         <AdminNavbar />
         <div className="px-6 py-4 w-full">
-          <div className=" py-4 text-2xl underline underline-offset-8 w-10/12 font-bold">
+          <div className="pb-7 text-2xl underline underline-offset-8 w-10/12 font-bold">
             Transaction List
           </div>
-          <div className="border border-black rounded-lg text-[#9B9B9B] ps-2 mt-4 bg-white w-[200px] mb-4">
-            Search
-          </div>
-
           <Table className="bg-white rounded-lg">
             <TableHeader>
               <TableRow>
-                <TableHead>No.</TableHead>
-                <TableHead>Booking ID</TableHead>
-                <TableHead>Name</TableHead>
-                <TableHead>Tour</TableHead>
-                <TableHead>Tour Package</TableHead>
-                <TableHead>Price</TableHead>
-                <TableHead>Status</TableHead>
+                <TableHead className="text-black text-lg font-semibold">
+                  No.
+                </TableHead>
+                <TableHead className="text-black text-lg font-semibold">
+                  Booking ID
+                </TableHead>
+                <TableHead className="text-black text-lg font-semibold">
+                  Name
+                </TableHead>
+                <TableHead className="text-black text-lg font-semibold">
+                  Tour
+                </TableHead>
+                <TableHead className="text-black text-lg font-semibold">
+                  Tour Package
+                </TableHead>
+                <TableHead className="text-black text-lg font-semibold">
+                  Price
+                </TableHead>
+                <TableHead className="text-black text-lg font-semibold">
+                  Status
+                </TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {data.map((item, index) => (
-                <TableRow key={index}>
-                  <TableCell>{index + 1}</TableCell>
-                  <TableCell>{item.booking_id}</TableCell>
-                  <TableCell>{item.full_name}</TableCell>
-                  <TableCell>{item.tour.tour_name}</TableCell>
-                  <TableCell>{item.package.package_name}</TableCell>
-                  <TableCell>{item.gross_amount}</TableCell>
-                  <TableCell>{item.status}</TableCell>
+                <TableRow key={index + (currentPage - 1) * 10}>
+                  <TableCell className="text-black text-sm">
+                    {(currentPage - 1) * 10 + index + 1}
+                  </TableCell>
+                  <TableCell className="text-black text-sm">
+                    {item.booking_id}
+                  </TableCell>
+                  <TableCell className="text-black text-sm">
+                    {item.full_name}
+                  </TableCell>
+                  <TableCell className="text-black text-sm">
+                    {item.tour.tour_name}
+                  </TableCell>
+                  <TableCell className="text-black text-sm">
+                    {item.package.package_name}
+                  </TableCell>
+                  <TableCell className="text-black text-sm">
+                    {item.gross_amount}
+                  </TableCell>
+                  <TableCell className="text-black text-sm">
+                    {item.status}
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>
@@ -125,36 +162,29 @@ function TransactionList() {
             <Pagination>
               <PaginationContent>
                 <PaginationItem>
-                  <PaginationPrevious href="#" />
+                  <PaginationPrevious
+                    onClick={() => handlePageChange(currentPage - 1)}
+                    isActive={currentPage !== 1}
+                  />
                 </PaginationItem>
+                {Array.from({ length: totalPages }, (_, index) => (
+                  <PaginationItem key={index}>
+                    <PaginationLink
+                      className={`bg-white ${
+                        currentPage === index + 1 ? "border border-black" : ""
+                      }`}
+                      onClick={() => handlePageChange(index + 1)}
+                    >
+                      {index + 1}
+                    </PaginationLink>
+                  </PaginationItem>
+                ))}
+
                 <PaginationItem>
-                  <PaginationLink
-                    className="bg-white border border-black"
-                    href="#"
-                  >
-                    1
-                  </PaginationLink>
-                </PaginationItem>
-                <PaginationItem>
-                  <PaginationLink className="bg-white" href="#">
-                    2
-                  </PaginationLink>
-                </PaginationItem>
-                <PaginationItem className="bg-white">
-                  <PaginationEllipsis />
-                </PaginationItem>
-                <PaginationItem>
-                  <PaginationLink className="bg-white" href="#">
-                    9
-                  </PaginationLink>
-                </PaginationItem>
-                <PaginationItem>
-                  <PaginationLink className="bg-white" href="#">
-                    10
-                  </PaginationLink>
-                </PaginationItem>
-                <PaginationItem>
-                  <PaginationNext href="#" />
+                  <PaginationNext
+                    onClick={() => handlePageChange(currentPage + 1)}
+                    isActive={currentPage !== totalPages}
+                  />
                 </PaginationItem>
               </PaginationContent>
             </Pagination>

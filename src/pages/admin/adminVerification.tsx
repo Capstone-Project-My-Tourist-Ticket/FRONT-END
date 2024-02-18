@@ -11,7 +11,6 @@ import {
 import {
   Pagination,
   PaginationContent,
-  PaginationEllipsis,
   PaginationItem,
   PaginationLink,
   PaginationNext,
@@ -34,11 +33,13 @@ interface Pengelola {
 
 function VerificationAccount() {
   const [data, setData] = useState<Pengelola[]>([])
+  const [currentPage, setCurrentPage] = useState<number>(1)
+  const [totalPages, setTotalPages] = useState<number>(1)
 
   const fetchData = async () => {
     try {
       const response = await axiosWithConfig.get(
-        "https://benarja.my.id/users/admin"
+        `https://benarja.my.id/users/admin?page=${currentPage}&limit=10`
       )
 
       if (response.status !== 200) {
@@ -49,6 +50,7 @@ function VerificationAccount() {
 
       if (jsonResponse && jsonResponse.data) {
         setData(jsonResponse.data)
+        setTotalPages(jsonResponse.total_page)
       } else {
         console.error("API response does not contain data:", jsonResponse)
       }
@@ -59,7 +61,50 @@ function VerificationAccount() {
 
   useEffect(() => {
     fetchData()
-  }, [])
+  }, [currentPage, totalPages])
+
+  const handleApproval = async (userId: number) => {
+    try {
+      const response = await axiosWithConfig.put(
+        `https://benarja.my.id/users/admin/${userId}?status=approved`
+      )
+
+      if (response.status !== 200) {
+        throw new Error("Failed to update status")
+      }
+
+      setData((prevData) => prevData.filter((user) => user.id !== userId))
+    } catch (error) {
+      console.error("Error updating status:", error)
+    }
+  }
+
+  const handleReject = async (userId: number) => {
+    try {
+      const response = await axiosWithConfig.put(
+        `https://benarja.my.id/users/admin/${userId}?status=rejected`
+      )
+
+      if (response.status !== 200) {
+        throw new Error("Failed to update status")
+      }
+
+      setData((prevData) => prevData.filter((user) => user.id !== userId))
+    } catch (error) {
+      console.error("Error updating status:", error)
+    }
+  }
+
+  const handlePageChange = (newPage: number) => {
+    if (newPage >= 1 && newPage <= totalPages) {
+      console.log("Changing to page:", newPage)
+      setCurrentPage(newPage)
+    }
+  }
+
+  useEffect(() => {
+    fetchData()
+  }, [currentPage])
 
   return (
     <div className="bg-[#dee2e6]">
@@ -75,29 +120,55 @@ function VerificationAccount() {
           <Table className="bg-white rounded-lg mt-6">
             <TableHeader>
               <TableRow>
-                <TableHead>No.</TableHead>
-                <TableHead>User ID</TableHead>
-                <TableHead>Manager Name</TableHead>
-                <TableHead>Email</TableHead>
-                <TableHead>No KTP</TableHead>
-                <TableHead>Address</TableHead>
-                <TableHead>Action</TableHead>
+                <TableHead className="text-black font-semibold text-lg">
+                  No.
+                </TableHead>
+                <TableHead className="text-black font-semibold text-lg">
+                  User ID
+                </TableHead>
+                <TableHead className="text-black font-semibold text-lg">
+                  Manager Name
+                </TableHead>
+                <TableHead className="text-black font-semibold text-lg">
+                  Email
+                </TableHead>
+                <TableHead className="text-black font-semibold text-lg">
+                  No KTP
+                </TableHead>
+                <TableHead className="text-black font-semibold text-lg">
+                  Address
+                </TableHead>
+                <TableHead className="text-black font-semibold text-lg">
+                  Action
+                </TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {data.map((item, index) => (
-                <TableRow key={index}>
-                  <TableCell>{index + 1}</TableCell>
-                  <TableCell>{item.id}</TableCell>
-                  <TableCell>{item.full_name}</TableCell>
-                  <TableCell>{item.email}</TableCell>
-                  <TableCell>{item.no_ktp}</TableCell>
-                  <TableCell>{item.address}</TableCell>
+                <TableRow key={index + (currentPage - 1) * 10}>
+                  <TableCell className="text-black text-sm">
+                    {(currentPage - 1) * 10 + index + 1}
+                  </TableCell>
+                  <TableCell className="text-black text-sm">
+                    {item.id}
+                  </TableCell>
+                  <TableCell className="text-black text-sm">
+                    {item.full_name}
+                  </TableCell>
+                  <TableCell className="text-black text-sm">
+                    {item.email}
+                  </TableCell>
+                  <TableCell className="text-black text-sm">
+                    {item.no_ktp}
+                  </TableCell>
+                  <TableCell className="text-black text-sm">
+                    {item.address}
+                  </TableCell>
                   <TableCell className="flex gap-4">
-                    <button>
+                    <button onClick={() => handleApproval(item.id)}>
                       <img src="/images/admin/ceklis.png" />
                     </button>
-                    <button>
+                    <button onClick={() => handleReject(item.id)}>
                       <img src="/images/admin/x.png" />
                     </button>
                   </TableCell>
@@ -109,36 +180,28 @@ function VerificationAccount() {
             <Pagination>
               <PaginationContent>
                 <PaginationItem>
-                  <PaginationPrevious href="#" />
+                  <PaginationPrevious
+                    onClick={() => handlePageChange(currentPage - 1)}
+                    isActive={currentPage !== 1}
+                  />
                 </PaginationItem>
+                {Array.from({ length: totalPages }, (_, index) => (
+                  <PaginationItem key={index}>
+                    <PaginationLink
+                      className={`bg-white ${
+                        currentPage === index + 1 ? "border border-black" : ""
+                      }`}
+                      onClick={() => handlePageChange(index + 1)}
+                    >
+                      {index + 1}
+                    </PaginationLink>
+                  </PaginationItem>
+                ))}
                 <PaginationItem>
-                  <PaginationLink
-                    className="bg-white border border-black"
-                    href="#"
-                  >
-                    1
-                  </PaginationLink>
-                </PaginationItem>
-                <PaginationItem>
-                  <PaginationLink className="bg-white" href="#">
-                    2
-                  </PaginationLink>
-                </PaginationItem>
-                <PaginationItem className="bg-white">
-                  <PaginationEllipsis />
-                </PaginationItem>
-                <PaginationItem>
-                  <PaginationLink className="bg-white" href="#">
-                    9
-                  </PaginationLink>
-                </PaginationItem>
-                <PaginationItem>
-                  <PaginationLink className="bg-white" href="#">
-                    10
-                  </PaginationLink>
-                </PaginationItem>
-                <PaginationItem>
-                  <PaginationNext href="#" />
+                  <PaginationNext
+                    onClick={() => handlePageChange(currentPage + 1)}
+                    isActive={currentPage !== totalPages}
+                  />
                 </PaginationItem>
               </PaginationContent>
             </Pagination>

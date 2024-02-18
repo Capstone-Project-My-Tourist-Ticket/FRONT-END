@@ -6,7 +6,6 @@ import { Link, useNavigate } from "react-router-dom"
 import {
   Pagination,
   PaginationContent,
-  PaginationEllipsis,
   PaginationItem,
   PaginationLink,
   PaginationNext,
@@ -37,11 +36,15 @@ interface City {
 
 function CityList() {
   const [data, setData] = useState<City[]>([])
+  const [currentPage, setCurrentPage] = useState<number>(1)
+  const [totalPages, setTotalPages] = useState<number>(1)
   const navigate = useNavigate()
 
   const fetchData = async () => {
     try {
-      const response = await fetch("https://benarja.my.id/citys")
+      const response = await fetch(
+        `https://benarja.my.id/citys?page=${currentPage}&limit=10`
+      )
 
       if (!response.ok) {
         throw new Error("Failed to fetch data")
@@ -50,6 +53,7 @@ function CityList() {
 
       if (jsonResponse.data && Array.isArray(jsonResponse.data)) {
         setData(jsonResponse.data)
+        setTotalPages(jsonResponse.total_page)
       } else {
         console.error("API response does not contain an array:", jsonResponse)
       }
@@ -59,7 +63,7 @@ function CityList() {
   }
   useEffect(() => {
     fetchData()
-  }, [])
+  }, [currentPage, totalPages])
 
   const deleteCity = async (id: number) => {
     try {
@@ -70,6 +74,17 @@ function CityList() {
     }
   }
 
+  const handlePageChange = (newPage: number) => {
+    if (newPage >= 1 && newPage <= totalPages) {
+      console.log("Changing to page:", newPage)
+      setCurrentPage(newPage)
+    }
+  }
+
+  useEffect(() => {
+    fetchData()
+  }, [currentPage])
+
   return (
     <div className="bg-[#dee2e6]">
       <header>
@@ -79,75 +94,74 @@ function CityList() {
         <AdminNavbar />
         <div className="w-full px-6 py-4 ">
           <div className="flex justify-between ">
-            <p className="text-2xl underline underline-offset-8">City List</p>
-            <button className="bg-black text-white w-24 rounded-lg py-2">
-              <Link to={"/add-city"}> Add</Link>
-            </button>
+            <p className="text-2xl underline underline-offset-8 font-bold">
+              City List
+            </p>
+            <Link to={"/add-city"}>
+              <button className="bg-black text-white w-24 rounded-lg py-2">
+                Add
+              </button>
+            </Link>
           </div>
           <div className="w-full flex flex-wrap gap-5 py-4">
             {data.map((item, index) => (
-              <Card
-                key={index}
-                style={{ backgroundImage: `url(${item.image})` }}
-                className="bg-cover w-[180px] h-[180px] relative my-4"
-              >
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <button className="absolute top-0 right-0 p-2">
-                      <img src="/images/admin/toggle.png" />
-                    </button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent className="w-56">
-                    <DropdownMenuLabel>Action</DropdownMenuLabel>
-                    <DropdownMenuSeparator />
-                    <DropdownMenuGroup>
-                      <DropdownMenuItem
-                        onClick={() => navigate(`/edit-city/${item.id}`)}
-                      >
-                        Edit
-                      </DropdownMenuItem>
-                      <DropdownMenuItem onClick={() => deleteCity(item.id)}>
-                        Delete
-                      </DropdownMenuItem>
-                    </DropdownMenuGroup>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              </Card>
+              <div key={index}>
+                <Card
+                  style={{ backgroundImage: `url(${item.image})` }}
+                  className="bg-cover w-[180px] h-[180px] relative my-4"
+                >
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <button className="absolute top-0 right-0 p-2">
+                        <img src="/images/admin/toggle.png" />
+                      </button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent className="w-56">
+                      <DropdownMenuLabel>Action</DropdownMenuLabel>
+                      <DropdownMenuSeparator />
+                      <DropdownMenuGroup>
+                        <DropdownMenuItem
+                          onClick={() => navigate(`/edit-city/${item.id}`)}
+                        >
+                          Edit
+                        </DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => deleteCity(item.id)}>
+                          Delete
+                        </DropdownMenuItem>
+                      </DropdownMenuGroup>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                </Card>
+                <div className="font-semibold text-lg">{item.city_name}</div>
+              </div>
             ))}
           </div>
-          <Pagination className="absolute bottom-0 left-1/2 transform -translate-x-1/2">
+          <Pagination>
             <PaginationContent>
               <PaginationItem>
-                <PaginationPrevious href="#" />
+                <PaginationPrevious
+                  onClick={() => handlePageChange(currentPage - 1)}
+                  isActive={currentPage !== 1}
+                />
               </PaginationItem>
+              {Array.from({ length: totalPages }, (_, index) => (
+                <PaginationItem key={index}>
+                  <PaginationLink
+                    className={`bg-white ${
+                      currentPage === index + 1 ? "border border-black" : ""
+                    }`}
+                    onClick={() => handlePageChange(index + 1)}
+                  >
+                    {index + 1}
+                  </PaginationLink>
+                </PaginationItem>
+              ))}
+
               <PaginationItem>
-                <PaginationLink
-                  className="bg-white border border-black"
-                  href="#"
-                >
-                  1
-                </PaginationLink>
-              </PaginationItem>
-              <PaginationItem>
-                <PaginationLink className="bg-white" href="#">
-                  2
-                </PaginationLink>
-              </PaginationItem>
-              <PaginationItem className="bg-white">
-                <PaginationEllipsis />
-              </PaginationItem>
-              <PaginationItem>
-                <PaginationLink className="bg-white" href="#">
-                  9
-                </PaginationLink>
-              </PaginationItem>
-              <PaginationItem>
-                <PaginationLink className="bg-white" href="#">
-                  10
-                </PaginationLink>
-              </PaginationItem>
-              <PaginationItem>
-                <PaginationNext href="#" />
+                <PaginationNext
+                  onClick={() => handlePageChange(currentPage + 1)}
+                  isActive={currentPage !== totalPages}
+                />
               </PaginationItem>
             </PaginationContent>
           </Pagination>

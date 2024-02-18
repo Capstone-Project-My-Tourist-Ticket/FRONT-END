@@ -15,6 +15,14 @@ import {
 import axiosWithConfig from "@/utils/apis/axiosWithConfig"
 import { useState, useEffect } from "react"
 import React from "react"
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination"
 
 interface Tour {
   id: number
@@ -43,10 +51,14 @@ interface Tour {
 
 function TourList() {
   const [data, setData] = useState<Tour[]>([])
+  const [currentPage, setCurrentPage] = useState<number>(1)
+  const [totalPages, setTotalPages] = useState<number>(1)
 
   const fetchData = async () => {
     try {
-      const response = await fetch("https://benarja.my.id/tours")
+      const response = await fetch(
+        `https://benarja.my.id/tours?page=${currentPage}&limit=8`
+      )
 
       if (!response.ok) {
         throw new Error("Failed to fetch data")
@@ -55,6 +67,7 @@ function TourList() {
 
       if (jsonResponse.data && Array.isArray(jsonResponse.data)) {
         setData(jsonResponse.data)
+        setTotalPages(jsonResponse.total_page)
       } else {
         console.error("API response does not contain an array:", jsonResponse)
       }
@@ -64,7 +77,7 @@ function TourList() {
   }
   useEffect(() => {
     fetchData()
-  }, [])
+  }, [currentPage, totalPages])
 
   const deleteTour = async (id: number) => {
     try {
@@ -74,6 +87,17 @@ function TourList() {
       console.error("Failed to delete city", error)
     }
   }
+
+  const handlePageChange = (newPage: number) => {
+    if (newPage >= 1 && newPage <= totalPages) {
+      console.log("Changing to page:", newPage)
+      setCurrentPage(newPage)
+    }
+  }
+
+  useEffect(() => {
+    fetchData()
+  }, [currentPage])
 
   return (
     <div className="bg-[#dee2e6]">
@@ -86,7 +110,7 @@ function TourList() {
           <div className="text-2xl underline underline-offset-8 font-bold">
             Tour List
           </div>
-          <div className="py-4 flex flex-wrap justify-between gap-4">
+          <div className="py-4 flex flex-wrap gap-x-14 gap-y-5">
             {data.map((item, index) => (
               <Card className="w-[200px] relative " key={index}>
                 <button className="absolute top-0 right-0 p-2 z-10">
@@ -109,13 +133,13 @@ function TourList() {
                   <img src="/images/admin/toggle.png" />
                 </button>
                 <Link to={`/admin-tour/${item.id}`}>
-                  <img className=" rounded-lg" src={item.image} />
-                  <div className="p-2">
+                  <img className="w-[250px] h-[130px]" src={item.image} />
+                  <div className="p-1">
                     <CardDescription className="flex justify-between ">
-                      <p className="pt-3 font-bold text-black text-sm">
+                      <p className="pt-3 pb-1 font-bold text-black text-sm">
                         {item.tour_name}
                       </p>
-                      <p className="text-red-600 pt-3 text-xs">
+                      <p className="text-red-600 pt-3 text-xs font-semibold">
                         Report {item.report_count}
                       </p>
                     </CardDescription>
@@ -131,6 +155,35 @@ function TourList() {
               </Card>
             ))}
           </div>
+          <Pagination className="pt-5">
+            <PaginationContent>
+              <PaginationItem>
+                <PaginationPrevious
+                  onClick={() => handlePageChange(currentPage - 1)}
+                  isActive={currentPage !== 1}
+                />
+              </PaginationItem>
+              {Array.from({ length: totalPages }, (_, index) => (
+                <PaginationItem key={index}>
+                  <PaginationLink
+                    className={`bg-white ${
+                      currentPage === index + 1 ? "border border-black" : ""
+                    }`}
+                    onClick={() => handlePageChange(index + 1)}
+                  >
+                    {index + 1}
+                  </PaginationLink>
+                </PaginationItem>
+              ))}
+
+              <PaginationItem>
+                <PaginationNext
+                  onClick={() => handlePageChange(currentPage + 1)}
+                  isActive={currentPage !== totalPages}
+                />
+              </PaginationItem>
+            </PaginationContent>
+          </Pagination>
         </div>
       </div>
       <Footer />
