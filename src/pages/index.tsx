@@ -1,14 +1,14 @@
-import Logo1 from "@/assets/logo1.png"
-import Logo from "@/assets/logo.png"
-import CarouselTour from "@/components/Banner"
-import CarouselHome from "@/components/CarouselHome"
-import Footer from "@/components/Footer"
-import { Card, CardContent } from "@/components/ui/card"
-import { useToast } from "@/components/ui/use-toast"
-import { useAuth } from "@/utils/contexts/auth"
-import { Search, UserRound } from "lucide-react"
-import { useEffect, useState } from "react"
-import { Link, useLocation, useNavigate } from "react-router-dom"
+import Logo1 from "@/assets/logo1.png";
+import Logo from "@/assets/logo.png";
+import CarouselTour from "@/components/Banner";
+import CarouselHome from "@/components/CarouselHome";
+import Footer from "@/components/Footer";
+import { Card, CardContent } from "@/components/ui/card";
+import { useToast } from "@/components/ui/use-toast";
+import { useAuth } from "@/utils/contexts/auth";
+import { Search, UserRound } from "lucide-react";
+import { useEffect, useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -16,80 +16,84 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { getCity, getSearch } from "@/utils/apis/user/api"
-import { GetCity, GetTours } from "@/utils/apis/user/type"
-import Pagination from "@/components/Pagination"
+} from "@/components/ui/dropdown-menu";
+import { getCity, getSearch } from "@/utils/apis/user/api";
+import { GetCity, GetTours } from "@/utils/apis/user/type";
+import Pagination from "@/components/Pagination";
 
 const Home = () => {
-  const [isScrolled, setIsScrolled] = useState(false)
-  const { user, token, changeToken } = useAuth()
-  const navigate = useNavigate()
-  const { toast } = useToast()
-  const [city, setCity] = useState<GetCity[]>([])
-const [pageNumber, setPageNumber] = useState(1);
-const [totalPage, setTotalPage] = useState<number>(0);
-  const location = useLocation()
-  const [searchTours, setSearchTours] = useState<GetTours[]>([])
-  const [searchQuery, setSearchQuery] = useState<string>("")
+  const [isScrolled, setIsScrolled] = useState(false);
+  const { user, token, changeToken } = useAuth();
+  const navigate = useNavigate();
+  const { toast } = useToast();
+  const [city, setCity] = useState<GetCity[]>([]);
+  const [pageNumber, setPageNumber] = useState(1);
+  const [totalPage, setTotalPage] = useState<number>(0);
+  const location = useLocation();
+  const [searchTours, setSearchTours] = useState<GetTours[]>([]);
+  const [searchQuery, setSearchQuery] = useState<string>("");
 
   const search = async (q: string) => {
     try {
       if (q.length > 0) {
-        const response = await getSearch(q)
-        console.log(response.data)
-        setSearchTours(response.data)
+        const response = await getSearch(q);
+        console.log(response.data);
+        setSearchTours(response.data);
       }
     } catch (error) {
-      setSearchTours([])
+      setSearchTours([]);
     }
-  }
+  };
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const query = e.target.value
-    setSearchQuery(query)
-    search(query)
-  }
+    const query = e.target.value;
+    setSearchQuery(query);
+    search(query);
+  };
 
-  const handlePageClick = (data :{ selected: number }) => {
+  const handlePageClick = (data: { selected: number }) => {
     setPageNumber(data.selected + 1);
   };
 
   const handleLogout = () => {
-    changeToken()
+    changeToken();
     toast({
       description: "Logout successfully",
-    })
-    navigate("/")
-  }
+    });
+    navigate("/");
+  };
 
   const fetchCity = async (pageNumber: number) => {
     try {
-      const result = await getCity(pageNumber)
-      setCity(result.data)
-      setTotalPage(result.total_page)
-      console.log(result.data)
+      const result = await getCity(pageNumber);
+      setCity(result.data);
+      setTotalPage(result.total_page);
+      console.log(result.data);
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
+  };
 
-  useEffect(
-    () => {
-      fetchCity(pageNumber)
-      const handleScroll = () => {
-        const scrollPosition = window.scrollY
-        setIsScrolled(scrollPosition > 400)
-      }
-      window.addEventListener("scroll", handleScroll)
-      return () => {
-        window.removeEventListener("scroll", handleScroll)
-      }
-    },
-    [pageNumber]
-  )
+  useEffect(() => {
+    fetchCity(pageNumber);
+    const handleScroll = () => {
+      const scrollPosition = window.scrollY;
+      setIsScrolled(scrollPosition > 400);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [pageNumber]);
 
-  console.log(searchQuery)
-  console.log(searchTours)
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter" && searchTours.length > 0) {
+      e.preventDefault();
+      const firstSearchResult = searchTours[0];
+      setSearchQuery("");
+      setSearchTours([]);
+      navigate(`/tour/${firstSearchResult.id}`);
+    }
+  };
 
   return (
     <div className="w-full min-h-screen flex flex-col">
@@ -132,14 +136,17 @@ const [totalPage, setTotalPage] = useState<number>(0);
         ) : (
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-            <div className={`cursor-pointer `}>
-              {user.image ? (
-                <img src={user.image} className="rounded-full w-12 h-12 cursor-pointer" />
-              ) : (
-                <UserRound className="text-white bg-slate-500 rounded-full w-10 h-10 cursor-pointer" />
-              )}
-            </div>
-          </DropdownMenuTrigger>
+              <div className={`cursor-pointer `}>
+                {user.image ? (
+                  <img
+                    src={user.image}
+                    className="rounded-full w-12 h-12 cursor-pointer"
+                  />
+                ) : (
+                  <UserRound className="text-white bg-slate-500 rounded-full w-10 h-10 cursor-pointer" />
+                )}
+              </div>
+            </DropdownMenuTrigger>
             <DropdownMenuContent className="mt-2">
               <DropdownMenuLabel>Hi {user.full_name}</DropdownMenuLabel>
               <DropdownMenuSeparator />
@@ -168,6 +175,7 @@ const [totalPage, setTotalPage] = useState<number>(0);
                 placeholder="I want to go..."
                 value={searchQuery}
                 onChange={handleSearch}
+                onKeyDown={handleKeyDown}
               />
               <Search className="text-red-500" />
               {searchQuery && searchTours.length > 0 && (
@@ -177,9 +185,9 @@ const [totalPage, setTotalPage] = useState<number>(0);
                       key={index}
                       className="py-1 px-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700"
                       onClick={() => {
-                        setSearchQuery("")
-                        setSearchTours([])
-                        navigate(`/detail/${item.id}`)
+                        setSearchQuery("");
+                        setSearchTours([]);
+                        navigate(`/tour/${item.id}`);
                       }}
                     >
                       <div className="flex gap-4 p-2">
@@ -232,15 +240,18 @@ const [totalPage, setTotalPage] = useState<number>(0);
                 </CardContent>
               </Card>
             ))}
-            
         </div>
         <div className="flex justify-center my-4">
-        <Pagination totalPage={totalPage} page={pageNumber} handlePageClick={handlePageClick}/>
+          <Pagination
+            totalPage={totalPage}
+            page={pageNumber}
+            handlePageClick={handlePageClick}
+          />
         </div>
       </div>
       <Footer />
     </div>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;

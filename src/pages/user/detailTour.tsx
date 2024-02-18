@@ -1,97 +1,94 @@
-import Layout from "@/components/Layout"
-import { Dot, Flag, MapPin, MinusCircle, PlusCircle } from "lucide-react"
+import Layout from "@/components/Layout";
+import { Dot, Flag, MapPin, MinusCircle, PlusCircle } from "lucide-react";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from "@/components/ui/accordion"
-import ReviewsComp from "@/components/Review"
-import Map from "@/components/Map"
+} from "@/components/ui/accordion";
+import ReviewsComp from "@/components/Review";
+import Map from "@/components/Map";
 import {
   getAllReview,
   getDetailTours,
   getPackages,
   reportTour,
-} from "@/utils/apis/user/api"
-import { useNavigate, useParams } from "react-router-dom"
-import { useEffect, useState } from "react"
-import { GetPackages, GetReview, GetTours } from "@/utils/apis/user/type"
-import { formattedAmount } from "@/utils/formattedAmount"
-import DatePicker from "react-datepicker"
-import "react-datepicker/dist/react-datepicker.css"
-import { addDays } from "date-fns"
-import { useToast } from "@/components/ui/use-toast"
+} from "@/utils/apis/user/api";
+import { useNavigate, useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { GetPackages, GetReview, GetTours } from "@/utils/apis/user/type";
+import { formattedAmount } from "@/utils/formattedAmount";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { addDays } from "date-fns";
+import { useToast } from "@/components/ui/use-toast";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import {
-  Dialog,
-  DialogContent,
-  DialogFooter,
-} from "@/components/ui/dialog"
-import { Button } from "@/components/ui/button"
-import { Label } from "@/components/ui/label"
-import { Textarea } from "@/components/ui/textarea"
-
+} from "@/components/ui/dropdown-menu";
+import { Dialog, DialogContent, DialogFooter } from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 
 interface Package {
-  package_name: string
-  price: number
-  id: number
+  package_name: string;
+  price: number;
+  id: number;
 }
 
 const DetailTour = () => {
-  const { id } = useParams()
-  const [tourDetail, setTourDetail] = useState<GetTours>()
-  const [review, setReview] = useState<GetReview>()
-  const [packages, setPackages] = useState<GetPackages[]>([])
-  const [editableCount, setEditableCount] = useState<string>("1")
-  const [posisi, setPosisi] = useState<{ lat: number; lng: number }>()
-  const navigate = useNavigate()
-  const { toast } = useToast()
+  const { id } = useParams();
+  const [tourDetail, setTourDetail] = useState<GetTours>();
+  const [review, setReview] = useState<GetReview>();
+  const [packages, setPackages] = useState<GetPackages[]>([]);
+  const [editableCount, setEditableCount] = useState<string>("");
+  const [posisi, setPosisi] = useState<{ lat: number; lng: number }>();
+  const navigate = useNavigate();
+  const { toast } = useToast();
 
-  const [selectedDate, setSelectedDate] = useState<Date | null>(null)
-  const minTomorrow = addDays(new Date(), 1)
-  const [activeIndex, setActiveIndex] = useState(null)
-  const [openReport, setOpenReport] = useState(false)
-  const [textReport, setTextReport] = useState("")
+  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+  const minTomorrow = addDays(new Date(), 1);
+  const [activeIndex, setActiveIndex] = useState(null);
+  const [openReport, setOpenReport] = useState(false);
+  const [textReport, setTextReport] = useState("1");
 
   const handleDateChange = (date: Date | null, index: any) => {
-    setSelectedDate(date)
-    setActiveIndex(index)
-  }
+    setSelectedDate(date);
+    setActiveIndex(index);
+  };
 
-  const currentDate: any = new Date()
+  const currentDate: any = new Date();
 
   const dates: Date[] = Array.from({ length: 8 }, (_, i) => {
-    const date = new Date(currentDate)
-    date.setDate(currentDate.getDate() + (i + 1))
-    return date
-  })
+    const date = new Date(currentDate);
+    date.setDate(currentDate.getDate() + (i + 1));
+    return date;
+  });
 
-  console.log(dates)
+  console.log(dates);
 
   const handleIncrement = () => {
-    setEditableCount((prevCount) => (parseInt(prevCount, 10) + 1).toString())
-  }
-
+    const incrementedValue = (parseInt(editableCount, 10) + 1).toString();
+    if (parseInt(incrementedValue, 10) <= 100) {
+      setEditableCount(incrementedValue);
+    }
+  };
   const handleDecrement = () => {
     setEditableCount((prevCount) => {
-      const newCount = parseInt(prevCount, 10) - 1
-      return newCount >= 1 ? newCount.toString() : "1"
-    })
-  }
+      const newCount = parseInt(prevCount, 10) - 1;
+      return newCount >= 1 ? newCount.toString() : "1";
+    });
+  };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const inputValue = e.target.value
-    if (/^[1-9]\d*$/.test(inputValue)) {
-      setEditableCount(inputValue)
+    const inputValue = e.target.value;
+    if (/^[1-9]\d*$/.test(inputValue) && parseInt(inputValue, 10) <= 100) {
+      setEditableCount(inputValue);
     }
-  }
+  };
 
   const handlePayment = (selectedPackage: Package) => {
     if (selectedDate !== null) {
@@ -102,66 +99,64 @@ const DetailTour = () => {
           count: editableCount,
           selectedPackage: selectedPackage,
         },
-      })
+      });
     }
     if (selectedDate === null) {
       toast({
         description: "silakan pilih tanggal booking",
         variant: "destructive",
-      })
+      });
     }
-  }
+  };
 
   useEffect(() => {
-    window.scrollTo(0, 0)
+    window.scrollTo(0, 0);
     if (id) {
-      fetchDetailTour()
+      fetchDetailTour();
     }
-    fetchAllReview()
-  }, [id])
+    fetchAllReview();
+  }, [id]);
 
   const fetchDetailTour = async () => {
     try {
-      const result = await getDetailTours(id as string)
-      setTourDetail(result.data)
-      setPosisi({ lat: result.data.latitude, lng: result.data.longitude })
-      console.log(result.data)
-      const resultPackages = await getPackages(`${result.data.id}`)
-      setPackages(resultPackages.data)
-      console.log(resultPackages.data)
+      const result = await getDetailTours(id as string);
+      setTourDetail(result.data);
+      setPosisi({ lat: result.data.latitude, lng: result.data.longitude });
+      console.log(result.data);
+      const resultPackages = await getPackages(`${result.data.id}`);
+      setPackages(resultPackages.data);
+      console.log(resultPackages.data);
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
+  };
 
   const fetchAllReview = async () => {
     try {
-      const result = await getAllReview(id as string)
-      setReview(result.data)
-      console.log(result.data)
+      const result = await getAllReview(id as string);
+      setReview(result.data);
+      console.log(result.data);
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
+  };
   const postReport = async (body: string) => {
-    console.log(body, "body report")
+    console.log(body, "body report");
     const payload = {
       text_report: body,
-    }
+    };
     try {
       const result = await reportTour(id as string, payload);
       toast({
         description: result!.message,
-      })
-      
+      });
     } catch (error) {
       toast({
         description: (error as Error).message,
         variant: "destructive",
       });
-      
     }
-  }
+  };
 
   return (
     <Layout>
@@ -177,9 +172,19 @@ const DetailTour = () => {
                 <Flag className="cursor-pointer" size={20} />
               </DropdownMenuTrigger>
               <DropdownMenuContent className="w-56 mr-16">
-                <DropdownMenuItem onClick={() => postReport('laporkan unsur penipuan')}>Laporkan unsur penipuan</DropdownMenuItem>
-                <DropdownMenuItem  onClick={() => postReport('laporkan unsur sara')}>Laporkan unsur sara</DropdownMenuItem>
-                <DropdownMenuItem onClick={() => setOpenReport(true)}>Alasan lainnya</DropdownMenuItem>
+                <DropdownMenuItem
+                  onClick={() => postReport("laporkan unsur penipuan")}
+                >
+                  Laporkan unsur penipuan
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                  onClick={() => postReport("laporkan unsur sara")}
+                >
+                  Laporkan unsur sara
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => setOpenReport(true)}>
+                  Alasan lainnya
+                </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
@@ -388,22 +393,30 @@ const DetailTour = () => {
         </div>
       </div>
       <Dialog open={openReport}>
-  <DialogContent>
+        <DialogContent>
           <div className="flex flex-col space-y-4">
-            <Label htmlFor="text_report">
-              Report
-            </Label>
-            <Textarea id="text_report" className="w-full" onChange={(e) => setTextReport(e.target.value)}/>
+            <Label htmlFor="text_report">Report</Label>
+            <Textarea
+              id="text_report"
+              className="w-full"
+              onChange={(e) => setTextReport(e.target.value)}
+            />
           </div>
-  <DialogFooter>
-          <Button type="submit" onClick={() => {postReport(textReport)
-          setOpenReport(false)}}>Submit</Button>
-        </DialogFooter>
-  </DialogContent>
-</Dialog>
-
+          <DialogFooter>
+            <Button
+              type="submit"
+              onClick={() => {
+                postReport(textReport);
+                setOpenReport(false);
+              }}
+            >
+              Submit
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </Layout>
-  )
-}
+  );
+};
 
-export default DetailTour
+export default DetailTour;

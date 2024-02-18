@@ -25,10 +25,20 @@ const Register = () => {
     register: registerPengelola,
     handleSubmit: handleSubmitPengelola,
     formState: { errors: errorsPengelola, isSubmitting: isSubmittingPengelola },
-  } = useForm<RegisterTypePengelola>({ resolver: zodResolver(registerSchemaPengelola) });
+  } = useForm<RegisterTypePengelola>({
+    resolver: zodResolver(registerSchemaPengelola),
+  });
 
   const handleRegister = async (body: RegisterType) => {
     try {
+      if (isNaN(Number(body.phone_number))) {
+        toast({
+          title: "Invalid Phone Number",
+          description: "Phone number should be a number",
+          variant: "destructive",
+        });
+        return;
+      }
       await userRegister(body);
       toast({
         description: "Register successfully",
@@ -44,6 +54,14 @@ const Register = () => {
   };
   const handleRegisterPengelola = async (body: RegisterTypePengelola) => {
     try {
+      if (isNaN(Number(body.phone_number))) {
+        toast({
+          title: "Invalid Phone Number",
+          description: "Phone number should be a number",
+          variant: "destructive",
+        });
+        return;
+      }
       await PengelolaRegister(body);
       toast({
         description: "Register successfully",
@@ -90,7 +108,9 @@ const Register = () => {
                     aria-disabled={isSubmittingCustomer}
                   />
                   {errorsCustomer.full_name && (
-                    <p className="text-sm text-red-500 -mt-3">{errorsCustomer.full_name.message}</p>
+                    <p className="text-sm text-red-500 -mt-3">
+                      {errorsCustomer.full_name.message}
+                    </p>
                   )}
                   <input
                     type="text"
@@ -101,7 +121,9 @@ const Register = () => {
                     aria-disabled={isSubmittingCustomer}
                   />
                   {errorsCustomer.full_name && (
-                    <p className="text-sm text-red-500 -mt-3">{errorsCustomer.full_name.message}</p>
+                    <p className="text-sm text-red-500 -mt-3">
+                      {errorsCustomer.full_name.message}
+                    </p>
                   )}
                   <input
                     type="email"
@@ -112,7 +134,9 @@ const Register = () => {
                     aria-disabled={isSubmittingCustomer}
                   />
                   {errorsCustomer.full_name && (
-                    <p className="text-sm text-red-500 -mt-3">{errorsCustomer.full_name.message}</p>
+                    <p className="text-sm text-red-500 -mt-3">
+                      {errorsCustomer.full_name.message}
+                    </p>
                   )}
                   <input
                     type="password"
@@ -123,7 +147,9 @@ const Register = () => {
                     aria-disabled={isSubmittingCustomer}
                   />
                   {errorsCustomer.full_name && (
-                    <p className="text-sm text-red-500 -mt-3">{errorsCustomer.full_name.message}</p>
+                    <p className="text-sm text-red-500 -mt-3">
+                      {errorsCustomer.full_name.message}
+                    </p>
                   )}
                 </CardContent>
                 <CardFooter>
@@ -182,7 +208,9 @@ const Register = () => {
                     aria-disabled={isSubmittingPengelola}
                   />
                   {errorsPengelola.email && (
-                    <p className="text-sm text-red-500 -mt-3">{errorsPengelola.email.message}</p>
+                    <p className="text-sm text-red-500 -mt-3">
+                      {errorsPengelola.email.message}
+                    </p>
                   )}
                   <input
                     type="text"
@@ -193,7 +221,9 @@ const Register = () => {
                     aria-disabled={isSubmittingPengelola}
                   />
                   {errorsPengelola.address && (
-                    <p className="text-sm text-red-500 -mt-3">{errorsPengelola.address.message}</p>
+                    <p className="text-sm text-red-500 -mt-3">
+                      {errorsPengelola.address.message}
+                    </p>
                   )}
                   <input
                     type="text"
@@ -204,7 +234,9 @@ const Register = () => {
                     aria-disabled={isSubmittingPengelola}
                   />
                   {errorsPengelola.no_ktp && (
-                    <p className="text-sm text-red-500 -mt-3">{errorsPengelola.no_ktp.message}</p>
+                    <p className="text-sm text-red-500 -mt-3">
+                      {errorsPengelola.no_ktp.message}
+                    </p>
                   )}
                   <input
                     type="password"
@@ -215,7 +247,9 @@ const Register = () => {
                     aria-disabled={isSubmittingPengelola}
                   />
                   {errorsPengelola.password && (
-                    <p className="text-sm text-red-500 -mt-3">{errorsPengelola.password.message}</p>
+                    <p className="text-sm text-red-500 -mt-3">
+                      {errorsPengelola.password.message}
+                    </p>
                   )}
                 </CardContent>
                 <CardFooter>
