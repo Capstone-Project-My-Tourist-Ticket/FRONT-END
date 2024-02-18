@@ -1,8 +1,8 @@
-import AdminHeader from "@/components/Admin/AdminHeader"
-import AdminNavbar from "@/components/Admin/AdminNavbar"
-import Footer from "@/components/Footer"
-import { Card, CardDescription } from "@/components/ui/card"
-import { Link } from "react-router-dom"
+import AdminHeader from "@/components/Admin/AdminHeader";
+import AdminNavbar from "@/components/Admin/AdminNavbar";
+import Footer from "@/components/Footer";
+import { Card, CardDescription } from "@/components/ui/card";
+import { Link } from "react-router-dom";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -11,10 +11,9 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import axiosWithConfig from "@/utils/apis/axiosWithConfig"
-import { useState, useEffect } from "react"
-import React from "react"
+} from "@/components/ui/dropdown-menu";
+import axiosWithConfig from "@/utils/apis/axiosWithConfig";
+import { useState, useEffect } from "react";
 import {
   Pagination,
   PaginationContent,
@@ -22,82 +21,82 @@ import {
   PaginationLink,
   PaginationNext,
   PaginationPrevious,
-} from "@/components/ui/pagination"
+} from "@/components/ui/pagination";
 
 interface Tour {
-  id: number
-  city_id: number
-  user_id: number
-  tour_name: string
-  description: string
-  image: string
-  thumbnail: string
-  address: string
-  latitude: number
-  longitude: number
-  created_at: string
-  updated_at: string
+  id: number;
+  city_id: number;
+  user_id: number;
+  tour_name: string;
+  description: string;
+  image: string;
+  thumbnail: string;
+  address: string;
+  latitude: number;
+  longitude: number;
+  created_at: string;
+  updated_at: string;
   city: {
-    id: number
-    city_name: string
-    image: string
-    thumbnail: string
-  }
+    id: number;
+    city_name: string;
+    image: string;
+    thumbnail: string;
+  };
   package: {
-    price: number
-  }
-  report_count: number
+    price: number;
+  };
+  report_count: number;
 }
 
 function TourList() {
-  const [data, setData] = useState<Tour[]>([])
-  const [currentPage, setCurrentPage] = useState<number>(1)
-  const [totalPages, setTotalPages] = useState<number>(1)
+  const [data, setData] = useState<Tour[]>([]);
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [totalPages, setTotalPages] = useState<number>(1);
 
   const fetchData = async () => {
     try {
       const response = await fetch(
         `https://benarja.my.id/tours?page=${currentPage}&limit=8`
-      )
+      );
 
       if (!response.ok) {
-        throw new Error("Failed to fetch data")
+        throw new Error("Failed to fetch data");
       }
-      const jsonResponse = await response.json()
+      const jsonResponse = await response.json();
 
       if (jsonResponse.data && Array.isArray(jsonResponse.data)) {
-        setData(jsonResponse.data)
-        setTotalPages(jsonResponse.total_page)
+        setData(jsonResponse.data);
+        setTotalPages(jsonResponse.total_page);
       } else {
-        console.error("API response does not contain an array:", jsonResponse)
+        console.error("API response does not contain an array:", jsonResponse);
       }
     } catch (error) {
-      console.error("Error fetching data:", error)
+      console.error("Error fetching data:", error);
     }
-  }
+  };
   useEffect(() => {
-    fetchData()
-  }, [currentPage, totalPages])
+    fetchData();
+  }, [currentPage, totalPages]);
 
   const deleteTour = async (id: number) => {
     try {
-      await axiosWithConfig.delete(`https://benarja.my.id/tours/${id}`)
-      fetchData()
+      await axiosWithConfig.delete(`https://benarja.my.id/tours/${id}`);
+      fetchData();
     } catch (error) {
-      console.error("Failed to delete city", error)
+      console.error("Failed to delete city", error);
     }
-  }
+  };
 
   const handlePageChange = (newPage: number) => {
     if (newPage >= 1 && newPage <= totalPages) {
-      console.log("Changing to page:", newPage)
-      setCurrentPage(newPage)
+      console.log("Changing to page:", newPage);
+      setCurrentPage(newPage);
     }
-  }
+  };
 
   useEffect(() => {
-    fetchData()
-  }, [currentPage])
+    fetchData();
+  }, [currentPage]);
 
   return (
     <div className="bg-[#dee2e6]">
@@ -188,7 +187,7 @@ function TourList() {
       </div>
       <Footer />
     </div>
-  )
+  );
 }
 
-export default TourList
+export default TourList;
