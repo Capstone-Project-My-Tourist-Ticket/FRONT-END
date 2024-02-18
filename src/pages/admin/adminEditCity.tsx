@@ -45,12 +45,9 @@ function EditCity() {
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault()
-
-    // Your existing form submission logic, adjusted for PUT/PATCH request
     const formData = new FormData()
     formData.append("city_name", post?.city_name)
     formData.append("description", post?.description)
-    // Append files if changed
     if (typeof post?.image === "object" && post?.image !== "") {
       formData.append("image", post?.image)
     }
@@ -121,12 +118,12 @@ function EditCity() {
       <form onSubmit={handleSubmit} className="flex">
         <AdminNavbar />
         <div className=" px-6 pb-6">
-          <p className="text-2xl underline underline-offset-8 py-6 font-bold">
+          <p className="text-[20px] underline underline-offset-8 py-6 font-bold">
             Edit City
           </p>
           <Input
             placeholder="City Name"
-            className="border border-black"
+            className="border border-black text-[12px]"
             onChange={handleInput}
             name="city_name"
             value={post.city_name}
@@ -137,7 +134,8 @@ function EditCity() {
             onChange={handleInput}
             name="description"
             value={post.description}
-          />{" "}
+            className="text-[12px]"
+          />
           <br />
           <Card
             style={{ backgroundImage: `url(${post?.thumbnail})` }}
@@ -147,10 +145,10 @@ function EditCity() {
             <Input
               placeholder="Thumbnail"
               type="file"
-              className="border border-black"
+              className="border border-black text-[12px]"
               onChange={handleInput}
               name="thumbnail"
-            />{" "}
+            />
             <br />
           </div>
           <Card
@@ -161,15 +159,15 @@ function EditCity() {
             <Input
               placeholder="Image"
               type="file"
-              className="border border-black"
+              className="border border-black text-[12px]"
               onChange={handleInput}
               name="image"
-            />{" "}
+            />
             <br />
           </div>
           <button
             type="submit"
-            className="bg-black hover:bg-gray-700 active:bg-gray-800 rounded-lg text-white w-[500px] p-2"
+            className="bg-black hover:bg-gray-700 active:bg-gray-800 rounded-lg text-white w-[500px] p-2 text-[15px]"
           >
             Edit
           </button>

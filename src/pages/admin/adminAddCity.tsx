@@ -95,44 +95,47 @@ function AddCity() {
       <div className="flex">
         <AdminNavbar />
         <div className=" px-6 py-4">
-          <p className="text-2xl underline underline-offset-8 py-6 font-bold">
+          <p className="text-[20px] underline underline-offset-8 py-6 font-bold">
             Add City
           </p>
           <form onSubmit={handleSubmit}>
             <Input
               placeholder="City Name"
-              className="border border-black"
+              className="border border-black text-[12px]"
               onChange={handleInput}
               name="city_name"
-            />{" "}
+            />
             <br />
             <Textarea
               placeholder="Description"
               onChange={handleInput}
               name="description"
-            />{" "}
+              className="text-[12px]"
+            />
             <br />
             <div className="grid w-full max-w-sm items-center gap-1.5">
+              <div className="text-[12px] font-medium">Thumbnail</div>
               <Input
                 placeholder="Thumbnail"
                 type="file"
-                className="border border-black"
+                className="border border-black text-[12px]"
                 onChange={handleInput}
                 name="thumbnail"
               />
               <br />
             </div>
             <div className="grid w-full max-w-sm items-center gap-1.5">
+              <div className="text-[12px] font-medium">Image</div>
               <Input
                 placeholder="Image"
                 type="file"
-                className="border border-black"
+                className="border border-black text-[12px]"
                 onChange={handleInput}
                 name="image"
               />
               <br />
             </div>
-            <button className="bg-black hover:bg-gray-700 active:bg-gray-800 rounded-lg text-white w-[500px] p-2">
+            <button className="bg-black hover:bg-gray-700 active:bg-gray-800 rounded-lg text-white w-[500px] p-2 text-[15px]">
               Add
             </button>
           </form>

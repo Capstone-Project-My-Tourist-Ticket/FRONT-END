@@ -93,7 +93,7 @@ function CityList() {
         <AdminNavbar />
         <div className="w-full px-6 py-4 ">
           <div className="flex justify-between ">
-            <p className="text-2xl underline underline-offset-8 font-bold">
+            <p className="text-[20px] underline underline-offset-8 font-bold">
               City List
             </p>
             <Link to={"/add-city"}>
@@ -104,34 +104,37 @@ function CityList() {
           </div>
           <div className="w-full flex flex-wrap gap-5 py-4">
             {data.map((item, index) => (
-              <div key={index}>
-                <Card
-                  style={{ backgroundImage: `url(${item.image})` }}
-                  className="bg-cover w-[180px] h-[180px] relative my-4"
-                >
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <button className="absolute top-0 right-0 p-2">
-                        <img src="/images/admin/toggle.png" />
-                      </button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent className="w-56">
-                      <DropdownMenuLabel>Action</DropdownMenuLabel>
-                      <DropdownMenuSeparator />
-                      <DropdownMenuGroup>
-                        <DropdownMenuItem
-                          onClick={() => navigate(`/edit-city/${item.id}`)}
-                        >
-                          Edit
-                        </DropdownMenuItem>
-                        <DropdownMenuItem onClick={() => deleteCity(item.id)}>
-                          Delete
-                        </DropdownMenuItem>
-                      </DropdownMenuGroup>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                </Card>
-                <div className="font-semibold text-lg">{item.city_name}</div>
+              <div key={index} className="relative">
+                <Link to={`/admindetailcity/${item.id}`}>
+                  <Card
+                    style={{ backgroundImage: `url(${item.image})` }}
+                    className="bg-cover w-[180px] h-[180px] relative my-4"
+                  ></Card>
+                  <div className="font-semibold text-[15px]">
+                    {item.city_name}
+                  </div>
+                </Link>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <button className="absolute top-4 right-0 p-1">
+                      <img src="/images/admin/toggle.png" />
+                    </button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent className="w-56">
+                    <DropdownMenuLabel>Action</DropdownMenuLabel>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuGroup>
+                      <DropdownMenuItem
+                        onClick={() => navigate(`/edit-city/${item.id}`)}
+                      >
+                        Edit
+                      </DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => deleteCity(item.id)}>
+                        Delete
+                      </DropdownMenuItem>
+                    </DropdownMenuGroup>
+                  </DropdownMenuContent>
+                </DropdownMenu>
               </div>
             ))}
           </div>

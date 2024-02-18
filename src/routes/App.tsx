@@ -25,6 +25,7 @@ import AddCity from "@/pages/admin/adminAddCity";
 import AddVoucher from "@/pages/admin/adminAddVoucher";
 import EditCity from "@/pages/admin/adminEditCity";
 import AdminDetailTour from "@/pages/admin/adminDetailDashboard";
+import AdminDetailCity from "@/pages/admin/adminDetailCity";
 
 const App = () => {
   return (
@@ -60,6 +61,7 @@ const App = () => {
           <Route path="/edit-tour/:id" element={<EditTour />} />
           <Route path="/addpackage" element={<AddPackage />} />
           <Route path="/detailmytour/:id" element={<DetailMyTour />} />
+          <Route path="/admindetailcity/:id" element={<AdminDetailCity />} />
         </Route>
       </Routes>
     </BrowserRouter>

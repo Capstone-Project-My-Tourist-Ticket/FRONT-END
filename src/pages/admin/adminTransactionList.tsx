@@ -99,32 +99,32 @@ function TransactionList() {
       <AdminHeader />
       <div className="flex">
         <AdminNavbar />
-        <div className="px-6 py-4 w-full">
-          <div className="pb-7 text-2xl underline underline-offset-8 w-10/12 font-bold">
+        <div className="py-6 px-10 w-full">
+          <div className="pb-7 text-[20px] underline underline-offset-8 w-10/12 font-bold">
             Transaction List
           </div>
           <Table className="bg-white rounded-lg">
             <TableHeader>
               <TableRow>
-                <TableHead className="text-black text-lg font-semibold">
+                <TableHead className="text-black text-[15px] font-semibold">
                   No.
                 </TableHead>
-                <TableHead className="text-black text-lg font-semibold">
+                <TableHead className="text-black text-[15px] font-semibold">
                   Booking ID
                 </TableHead>
-                <TableHead className="text-black text-lg font-semibold">
+                <TableHead className="text-black text-[15px] font-semibold">
                   Name
                 </TableHead>
-                <TableHead className="text-black text-lg font-semibold">
+                <TableHead className="text-black text-[15px] font-semibold">
                   Tour
                 </TableHead>
-                <TableHead className="text-black text-lg font-semibold">
+                <TableHead className="text-black text-[15px] font-semibold">
                   Tour Package
                 </TableHead>
-                <TableHead className="text-black text-lg font-semibold">
+                <TableHead className="text-black text-[15px] font-semibold">
                   Price
                 </TableHead>
-                <TableHead className="text-black text-lg font-semibold">
+                <TableHead className="text-black text-[15px] font-semibold">
                   Status
                 </TableHead>
               </TableRow>
@@ -132,25 +132,25 @@ function TransactionList() {
             <TableBody>
               {data.map((item, index) => (
                 <TableRow key={index + (currentPage - 1) * 10}>
-                  <TableCell className="text-black text-sm">
+                  <TableCell className="text-black text-[12px]">
                     {(currentPage - 1) * 10 + index + 1}
                   </TableCell>
-                  <TableCell className="text-black text-sm">
+                  <TableCell className="text-black text-[12px]">
                     {item.booking_id}
                   </TableCell>
-                  <TableCell className="text-black text-sm">
+                  <TableCell className="text-black text-[12px]">
                     {item.full_name}
                   </TableCell>
-                  <TableCell className="text-black text-sm">
+                  <TableCell className="text-black text-[12px]">
                     {item.tour.tour_name}
                   </TableCell>
-                  <TableCell className="text-black text-sm">
+                  <TableCell className="text-black text-[12px]">
                     {item.package.package_name}
                   </TableCell>
-                  <TableCell className="text-black text-sm">
+                  <TableCell className="text-black text-[12px]">
                     {item.gross_amount}
                   </TableCell>
-                  <TableCell className="text-black text-sm">
+                  <TableCell className="text-black text-[12px]">
                     {item.status}
                   </TableCell>
                 </TableRow>

@@ -12,6 +12,7 @@ import {
 import { Card, CardDescription } from "@/components/ui/card"
 import { useEffect, useState } from "react"
 import axiosWithConfig from "@/utils/apis/axiosWithConfig"
+import { Link } from "react-router-dom"
 
 interface Tour {
   tour_name: string
@@ -78,33 +79,33 @@ function Dashboard() {
               {dashboardData && (
                 <div className="flex m-6 justify-between">
                   <div className="bg-white shadow-xl p-4 rounded-lg text-center">
-                    <p className="text-[20px] font-bold">
+                    <p className="text-[18px] font-bold">
                       Total Customer <br />
-                      <span className="text-[18px] font-semibold">
+                      <span className="text-[15px] font-semibold">
                         {dashboardData.total_costumer}
                       </span>
                     </p>
                   </div>
                   <div className="bg-white shadow-xl p-4 rounded-lg text-center">
-                    <p className="text-[20px] font-bold">
+                    <p className="text-[18px] font-bold">
                       Total Manager <br />
-                      <span className="text-[18px] font-semibold">
+                      <span className="text-[15px] font-semibold">
                         {dashboardData.total_pengelola}
                       </span>
                     </p>
                   </div>
                   <div className="bg-white shadow-xl p-4 rounded-lg text-center">
-                    <p className="text-[20px] font-bold">
+                    <p className="text-[18px] font-bold">
                       Total Transaction <br />
-                      <span className="text-[18px] font-semibold">
+                      <span className="text-[15px] font-semibold">
                         {dashboardData.total_transaction}
                       </span>
                     </p>
                   </div>
                   <div className="bg-white shadow-xl p-4 rounded-lg text-center">
-                    <p className="text-[20px] font-bold">
+                    <p className="text-[18px] font-bold">
                       Total Tour <br />
-                      <span className="text-[18px] font-semibold">
+                      <span className="text-[15px] font-semibold">
                         {dashboardData.total_tour}
                       </span>
                     </p>
@@ -112,21 +113,21 @@ function Dashboard() {
                 </div>
               )}
 
-              <div className="bg-white mt-10 mx-6 shadow-xl rounded-lg">
-                <p className="p-4 text-lg font-bold">Recent Transaction</p>
+              <div className="bg-white mt-10 mx-6 shadow-xl rounded-lg px-10 py-6">
+                <p className="text-[20px] font-bold py-2">Recent Transaction</p>
                 <Table>
                   <TableHeader>
                     <TableRow>
-                      <TableHead className="text-black font-semibold text-base">
+                      <TableHead className="text-black font-semibold text-[15px]">
                         No.
                       </TableHead>
-                      <TableHead className="text-black font-semibold text-base">
+                      <TableHead className="text-black font-semibold text-[15px]">
                         Booking Code
                       </TableHead>
-                      <TableHead className="text-black font-semibold text-base">
+                      <TableHead className="text-black font-semibold text-[15px]">
                         Tour Name
                       </TableHead>
-                      <TableHead className="text-black font-semibold text-base">
+                      <TableHead className="text-black font-semibold text-[15px]">
                         Price
                       </TableHead>
                     </TableRow>
@@ -134,16 +135,16 @@ function Dashboard() {
                   <TableBody>
                     {recent.map((booking, index) => (
                       <TableRow key={index}>
-                        <TableCell className="text-black">
+                        <TableCell className="text-black text-[12px]">
                           {index + 1}
                         </TableCell>
-                        <TableCell className="text-black">
+                        <TableCell className="text-black text-[12px]">
                           {booking.booking_id}
                         </TableCell>
-                        <TableCell className="text-black">
+                        <TableCell className="text-black text-[12px]">
                           {booking.tour?.tour_name}
                         </TableCell>
-                        <TableCell className="text-black">
+                        <TableCell className="text-black text-[12px]">
                           {booking.gross_amount}
                         </TableCell>
                       </TableRow>
@@ -151,31 +152,36 @@ function Dashboard() {
                   </TableBody>
                 </Table>
               </div>
-              <p className="pt-4 px-6 font-bold text-2xl">Top 5 Tour</p>
+              <p className="pt-4 px-6 font-bold text-[20px]">Top 5 Tour</p>
+
               <div className="px-6 pt-4 flex gap-5 pb-6">
                 {topTours.map((tour) => (
-                  <Card className="w-[180px]" key={tour.id}>
-                    <img
-                      className="w-[250px] h-[130px]"
-                      src={tour.image}
-                      alt={tour.tour_name}
-                    />
-                    <div className="px-1 py-2">
-                      <CardDescription className="flex justify-between">
-                        <p className="font-bold pb-2 text-black text-lg">
-                          {tour.tour_name}
-                        </p>
-                      </CardDescription>
-                      <CardDescription className="flex">
-                        <img
-                          className="w-[15px] ps-1"
-                          src="/images/admin/pin.png"
-                          alt="Location Pin"
-                        />
-                        <p className="ms-2">{tour.city?.city_name}</p>
-                      </CardDescription>
-                    </div>
-                  </Card>
+                  <Link to={`/admin-tour/${tour.id}`}>
+                    <Card className="w-[180px]" key={tour.id}>
+                      <img
+                        className="w-[250px] h-[130px]"
+                        src={tour.image}
+                        alt={tour.tour_name}
+                      />
+                      <div className="p-2">
+                        <CardDescription className="flex justify-between">
+                          <p className="font-bold pb-2 text-black text-[14px]">
+                            {tour.tour_name}
+                          </p>
+                        </CardDescription>
+                        <CardDescription className="flex items-center">
+                          <img
+                            className="w-[15px] h-[15px] ps-1"
+                            src="/images/admin/pin.png"
+                            alt="Location Pin"
+                          />
+                          <p className="ms-2 text-[12px]">
+                            {tour.city?.city_name}
+                          </p>
+                        </CardDescription>
+                      </div>
+                    </Card>
+                  </Link>
                 ))}
               </div>
             </div>
