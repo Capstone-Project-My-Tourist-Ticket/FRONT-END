@@ -1,10 +1,18 @@
 import { ResponsePayloadPagination } from "@/utils/types/api";
 import axiosWithConfig from "../axiosWithConfig";
-import { IAddPackage, IAddTourType, IEditTourType, IMyTour, Transaction } from "./type";
+import {
+  IAddPackage,
+  IAddTourType,
+  IEditTourType,
+  IMyTour,
+  Transaction,
+} from "./type";
 
 export const getTransaction = async (pageNumber: number) => {
   try {
-    const response = await axiosWithConfig.get(`/bookings/pengelola?page=${pageNumber}`);
+    const response = await axiosWithConfig.get(
+      `/bookings/pengelola?page=${pageNumber}`
+    );
     return response.data as ResponsePayloadPagination<Transaction[]>;
   } catch (error: any) {
     throw new Error(error.message);
@@ -13,7 +21,9 @@ export const getTransaction = async (pageNumber: number) => {
 
 export const getMyTour = async (pageNumber: number) => {
   try {
-    const response = await axiosWithConfig.get(`/tours/pengelola?page=${pageNumber}`);
+    const response = await axiosWithConfig.get(
+      `/tours/pengelola?page=${pageNumber}`
+    );
     return response.data as ResponsePayloadPagination<IMyTour[]>;
   } catch (error: any) {
     throw new Error(error.message);
@@ -42,7 +52,7 @@ export const createTour = async (body: IAddTourType) => {
   try {
     const response = await axiosWithConfig.post("/tours", formData);
     return response.data as { message: string };
-  } catch (error: any) {  
+  } catch (error: any) {
     throw new Error(error.message);
   }
 };
@@ -56,39 +66,39 @@ export const createPackage = async (body: IAddPackage, tour_id: number) => {
   }
 };
 
-export const updateTour = async (body: IEditTourType, id : string) => {
-    const formData: any = new FormData()
+export const updateTour = async (body: IEditTourType, id: string) => {
+  const formData: any = new FormData();
 
-    formData.append("tour_name", body.tour_name);
-    formData.append("description", body.description);
-    formData.append("image", body.image[0]);
-    formData.append("thumbnail", body.thumbnail[0]);
-    formData.append("address", body.address);
-    formData.append("latitude", body.latitude);
-    formData.append("longitude", body.latitude);
-    formData.append("city_id", body.city_id);
-    try {
-      const response = await axiosWithConfig.put(`/tours/${id}`, formData);
-      return response.data as { message: string };
-    } catch (error: any) {
-      throw new Error(error.response.data.message);
-    }
+  formData.append("tour_name", body.tour_name);
+  formData.append("description", body.description);
+  formData.append("image", body.image[0]);
+  formData.append("thumbnail", body.thumbnail[0]);
+  formData.append("address", body.address);
+  formData.append("latitude", body.latitude);
+  formData.append("longitude", body.longitude);
+  formData.append("city_id", body.city_id);
+  try {
+    const response = await axiosWithConfig.put(`/tours/${id}`, formData);
+    return response.data as { message: string };
+  } catch (error: any) {
+    throw new Error(error.response.data.message);
   }
+};
 
-  export const deleteTour = async (id: number) => {
-    try {
-      const response = await axiosWithConfig.delete(`tours/${id}`);
-      return response.data as { message: string };
-    } catch (error: any) {
-      throw new Error(error.message);
-    }
-  };
+export const deleteTour = async (id: number) => {
+  try {
+    const response = await axiosWithConfig.delete(`tours/${id}`);
+    return response.data as { message: string };
+  } catch (error: any) {
+    throw new Error(error.message);
+  }
+};
 
-  export const deletePackage = async (id: number) => {
-    try {
-      const response = await axiosWithConfig.delete(`packages/${id}`);
-      return response.data as { message: string };
-    } catch (error: any) {
-      throw new Error (error.response.data.message);
-    }
-  };
+export const deletePackage = async (id: number) => {
+  try {
+    const response = await axiosWithConfig.delete(`packages/${id}`);
+    return response.data as { message: string };
+  } catch (error: any) {
+    throw new Error(error.response.data.message);
+  }
+};
