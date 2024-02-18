@@ -11,7 +11,6 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination"
-import React from "react"
 import Footer from "@/components/Footer"
 import {
   DropdownMenu,

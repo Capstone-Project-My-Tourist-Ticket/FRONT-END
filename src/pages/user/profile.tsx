@@ -30,7 +30,10 @@ const Profile = () => {
     },
   });
 
+
+
   useEffect(() => {
+    window.scrollTo(0, 0)
     setValue("full_name", user?.full_name as string);
     setValue("phone_number", user?.phone_number as string);
     setValue("email", user?.email as string);

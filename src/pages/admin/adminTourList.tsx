@@ -145,7 +145,7 @@ function TourList() {
                     </CardDescription>
                     <CardDescription className="flex py-2">
                       <img
-                        className="w-[15px] ps-1"
+                        className="w-[20px] ps-1"
                         src="/images/admin/pin.png"
                       />
                       <p className="ms-2 text-sm">{item.city.city_name}</p>

@@ -2,7 +2,6 @@ import AdminHeader from "@/components/Admin/AdminHeader"
 import { useState } from "react"
 import { Star } from "lucide-react"
 import { Link } from "react-router-dom"
-import React from "react"
 import AdminNavbar from "@/components/Admin/AdminNavbar"
 import Footer from "@/components/Footer"
 

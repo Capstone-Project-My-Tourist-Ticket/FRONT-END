@@ -16,15 +16,15 @@ import EditTour from "@/pages/pengelola/editTour"
 import AddPackage from "@/pages/pengelola/addPackage"
 import ProtectedRoute from "@/routes/ProtectedRoute"
 import DetailMyTour from "@/pages/pengelola/detailMyTour"
-import CityList from "@/pages/Admin/adminCityList"
-import Dashboard from "@/pages/Admin/adminDashboard"
-import TourList from "@/pages/Admin/adminTourList"
-import TransactionList from "@/pages/Admin/adminTransactionList"
-import VerificationAccount from "@/pages/Admin/adminVerification"
-import AddCity from "@/pages/Admin/adminAddCity"
-import EditCity from "@/pages/Admin/adminEditCity"
-import AddVoucher from "@/pages/Admin/adminAddVoucher"
-import AdminDetailTour from "@/pages/Admin/adminDetailDashboard"
+import CityList from "@/pages/admin/adminCityList"
+import Dashboard from "@/pages/admin/adminDashboard"
+import TourList from "@/pages/admin/adminTourList"
+import TransactionList from "@/pages/admin/adminTransactionList"
+import VerificationAccount from "@/pages/admin/adminVerification"
+import AddCity from "@/pages/admin/adminAddCity"
+import EditCity from "@/pages/admin/adminEditCity"
+import AddVoucher from "@/pages/admin/adminAddVoucher"
+import AdminDetailTour from "@/pages/admin/adminDetailDashboard"
 
 const App = () => {
   return (
@@ -57,7 +57,7 @@ const App = () => {
           <Route path="/transaction-history" element={<TransactionHistory />} />
           <Route path="/mytour" element={<MyTour />} />
           <Route path="/addtour" element={<AddTour />} />
-          <Route path="/edittour" element={<EditTour />} />
+          <Route path="/edit-tour/:id" element={<EditTour />} />
           <Route path="/addpackage" element={<AddPackage />} />
           <Route path="/detailmytour/:id" element={<DetailMyTour />} />
         </Route>

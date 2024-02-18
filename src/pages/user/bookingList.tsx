@@ -1,7 +1,7 @@
 import DialogReview from "@/components/DialogReview";
 import Layout from "@/components/Layout";
 import SideBarUser from "@/components/SideBarUser";
-import { getBookingCustomer } from "@/utils/apis/user/api";
+import { cancelBooking, getBookingCustomer } from "@/utils/apis/user/api";
 import { ResBooking } from "@/utils/apis/user/type";
 import { formattedAmount } from "@/utils/formattedAmount";
 import { useEffect, useState } from "react";
@@ -23,10 +23,24 @@ const BookingList = () => {
       console.log(error);
     }
   };
+
+  const handleCancelOrder = async (id: string) => {
+    const isConfirmed = window.confirm("Are you sure you want to cancel?");
+    try {
+      if(isConfirmed){
+      const result = await cancelBooking(id);
+      fetchBooking();
+      alert(result.message);
+    }} catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     window.scrollTo(0, 0);
     fetchBooking();
   }, []);
+
 
   return (
     <Layout>
@@ -58,15 +72,36 @@ const BookingList = () => {
                             <DialogReview booking_id={item.id} />
                           </>
                         )}
+                        {item.status === "pending" && (
+                         <button
+                        onClick={() => handleCancelOrder(item.id)}
+                        className="bg-red-500 text-white font-semibold w-32 py-2 rounded-lg mt-3 border border-red-300 shadow-inner shadow-white"
+                        >
+                        Cancel
+                        </button>
+                        )}
                       </div>
                     </div>
-                    <Link to={item.status !== "settlement" ? `/payresult/${item.id}` : ``}>
+                    <Link to={item.status === "pending" ? `/payresult/${item.id}` : ``}>
                       <button
+                        disabled = {item.status !== "pending"}
                         className={`${
-                          item.status === "settlement" ? "bg-green-600" : "bg-blue-500"
-                        } text-white font-semibold w-full py-2 rounded-lg mt-3 `}
+                          item.status === "settlement"
+                          ? "bg-green-600"
+                          : item.status === "cancelled"
+                          ? "bg-red-200"
+                          : item.status === "expire"
+                          ? "bg-gray-300"
+                          : "bg-blue-500"
+                          } text-white font-semibold w-full py-2 rounded-lg mt-3`}
                       >
-                        {item.status === "settlement" ? "Paid" : "Continue to Payment"}
+                        {item.status === "settlement"
+                        ? "Paid"
+                        : item.status === "cancelled"
+                        ? "Cancelled"
+                        : item.status === "expire"
+                        ? "Expired"
+                        : "Continue to Payment"}
                       </button>
                     </Link>
                   </div>

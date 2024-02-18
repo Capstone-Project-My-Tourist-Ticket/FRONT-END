@@ -90,7 +90,7 @@ const Login = () => {
           </div>
           <div className="flex flex-col w-full gap-y-3">
             <button
-              className="w-full md:w-1/3 py-3 rounded-md bg-red-500 text-white "
+              className="w-full py-3 rounded-md bg-red-500 text-white "
               disabled={isSubmitting}
               aria-disabled={isSubmitting}
             >

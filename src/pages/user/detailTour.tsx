@@ -12,6 +12,7 @@ import {
   getAllReview,
   getDetailTours,
   getPackages,
+  reportTour,
 } from "@/utils/apis/user/api"
 import { useNavigate, useParams } from "react-router-dom"
 import { useEffect, useState } from "react"
@@ -27,6 +28,15 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import {
+  Dialog,
+  DialogContent,
+  DialogFooter,
+} from "@/components/ui/dialog"
+import { Button } from "@/components/ui/button"
+import { Label } from "@/components/ui/label"
+import { Textarea } from "@/components/ui/textarea"
+
 
 interface Package {
   package_name: string
@@ -47,6 +57,8 @@ const DetailTour = () => {
   const [selectedDate, setSelectedDate] = useState<Date | null>(null)
   const minTomorrow = addDays(new Date(), 1)
   const [activeIndex, setActiveIndex] = useState(null)
+  const [openReport, setOpenReport] = useState(false)
+  const [textReport, setTextReport] = useState("")
 
   const handleDateChange = (date: Date | null, index: any) => {
     setSelectedDate(date)
@@ -103,12 +115,12 @@ const DetailTour = () => {
   useEffect(() => {
     window.scrollTo(0, 0)
     if (id) {
-      fetchDetailCity()
+      fetchDetailTour()
     }
     fetchAllReview()
   }, [id])
 
-  const fetchDetailCity = async () => {
+  const fetchDetailTour = async () => {
     try {
       const result = await getDetailTours(id as string)
       setTourDetail(result.data)
@@ -131,6 +143,25 @@ const DetailTour = () => {
       console.log(error)
     }
   }
+  const postReport = async (body: string) => {
+    console.log(body, "body report")
+    const payload = {
+      text_report: body,
+    }
+    try {
+      const result = await reportTour(id as string, payload);
+      toast({
+        description: result!.message,
+      })
+      
+    } catch (error) {
+      toast({
+        description: (error as Error).message,
+        variant: "destructive",
+      });
+      
+    }
+  }
 
   return (
     <Layout>
@@ -146,9 +177,9 @@ const DetailTour = () => {
                 <Flag className="cursor-pointer" size={20} />
               </DropdownMenuTrigger>
               <DropdownMenuContent className="w-56 mr-16">
-                <DropdownMenuItem>Laporkan unsur penipuan</DropdownMenuItem>
-                <DropdownMenuItem>Laporkan unsur sara</DropdownMenuItem>
-                <DropdownMenuItem>Alasan lainnya</DropdownMenuItem>
+                <DropdownMenuItem onClick={() => postReport('laporkan unsur penipuan')}>Laporkan unsur penipuan</DropdownMenuItem>
+                <DropdownMenuItem  onClick={() => postReport('laporkan unsur sara')}>Laporkan unsur sara</DropdownMenuItem>
+                <DropdownMenuItem onClick={() => setOpenReport(true)}>Alasan lainnya</DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
@@ -356,6 +387,21 @@ const DetailTour = () => {
           </div>
         </div>
       </div>
+      <Dialog open={openReport}>
+  <DialogContent>
+          <div className="flex flex-col space-y-4">
+            <Label htmlFor="text_report">
+              Report
+            </Label>
+            <Textarea id="text_report" className="w-full" onChange={(e) => setTextReport(e.target.value)}/>
+          </div>
+  <DialogFooter>
+          <Button type="submit" onClick={() => {postReport(textReport)
+          setOpenReport(false)}}>Submit</Button>
+        </DialogFooter>
+  </DialogContent>
+</Dialog>
+
     </Layout>
   )
 }

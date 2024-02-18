@@ -36,7 +36,7 @@ export const getTours = async (pageNumber: number, limit: number) => {
 
 export const getCity = async (pageNumber: number) => {
   try {
-    const response = await axiosWithConfig.get(`/citys?page=${pageNumber}`)
+    const response = await axiosWithConfig.get(`/citys?page=${pageNumber}&limit=8`)
     return response.data as ResponsePayloadPagination<GetCity[]>
   } catch (error: any) {
     throw new Error(error.message)
@@ -175,5 +175,27 @@ export const getAllReview = async (id: string) => {
     return response.data as ResponsePayloadPagination<GetReview>
   } catch (error: any) {
     throw new Error(error.message)
+  }
+}
+
+export const cancelBooking = async (id: string) => {
+  try {
+    const response = await axiosWithConfig.put(`/bookings/${id}`)
+    return response.data as { message: string }
+  } catch (error: any) {
+    throw new Error(error.message)
+  }
+}
+
+export const reportTour = async (id: string, body: {
+  text_report: string
+}) => {
+  try {
+    const response = await axiosWithConfig.post(`/tours/${id}/report`, body)
+    if (response.status === 200) {
+      return response.data as { message: string };
+    }
+  } catch (error: any) {
+    throw Error(error.response.data.message);
   }
 }

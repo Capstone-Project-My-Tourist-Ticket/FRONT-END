@@ -132,7 +132,7 @@ function AddCity() {
               />
               <br />
             </div>
-            <button className="bg-black rounded-lg text-white w-[500px] p-2">
+            <button className="bg-black hover:bg-gray-700 active:bg-gray-800 rounded-lg text-white w-[500px] p-2">
               Add
             </button>
           </form>
