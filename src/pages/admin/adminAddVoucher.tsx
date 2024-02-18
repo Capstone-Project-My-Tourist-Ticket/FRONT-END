@@ -16,6 +16,12 @@ function AddVoucher() {
     expired_voucher: "",
   })
 
+  const [popup, setPopup] = useState({
+    visible: false,
+    success: false,
+    message: "",
+  })
+
   const handleInput = (
     event:
       | React.ChangeEvent<HTMLInputElement>
@@ -47,8 +53,30 @@ function AddVoucher() {
           "Content-Type": "multipart/form-data",
         },
       })
-      .then((response) => console.log(response))
-      .catch((error) => console.log(error))
+      .then((response) => {
+        setPopup({
+          visible: true,
+          success: true,
+          message: "Voucher added successfully!",
+        })
+        console.log(response)
+      })
+      .catch((error) => {
+        setPopup({
+          visible: true,
+          success: false,
+          message: "Voucher already exist!",
+        })
+        console.log(error)
+      })
+  }
+
+  const closePopup = () => {
+    setPopup({
+      visible: false,
+      success: false,
+      message: "",
+    })
   }
 
   return (
@@ -99,11 +127,28 @@ function AddVoucher() {
               onChange={handleInput}
             />
             <div className="py-10">
-              <button className="bg-black rounded-lg text-white w-[500px] p-2">
+              <button className="bg-black hover:bg-gray-700 active:bg-gray-800 rounded-lg text-white w-[500px] p-2">
                 Add
               </button>
             </div>
           </form>
+          {popup.visible && (
+            <div
+              className={`fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 text-lg font-semibold ${
+                popup.success ? "text-green-500" : "text-red-500"
+              }`}
+            >
+              <div className="bg-white p-4 rounded-lg relative">
+                <button
+                  onClick={closePopup}
+                  className="text-black font-normal absolute top-2 right-0"
+                >
+                  <img className="w-[35px]" src="/images/admin/close.png" />
+                </button>
+                <p className="py-4 px-3">{popup.message}</p>
+              </div>
+            </div>
+          )}
         </div>
       </div>
       <Footer />

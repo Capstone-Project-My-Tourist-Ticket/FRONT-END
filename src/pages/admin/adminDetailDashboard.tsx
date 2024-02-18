@@ -1,280 +1,325 @@
-import AdminHeader from "@/components/Admin/AdminHeader"
-import Map from "@/components/Map"
-import { MapPin } from "lucide-react"
+import { Dot, MapPin } from "lucide-react"
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion"
-import { useEffect, useState } from "react"
-import Footer from "@/components/Footer"
-import axiosWithConfig from "@/utils/apis/axiosWithConfig"
-import { AxiosResponse } from "axios"
+import ReviewsComp from "@/components/Review"
+import Map from "@/components/Map"
+import {
+  getAllReview,
+  getDetailTours,
+  getPackages,
+} from "@/utils/apis/user/api"
 import { useParams } from "react-router-dom"
+import { useEffect, useState } from "react"
+import { GetPackages, GetReview, GetTours } from "@/utils/apis/user/type"
+import { formattedAmount } from "@/utils/formattedAmount"
 
-interface Detail {
-  id: number
-  city_id: number
-  user_id: number
-  tour_name: string
-  description: string
-  image: string
-  thumbnail: string
-  address: string
-  latitude: number
-  longitude: number
-  created_at: string
-  updated_at: string
-  city: {
-    id: number
-    city_name: string
-    image: string
-    thumbnail: string
-  }
-}
+import "react-datepicker/dist/react-datepicker.css"
 
-interface Packages {
-  id: number
-  tour_id: number
-  package_name: string
-  price: number
-  jumlah_tiket: number
-}
+import AdminHeader from "@/components/Admin/AdminHeader"
+import axiosWithConfig from "@/utils/apis/axiosWithConfig"
+import { Card, CardContent } from "@/components/ui/card"
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel"
 
-interface Review {
-  user_id: number
-  text_review: string
-  start_rate: number
-  created_at: string
-  user: {
-    full_name: string
-    image: string
-  }
-}
-
-interface ProductReviews {
-  total_review: number
-  average_review: number
-  reviews: Review[]
-}
-
-/* interface Report {
+interface Report {
   id: number
   tour_id: number
   user_id: number
   text_report: string
   created_at: string
   updated_at: string
-} */
+  user: {
+    full_name: string
+    image: string
+  }
+}
 
-function AdminDetailTour() {
+const AdminDetailTour = () => {
   const { id } = useParams()
-  const [data, setData] = useState<Detail[]>([])
-  const [paket, setPaket] = useState<Packages[]>([])
-  const [productreview, setProductReview] = useState<ProductReviews[]>([])
+  const [tourDetail, setTourDetail] = useState<GetTours>()
+  const [reportData, setReportData] = useState<Report[]>([])
+  const [review, setReview] = useState<GetReview>()
+  const [packages, setPackages] = useState<GetPackages[]>([])
+  const [editableCount] = useState<string>("1")
+  const [posisi, setPosisi] = useState<{ lat: number; lng: number }>()
+  const currentDate: any = new Date()
+  const dates: Date[] = Array.from({ length: 8 }, (_, i) => {
+    const date = new Date(currentDate)
+    date.setDate(currentDate.getDate() + (i + 1))
+    return date
+  })
+
+  console.log(dates)
 
   useEffect(() => {
-    axiosWithConfig
-      .get(`https://benarja.my.id/tours/${id}`)
-      .then((response: AxiosResponse<{ data: Detail }>) => {
-        setData([response.data.data])
-      })
-      .catch((error) => console.error("Error fetching data:", error))
+    window.scrollTo(0, 0)
+    if (id) {
+      fetchDetailCity()
+    }
+    fetchAllReview()
   }, [id])
 
-  useEffect(() => {
-    axiosWithConfig
-      .get(`https://benarja.my.id/packages/${id}`)
-      .then((response: AxiosResponse<{ data: Packages }>) => {
-        setPaket([response.data.data])
-      })
-      .catch((error) => console.error("Error fetching data:", error))
-  }, [id])
+  const fetchDetailCity = async () => {
+    try {
+      const result = await getDetailTours(id as string)
+      setTourDetail(result.data)
+      setPosisi({ lat: result.data.latitude, lng: result.data.longitude })
+      console.log(result.data)
+      const resultPackages = await getPackages(`${result.data.id}`)
+      setPackages(resultPackages.data)
+      console.log(resultPackages.data)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const fetchAllReview = async () => {
+    try {
+      const result = await getAllReview(id as string)
+      setReview(result.data)
+      console.log(result.data)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const fetchData = async () => {
+    try {
+      const response = await axiosWithConfig.get(
+        `https://benarja.my.id/tours/${id}/report`
+      )
+
+      if (response.status !== 200) {
+        throw new Error("Failed to fetch data")
+      }
+
+      const jsonResponse = response.data
+
+      if (jsonResponse.data && Array.isArray(jsonResponse.data)) {
+        setReportData(jsonResponse.data)
+      } else {
+        console.error("API response does not contain an array:", jsonResponse)
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error)
+    }
+  }
 
   useEffect(() => {
-    axiosWithConfig
-      .get(`https://benarja.my.id/tours/${id}/reviews`)
-      .then((response: AxiosResponse<{ data: ProductReviews }>) => {
-        setProductReview([response.data.data])
-      })
-      .catch((error) => console.error("Error fetching data:", error))
+    fetchData()
   }, [id])
 
   return (
-    <div>
-      <header>
-        <AdminHeader />
-      </header>
-      {data.map((item, index) => (
-        <div key={index}>
-          <img className="w-screen h-[500px]" src={item.thumbnail} />
-          <div className="bg-white p-5 rounded-tl-[80px] rounded-tr-[80px] -translate-y-10"></div>
-          <div className="px-6 rounded-lg">
-            <h1 className="font-bold text-2xl">{item.tour_name}</h1>
-            <div className="flex gap-2 items-center pt-2">
-              <MapPin size={15} />
-              <p className="text-slate-500">{item.address}</p>
-            </div>
-            <p className="py-6">{item.description}</p>
+    <>
+      <AdminHeader />
+      <div className="w-full min-h-screen flex flex-col">
+        <img src={tourDetail?.image} className="w-full h-[500px]" />
+        <div className="bg-white p-5 rounded-tl-[80px] rounded-tr-[80px] -translate-y-10"></div>
+
+        <div className="container flex flex-col space-y-4">
+          <div className="itemscenter flex justify-between">
+            <p className="text-2xl font-semibold">{tourDetail?.tour_name}</p>
           </div>
-        </div>
-      ))}
-      {paket.map((packageItem, index) => (
-        <div key={index}>
-          <div className="px-6 rounded-lg">
-            <h1 className="font-bold text-2xl">Package</h1>
-            <div className="flex justify-between py-4">
-              <div className="bg-[#dee2e6] rounded-lg w-[700px]">
-                <div className="bg-white m-6 p-4 rounded-lg drop-shadow-lg">
-                  <h1 className="font-bold text-black pb-4">
-                    {packageItem.package_name}
-                  </h1>
-                  <p className="text-red-600">{packageItem.price}</p>
-                </div>
-              </div>
-              <div className="bg-[#dee2e6] rounded-lg w-[500px] h-full">
-                <div className="bg-white m-6 p-4 rounded-lg drop-shadow-lg ">
-                  <p className="font-bold text-blue-500 pb-4">
-                    Paket ber3 - Reguler Ice Age
-                  </p>
-                  <p className="font-bold">Paket ber5 - Reguler Ice Age</p>
-                </div>
-              </div>
-            </div>
+          <div className="flex gap-2 items-center">
+            <MapPin size={15} />
+            <p className="text-slate-500">{tourDetail?.address}</p>
           </div>
+          <p>{tourDetail?.description}</p>
         </div>
-      ))}
-      <div className="px-6 rounded-lg">
-        <hr className="border border-black" />
-        <p className="font-bold ">Reviews</p>
-        {productreview.map((nilai, index) => (
-          <div key={index}>
-            <div className="flex items-center pb-6">
-              <p className="font-bold text-2xl">{nilai.average_review}</p>
-              <p>/5.0 From {nilai.total_review} Review</p>
-            </div>
-            <div className="flex justify-between w-[700px] pb-6">
-              <div className="bg-white rounded-lg p-4 drop-shadow-xl">
-                <div className=" w-[250px]">
-                  <div className="flex items-center">
-                    <p className="font-bold text-xl">{nilai.average_review}</p>
-                    <p>/5.0</p>
-                  </div>
-                  {nilai.reviews.map((review) => (
-                    <div key={review.user_id}>
-                      <p>{review.created_at}</p>
-                      {review.user && (
-                        <>
-                          <p className="font-bold">{review.user.full_name}</p>
-                          <p>{review.text_review}</p>
-                        </>
-                      )}
-                    </div>
+        <div className="flex flex-col space-y-8 container">
+          <p className="text-2xl font-semibold mt-8">Packages</p>
+          <div className="flex w-1/2">
+            {packages.length > 0 ? (
+              <div className="flex flex-col space-y-3 w-full bg-[#F4F7FE] p-10 rounded-xl">
+                {packages &&
+                  packages.map((item, index) => (
+                    <Accordion
+                      key={index}
+                      type="single"
+                      collapsible
+                      className="w-full bg-white shadow-lg p-5 rounded-lg"
+                    >
+                      <AccordionItem value="item-1" className="border-b-0">
+                        <AccordionTrigger className="text-xl">
+                          {item.package_name}
+                        </AccordionTrigger>
+                        <AccordionContent>
+                          <div className="flex flex-col space-y-5">
+                            <p className=" font-semibold">Includes :</p>
+                            <div className="flex flex-col pb-5">
+                              {item &&
+                                item.benefits.map((services, index) => (
+                                  <div
+                                    className="flex items-center"
+                                    key={index}
+                                  >
+                                    <Dot />
+                                    <span className="text-lg font-semibold">
+                                      {services.benefit
+                                        .charAt(0)
+                                        .toUpperCase() +
+                                        services.benefit.slice(1)}
+                                    </span>
+                                  </div>
+                                ))}
+                            </div>
+                            <div className="flex items-center justify-between">
+                              <div>
+                                <p>Price</p>
+                                <p className="text-xl text-red-500 font-bold">
+                                  {formattedAmount(
+                                    Number(editableCount) * item.price
+                                  )}
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                        </AccordionContent>
+                      </AccordionItem>
+                    </Accordion>
                   ))}
-                </div>
               </div>
-            </div>
+            ) : (
+              <p className="text-left">No packages available</p>
+            )}
           </div>
-        ))}
+          <div className="w-full border-t-2 space-y-4 border-b-2">
+            <p className="text-xl font-semibold mt-4">Reviews</p>
+            {review && review.total_review > 0 ? (
+              <p className="text-2xl font-semibold">
+                {review.average_review}{" "}
+                <span className="text-slate-500 text-sm">
+                  /5.0 From {review.total_review} Reviews
+                </span>
+              </p>
+            ) : (
+              <p>No reviews yet</p>
+            )}
+            {review && review.total_review > 0 ? (
+              <ReviewsComp data={review?.reviews!} />
+            ) : null}
 
-        <h1 className="font-bold py-2">Reports</h1>
-        <div className="flex justify-between w-[700px] pb-6">
-          <div className=" bg-white rounded-lg  p-4  drop-shadow-xl">
-            <div className="flex justify-between w-[250px]">
-              <p className="font-semibold">Arja Cihuy</p>
-              <p className="items-center">31 Dec 2023</p>
+            <p className="text-xl font-semibold mt-4">Report</p>
+            <div className="flex flex-wrap gap-3">
+              {reportData.length > 0 ? (
+                <Carousel
+                  opts={{
+                    align: "start",
+                    loop: true,
+                  }}
+                  className="w-full"
+                >
+                  <CarouselContent>
+                    {reportData.map((lapor) => (
+                      <CarouselItem className="basis-1/4" key={lapor.id}>
+                        <Card className="mb-8 w-[293px]">
+                          <CardContent className="p-1 border-2 rounded-lg shadow-lg">
+                            <div className="flex-col p-2 space-y-1">
+                              <div className="flex items-center justify-between">
+                                <p className="font-semibold text-lg">
+                                  {lapor.user.full_name}
+                                </p>
+                                <div className="flex justify-between">
+                                  <p>{lapor.created_at}</p>
+                                </div>
+                              </div>
+                              <p className=" text-slate-500">
+                                {lapor.text_report}
+                              </p>
+                            </div>
+                          </CardContent>
+                        </Card>
+                      </CarouselItem>
+                    ))}
+                  </CarouselContent>
+                  <CarouselPrevious />
+                  <CarouselNext />
+                </Carousel>
+              ) : (
+                <p>No reports yet</p>
+              )}
             </div>
-            <p>Tempatnya Keren</p>
-          </div>
-          <div className=" bg-white rounded-lg  p-4  drop-shadow-xl">
-            <div className="flex justify-between w-[250px]">
-              <p className="font-semibold">Arja Cihuy</p>
-              <p className="items-center">31 Dec 2023</p>
-            </div>
-            <p>Tempatnya Keren</p>
-          </div>
-        </div>
-        <hr className="border border-black" />
-        {data.map((item, index) => (
-          <div key={index}>
-            <div className="pb-6">
-              <h1 className="font-bold py-4">Location</h1>
-              <Map
-                draggable={false}
-                posisi={{ lat: item.latitude, lng: item.longitude }}
-              />
-            </div>
-          </div>
-        ))}
 
-        <hr className="border border-black" />
-        <div className="flex flex-col space-y-3 pb-6">
-          <p className="font-semibold text-lg border-t-2 pt-4">More Info</p>
-          <Accordion
-            type="single"
-            collapsible
-            className="w-2/4 bg-white shadow-lg p-5 rounded-lg"
-          >
-            <AccordionItem value="item-1" className="border-b-0">
-              <AccordionTrigger className="font-semibold text-lg">
-                Penukaran Tiket
-              </AccordionTrigger>
-              <AccordionContent>
-                <ul className="list-disc pl-5">
-                  <li>Sebelum membeli tiket, perlu reservasi</li>
-                  <li>Reservasi dapat dilakukan hingga 90 hari sebelum</li>
-                  <li>
-                    kunjungan. E-tiket tidak perlu dicetak. Cukup tunjukkan
-                    e-tiket dari smartphone
-                  </li>
-                  <li>
-                    kamu saat penukaran atau di pintu masuk. Mohon sesuaikan
-                    kecerahan layarmu.
-                  </li>
-                </ul>
-              </AccordionContent>
-            </AccordionItem>
-          </Accordion>
-          <Accordion
-            type="single"
-            collapsible
-            className="w-2/4 bg-white shadow-lg p-5 rounded-lg"
-          >
-            <AccordionItem value="item-1" className="border-b-0">
-              <AccordionTrigger className="font-semibold text-lg">
-                Syarat & Ketentuan
-              </AccordionTrigger>
-              <AccordionContent>
-                <h2 className="font-semibold  mt-6 mb-4">General</h2>
-                <ul className="list-disc pl-5">
-                  <li>Harga sudah termasuk pajak.</li>
-                  <li>
-                    Tiket yang sudah dibeli tidak dapat dikembalikan
-                    (non-refundable).
-                  </li>
-                  <li>
-                    Tiket yang sudah dibeli tidak dapat dijadwalkan ulang.
-                  </li>
-                  <li>Pembeli wajib mengisi data diri pribadi saat memesan.</li>
-                  <li>
-                    Penjualan tiket sewaktu-waktu dapat dihentikan atau dimulai
-                    oleh tiket.com sesuai dengan kebijakan dari penyelenggara
-                    atau tiket.com.
-                  </li>
-                </ul>
-                <h2 className="font-semibold  mt-6 mb-4">E-Ticket</h2>
-                <ul className="list-disc pl-5">
-                  <li>E-tiket tidak dapat diuangkan.</li>
-                  <li>E-tiket tidak dapat dipindahtangankan.</li>
-                </ul>
-              </AccordionContent>
-            </AccordionItem>
-          </Accordion>
+            <div className="flex flex-col space-y-5">
+              <p className="font-semibold text-lg border-t-2 pt-4">Location</p>
+              {tourDetail && (
+                <Map posisi={posisi} draggable={false} width={1340} />
+              )}
+            </div>
+
+            <div className="flex flex-col space-y-3 pb-6">
+              <p className="font-semibold text-lg border-t-2 pt-4">More Info</p>
+              <Accordion
+                type="single"
+                collapsible
+                className="w-2/4 bg-white shadow-lg p-5 rounded-lg"
+              >
+                <AccordionItem value="item-1" className="">
+                  <AccordionTrigger className="font-semibold text-lg">
+                    Penukaran Tiket
+                  </AccordionTrigger>
+                  <AccordionContent>
+                    <ul className="list-disc pl-5">
+                      <li>Sebelum membeli tiket, perlu reservasi</li>
+                      <li>Reservasi dapat dilakukan hingga 90 hari sebelum</li>
+                      <li>
+                        kunjungan. E-tiket tidak perlu dicetak. Cukup tunjukkan
+                        e-tiket dari smartphone
+                      </li>
+                      <li>
+                        kamu saat penukaran atau di pintu masuk. Mohon sesuaikan
+                        kecerahan layarmu.
+                      </li>
+                    </ul>
+                  </AccordionContent>
+                </AccordionItem>
+                <AccordionItem value="item-2" className="">
+                  <AccordionTrigger className="font-semibold text-lg">
+                    Syarat & Ketentuan
+                  </AccordionTrigger>
+                  <AccordionContent>
+                    <h2 className="font-semibold  mt-6 mb-4">General</h2>
+                    <ul className="list-disc pl-5">
+                      <li>Harga sudah termasuk pajak.</li>
+                      <li>
+                        Tiket yang sudah dibeli tidak dapat dikembalikan
+                        (non-refundable).
+                      </li>
+                      <li>
+                        Tiket yang sudah dibeli tidak dapat dijadwalkan ulang.
+                      </li>
+                      <li>
+                        Pembeli wajib mengisi data diri pribadi saat memesan.
+                      </li>
+                      <li>
+                        Penjualan tiket sewaktu-waktu dapat dihentikan atau
+                        dimulai oleh tiket.com sesuai dengan kebijakan dari
+                        penyelenggara atau tiket.com.
+                      </li>
+                    </ul>
+                    <h2 className="font-semibold  mt-6 mb-4">E-Ticket</h2>
+                    <ul className="list-disc pl-5">
+                      <li>E-tiket tidak dapat diuangkan.</li>
+                      <li>E-tiket tidak dapat dipindahtangankan.</li>
+                    </ul>
+                  </AccordionContent>
+                </AccordionItem>
+              </Accordion>
+            </div>
+          </div>
         </div>
       </div>
-      <Footer />
-    </div>
+    </>
   )
 }
+
 export default AdminDetailTour

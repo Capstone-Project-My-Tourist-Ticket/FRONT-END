@@ -18,6 +18,12 @@ function EditCity() {
     thumbnail: "",
   })
 
+  const [popup, setPopup] = useState({
+    visible: false,
+    success: false,
+    message: "",
+  })
+
   const handleInput = (
     event:
       | React.ChangeEvent<HTMLInputElement>
@@ -58,8 +64,30 @@ function EditCity() {
           "Content-Type": "multipart/form-data",
         },
       })
-      .then((response) => console.log(response))
-      .catch((error) => console.log(error))
+      .then((response) => {
+        setPopup({
+          visible: true,
+          success: true,
+          message: "City edited successfully!",
+        })
+        console.log(response)
+      })
+      .catch((error) => {
+        setPopup({
+          visible: true,
+          success: false,
+          message: "Failed to edit city!",
+        })
+        console.log(error)
+      })
+  }
+
+  const closePopup = () => {
+    setPopup({
+      visible: false,
+      success: false,
+      message: "",
+    })
   }
 
   useEffect(() => {
@@ -92,7 +120,7 @@ function EditCity() {
 
       <form onSubmit={handleSubmit} className="flex">
         <AdminNavbar />
-        <div className=" px-6 py-4">
+        <div className=" px-6 pb-6">
           <p className="text-2xl underline underline-offset-8 py-6 font-bold">
             Edit City
           </p>
@@ -141,12 +169,29 @@ function EditCity() {
           </div>
           <button
             type="submit"
-            className="bg-black rounded-lg text-white w-[500px] p-2"
+            className="bg-black hover:bg-gray-700 active:bg-gray-800 rounded-lg text-white w-[500px] p-2"
           >
             Edit
           </button>
         </div>
       </form>
+      {popup.visible && (
+        <div
+          className={`fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 text-lg font-semibold ${
+            popup.success ? "text-green-500" : "text-red-500"
+          }`}
+        >
+          <div className="bg-white p-4 rounded-lg relative">
+            <button
+              onClick={closePopup}
+              className="text-black font-normal absolute top-2 right-0"
+            >
+              <img className="w-[35px]" src="/images/admin/close.png" />
+            </button>
+            <p className="py-4 px-3">{popup.message}</p>
+          </div>
+        </div>
+      )}
       <Footer />
     </div>
   )

@@ -80,7 +80,7 @@ function Dashboard() {
                   <div className="bg-white shadow-xl p-4 rounded-lg text-center">
                     <p className="text-[20px] font-bold">
                       Total Customer <br />
-                      <span className="text-[18px] font-medium">
+                      <span className="text-[18px] font-semibold">
                         {dashboardData.total_costumer}
                       </span>
                     </p>
@@ -88,7 +88,7 @@ function Dashboard() {
                   <div className="bg-white shadow-xl p-4 rounded-lg text-center">
                     <p className="text-[20px] font-bold">
                       Total Manager <br />
-                      <span className="text-[18px] font-medium">
+                      <span className="text-[18px] font-semibold">
                         {dashboardData.total_pengelola}
                       </span>
                     </p>
@@ -96,7 +96,7 @@ function Dashboard() {
                   <div className="bg-white shadow-xl p-4 rounded-lg text-center">
                     <p className="text-[20px] font-bold">
                       Total Transaction <br />
-                      <span className="text-[18px] font-medium">
+                      <span className="text-[18px] font-semibold">
                         {dashboardData.total_transaction}
                       </span>
                     </p>
@@ -104,7 +104,7 @@ function Dashboard() {
                   <div className="bg-white shadow-xl p-4 rounded-lg text-center">
                     <p className="text-[20px] font-bold">
                       Total Tour <br />
-                      <span className="text-[18px] font-medium">
+                      <span className="text-[18px] font-semibold">
                         {dashboardData.total_tour}
                       </span>
                     </p>
@@ -113,40 +113,56 @@ function Dashboard() {
               )}
 
               <div className="bg-white mt-10 mx-6 shadow-xl rounded-lg">
-                <p className="p-4 text-lg">Recent Transaction</p>
+                <p className="p-4 text-lg font-bold">Recent Transaction</p>
                 <Table>
                   <TableHeader>
                     <TableRow>
-                      <TableHead>No.</TableHead>
-                      <TableHead>Booking Code</TableHead>
-                      <TableHead>Tour Name</TableHead>
-                      <TableHead>Price</TableHead>
+                      <TableHead className="text-black font-semibold text-base">
+                        No.
+                      </TableHead>
+                      <TableHead className="text-black font-semibold text-base">
+                        Booking Code
+                      </TableHead>
+                      <TableHead className="text-black font-semibold text-base">
+                        Tour Name
+                      </TableHead>
+                      <TableHead className="text-black font-semibold text-base">
+                        Price
+                      </TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
                     {recent.map((booking, index) => (
                       <TableRow key={index}>
-                        <TableCell>{index + 1}</TableCell>
-                        <TableCell>{booking.booking_id}</TableCell>
-                        <TableCell>{booking.tour?.tour_name}</TableCell>
-                        <TableCell>{booking.gross_amount}</TableCell>
+                        <TableCell className="text-black">
+                          {index + 1}
+                        </TableCell>
+                        <TableCell className="text-black">
+                          {booking.booking_id}
+                        </TableCell>
+                        <TableCell className="text-black">
+                          {booking.tour?.tour_name}
+                        </TableCell>
+                        <TableCell className="text-black">
+                          {booking.gross_amount}
+                        </TableCell>
                       </TableRow>
                     ))}
                   </TableBody>
                 </Table>
               </div>
-              <p className="pt-4 px-6 font-semibold text-2xl">Top 5 Tour</p>
+              <p className="pt-4 px-6 font-bold text-2xl">Top 5 Tour</p>
               <div className="px-6 pt-4 flex gap-5 pb-6">
                 {topTours.map((tour) => (
                   <Card className="w-[180px]" key={tour.id}>
                     <img
-                      className=" rounded-lg"
+                      className="w-[250px] h-[130px]"
                       src={tour.image}
                       alt={tour.tour_name}
                     />
-                    <div className="px-2 py-2">
+                    <div className="px-1 py-2">
                       <CardDescription className="flex justify-between">
-                        <p className="font-bold py-1 text-black text-lg">
+                        <p className="font-bold pb-2 text-black text-lg">
                           {tour.tour_name}
                         </p>
                       </CardDescription>
