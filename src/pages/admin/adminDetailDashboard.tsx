@@ -1,122 +1,122 @@
-import { Dot, MapPin } from "lucide-react"
+import { Dot, MapPin } from "lucide-react";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from "@/components/ui/accordion"
-import ReviewsComp from "@/components/Review"
-import Map from "@/components/Map"
+} from "@/components/ui/accordion";
+import ReviewsComp from "@/components/Review";
+import Map from "@/components/Map";
 import {
   getAllReview,
   getDetailTours,
   getPackages,
-} from "@/utils/apis/user/api"
-import { useParams } from "react-router-dom"
-import { useEffect, useState } from "react"
-import { GetPackages, GetReview, GetTours } from "@/utils/apis/user/type"
-import { formattedAmount } from "@/utils/formattedAmount"
+} from "@/utils/apis/user/api";
+import { useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { GetPackages, GetReview, GetTours } from "@/utils/apis/user/type";
+import { formattedAmount } from "@/utils/formattedAmount";
 
-import "react-datepicker/dist/react-datepicker.css"
+import "react-datepicker/dist/react-datepicker.css";
 
-import AdminHeader from "@/components/Admin/AdminHeader"
-import axiosWithConfig from "@/utils/apis/axiosWithConfig"
-import { Card, CardContent } from "@/components/ui/card"
+import AdminHeader from "@/components/Admin/AdminHeader";
+import axiosWithConfig from "@/utils/apis/axiosWithConfig";
+import { Card, CardContent } from "@/components/ui/card";
 import {
   Carousel,
   CarouselContent,
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
-} from "@/components/ui/carousel"
+} from "@/components/ui/carousel";
 
 interface Report {
-  id: number
-  tour_id: number
-  user_id: number
-  text_report: string
-  created_at: string
-  updated_at: string
+  id: number;
+  tour_id: number;
+  user_id: number;
+  text_report: string;
+  created_at: string;
+  updated_at: string;
   user: {
-    full_name: string
-    image: string
-  }
+    full_name: string;
+    image: string;
+  };
 }
 
 const AdminDetailTour = () => {
-  const { id } = useParams()
-  const [tourDetail, setTourDetail] = useState<GetTours>()
-  const [reportData, setReportData] = useState<Report[]>([])
-  const [review, setReview] = useState<GetReview>()
-  const [packages, setPackages] = useState<GetPackages[]>([])
-  const [editableCount] = useState<string>("1")
-  const [posisi, setPosisi] = useState<{ lat: number; lng: number }>()
-  const currentDate: any = new Date()
+  const { id } = useParams();
+  const [tourDetail, setTourDetail] = useState<GetTours>();
+  const [reportData, setReportData] = useState<Report[]>([]);
+  const [review, setReview] = useState<GetReview>();
+  const [packages, setPackages] = useState<GetPackages[]>([]);
+  const [editableCount] = useState<string>("1");
+  const [posisi, setPosisi] = useState<{ lat: number; lng: number }>();
+  const currentDate: any = new Date();
   const dates: Date[] = Array.from({ length: 8 }, (_, i) => {
-    const date = new Date(currentDate)
-    date.setDate(currentDate.getDate() + (i + 1))
-    return date
-  })
+    const date = new Date(currentDate);
+    date.setDate(currentDate.getDate() + (i + 1));
+    return date;
+  });
 
-  console.log(dates)
+  console.log(dates);
 
   useEffect(() => {
-    window.scrollTo(0, 0)
+    window.scrollTo(0, 0);
     if (id) {
-      fetchDetailCity()
+      fetchDetailCity();
     }
-    fetchAllReview()
-  }, [id])
+    fetchAllReview();
+  }, [id]);
 
   const fetchDetailCity = async () => {
     try {
-      const result = await getDetailTours(id as string)
-      setTourDetail(result.data)
-      setPosisi({ lat: result.data.latitude, lng: result.data.longitude })
-      console.log(result.data)
-      const resultPackages = await getPackages(`${result.data.id}`)
-      setPackages(resultPackages.data)
-      console.log(resultPackages.data)
+      const result = await getDetailTours(id as string);
+      setTourDetail(result.data);
+      setPosisi({ lat: result.data.latitude, lng: result.data.longitude });
+      console.log(result.data);
+      const resultPackages = await getPackages(`${result.data.id}`);
+      setPackages(resultPackages.data);
+      console.log(resultPackages.data);
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
+  };
 
   const fetchAllReview = async () => {
     try {
-      const result = await getAllReview(id as string)
-      setReview(result.data)
-      console.log(result.data)
+      const result = await getAllReview(id as string);
+      setReview(result.data);
+      console.log(result.data);
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
+  };
 
   const fetchData = async () => {
     try {
       const response = await axiosWithConfig.get(
         `https://benarja.my.id/tours/${id}/report`
-      )
+      );
 
       if (response.status !== 200) {
-        throw new Error("Failed to fetch data")
+        throw new Error("Failed to fetch data");
       }
 
-      const jsonResponse = response.data
+      const jsonResponse = response.data;
 
       if (jsonResponse.data && Array.isArray(jsonResponse.data)) {
-        setReportData(jsonResponse.data)
+        setReportData(jsonResponse.data);
       } else {
-        console.error("API response does not contain an array:", jsonResponse)
+        console.error("API response does not contain an array:", jsonResponse);
       }
     } catch (error) {
-      console.error("Error fetching data:", error)
+      console.error("Error fetching data:", error);
     }
-  }
+  };
 
   useEffect(() => {
-    fetchData()
-  }, [id])
+    fetchData();
+  }, [id]);
 
   return (
     <>
@@ -319,7 +319,7 @@ const AdminDetailTour = () => {
         </div>
       </div>
     </>
-  )
-}
+  );
+};
 
-export default AdminDetailTour
+export default AdminDetailTour;

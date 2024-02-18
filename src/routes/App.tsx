@@ -1,30 +1,30 @@
-import ETiket from "@/components/ETiket"
-import Home from "@/pages"
-import Login from "@/pages/auth/login"
-import Register from "@/pages/auth/register"
-import City from "@/pages/user/detailCity"
-import DetailTour from "@/pages/user/detailTour"
-import { BrowserRouter, Route, Routes } from "react-router-dom"
-import BookingList from "@/pages/user/bookingList"
-import PaymentBook from "@/pages/user/paymentBook"
-import PaymentResult from "@/pages/user/paymentResult"
-import Profile from "@/pages/user/profile"
-import TransactionHistory from "@/pages/pengelola/transactionHistory"
-import MyTour from "@/pages/pengelola/myTour"
-import AddTour from "@/pages/pengelola/addTour"
-import EditTour from "@/pages/pengelola/editTour"
-import AddPackage from "@/pages/pengelola/addPackage"
-import ProtectedRoute from "@/routes/ProtectedRoute"
-import DetailMyTour from "@/pages/pengelola/detailMyTour"
-import TransactionList from "@/pages/Admin/adminTransactionList"
-import Dashboard from "@/pages/Admin/adminDashboard"
-import TourList from "@/pages/Admin/adminTourList"
-import CityList from "@/pages/Admin/adminCityList"
-import VerificationAccount from "@/pages/Admin/adminVerification"
-import AddCity from "@/pages/Admin/adminAddCity"
-import AddVoucher from "@/pages/Admin/adminAddVoucher"
-import EditCity from "@/pages/Admin/adminEditCity"
-import AdminDetailTour from "@/pages/Admin/adminDetailDashboard"
+import ETiket from "@/components/ETiket";
+import Home from "@/pages";
+import Login from "@/pages/auth/login";
+import Register from "@/pages/auth/register";
+import City from "@/pages/user/detailCity";
+import DetailTour from "@/pages/user/detailTour";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import BookingList from "@/pages/user/bookingList";
+import PaymentBook from "@/pages/user/paymentBook";
+import PaymentResult from "@/pages/user/paymentResult";
+import Profile from "@/pages/user/profile";
+import TransactionHistory from "@/pages/pengelola/transactionHistory";
+import MyTour from "@/pages/pengelola/myTour";
+import AddTour from "@/pages/pengelola/addTour";
+import EditTour from "@/pages/pengelola/editTour";
+import AddPackage from "@/pages/pengelola/addPackage";
+import ProtectedRoute from "@/routes/ProtectedRoute";
+import DetailMyTour from "@/pages/pengelola/detailMyTour";
+import TransactionList from "@/pages/admin/adminTransactionList";
+import Dashboard from "@/pages/admin/adminDashboard";
+import TourList from "@/pages/admin/adminTourList";
+import CityList from "@/pages/admin/adminCityList";
+import VerificationAccount from "@/pages/admin/adminVerification";
+import AddCity from "@/pages/admin/adminAddCity";
+import AddVoucher from "@/pages/admin/adminAddVoucher";
+import EditCity from "@/pages/admin/adminEditCity";
+import AdminDetailTour from "@/pages/admin/adminDetailDashboard";
 
 const App = () => {
   return (
@@ -63,7 +63,7 @@ const App = () => {
         </Route>
       </Routes>
     </BrowserRouter>
-  )
-}
+  );
+};
 
-export default App
+export default App;

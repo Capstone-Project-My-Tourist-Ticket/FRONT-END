@@ -98,18 +98,28 @@ const AddTour = () => {
                 {city &&
                   city.map((item, index) => (
                     <option key={index} value={item.id}>
-                      {item.city_name.charAt(0).toUpperCase() + item.city_name.slice(1)}
+                      {item.city_name.charAt(0).toUpperCase() +
+                        item.city_name.slice(1)}
                     </option>
                   ))}
               </select>
-              <p className="text-sm text-red-500 ">{errors.city_id && errors.city_id.message}</p>
-              <Map error={errors} setValue={setValue} draggable={true} width={800} />
+              <p className="text-sm text-red-500 ">
+                {errors.city_id && errors.city_id.message}
+              </p>
+              <Map
+                error={errors}
+                setValue={setValue}
+                draggable={true}
+                width={800}
+              />
               <Input
                 placeholder="Address"
                 className="border border-black focus-visible:ring-0"
                 {...register("address")}
               />
-              <p className="text-sm text-red-500 ">{errors.address && errors.address.message}</p>
+              <p className="text-sm text-red-500 ">
+                {errors.address && errors.address.message}
+              </p>
               <Textarea
                 className="w-full outline-none"
                 placeholder="Description"
@@ -123,7 +133,8 @@ const AddTour = () => {
                 type="file"
                 className="border border-black"
                 {...register("thumbnail", {
-                  onChange: (e) => setThumbnail(URL.createObjectURL(e.target.files[0])),
+                  onChange: (e) =>
+                    setThumbnail(URL.createObjectURL(e.target.files[0])),
                 })}
               />
               {thumbnail ? (
@@ -149,13 +160,16 @@ const AddTour = () => {
                   "No file selected"
                 )}
               </div>
-              <p className="text-sm text-red-500">{errors.thumbnail?.message as string}</p>
+              <p className="text-sm text-red-500">
+                {errors.thumbnail?.message as string}
+              </p>
               <Input
                 placeholder="Image"
                 type="file"
                 className="border border-black"
                 {...register("image", {
-                  onChange: (e) => setImage(URL.createObjectURL(e.target.files[0])),
+                  onChange: (e) =>
+                    setImage(URL.createObjectURL(e.target.files[0])),
                 })}
               />
               {image ? (
@@ -181,7 +195,9 @@ const AddTour = () => {
                   "No file selected"
                 )}
               </div>
-              <p className="text-sm text-red-500">{errors.image?.message as string}</p>
+              <p className="text-sm text-red-500">
+                {errors.image?.message as string}
+              </p>
               <button
                 className="flex justify-center items-center bg-black rounded-lg text-white w-full p-2"
                 disabled={isSubmitting}

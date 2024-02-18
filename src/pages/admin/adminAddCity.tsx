@@ -1,10 +1,10 @@
-import AdminHeader from "@/components/Admin/AdminHeader"
-import AdminNavbar from "@/components/Admin/AdminNavbar"
-import Footer from "@/components/Footer"
-import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
-import React, { useState } from "react"
-import axiosWithConfig from "@/utils/apis/axiosWithConfig"
+import AdminHeader from "@/components/Admin/AdminHeader";
+import AdminNavbar from "@/components/Admin/AdminNavbar";
+import Footer from "@/components/Footer";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import React, { useState } from "react";
+import axiosWithConfig from "@/utils/apis/axiosWithConfig";
 
 function AddCity() {
   const [post, setPost] = useState({
@@ -12,46 +12,46 @@ function AddCity() {
     description: "",
     image: "",
     thumbnail: "",
-  })
+  });
 
   const [popup, setPopup] = useState({
     visible: false,
     success: false,
     message: "",
-  })
+  });
 
   const handleInput = (
     event:
       | React.ChangeEvent<HTMLInputElement>
       | React.ChangeEvent<HTMLTextAreaElement>
   ) => {
-    const { name, type } = event.target
+    const { name, type } = event.target;
 
     if (type === "file") {
-      const files = (event.target as HTMLInputElement).files
+      const files = (event.target as HTMLInputElement).files;
       if (files && files.length > 0) {
-        setPost({ ...post, [name]: files[0] })
+        setPost({ ...post, [name]: files[0] });
       }
     } else {
       const value = (event.target as HTMLInputElement | HTMLTextAreaElement)
-        .value
-      setPost({ ...post, [name]: value })
+        .value;
+      setPost({ ...post, [name]: value });
     }
-  }
+  };
 
   function handleSubmit(event: React.FormEvent) {
-    event.preventDefault()
+    event.preventDefault();
 
-    const formData = new FormData()
+    const formData = new FormData();
 
-    formData.append("city_name", post.city_name)
-    formData.append("description", post.description)
+    formData.append("city_name", post.city_name);
+    formData.append("description", post.description);
 
     if (post.image) {
-      formData.append("image", post.image)
+      formData.append("image", post.image);
     }
     if (post.thumbnail) {
-      formData.append("thumbnail", post.thumbnail)
+      formData.append("thumbnail", post.thumbnail);
     }
 
     axiosWithConfig
@@ -65,17 +65,17 @@ function AddCity() {
           visible: true,
           success: true,
           message: "City added successfully!",
-        })
-        console.log(response)
+        });
+        console.log(response);
       })
       .catch((error) => {
         setPopup({
           visible: true,
           success: false,
           message: "City ​​already exists!",
-        })
-        console.log(error)
-      })
+        });
+        console.log(error);
+      });
   }
 
   const closePopup = () => {
@@ -83,8 +83,8 @@ function AddCity() {
       visible: false,
       success: false,
       message: "",
-    })
-  }
+    });
+  };
 
   return (
     <div className="bg-[#dee2e6]">
@@ -157,7 +157,7 @@ function AddCity() {
       </div>
       <Footer />
     </div>
-  )
+  );
 }
 
-export default AddCity
+export default AddCity;
