@@ -5,18 +5,21 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { useToast } from "@/components/ui/use-toast";
 import { getDetailBooking } from "@/utils/apis/user/api";
 import { getBookingDetail } from "@/utils/apis/user/type";
 import { formattedAmount } from "@/utils/formattedAmount";
+import { Copy } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 
 const PaymentResult = () => {
+  const { toast } = useToast();
   const { booking_id } = useParams();
   const [bookingDetail, setBookingDetail] = useState<getBookingDetail>();
 
   useEffect(() => {
-    window.scrollTo(0, 0)
+    window.scrollTo(0, 0);
     if (booking_id) {
       fetchDetailBooking();
     }
@@ -63,11 +66,21 @@ const PaymentResult = () => {
                       {bookingDetail.bank.toUpperCase()} Virtual Account
                     </p>
                   </div>
-                  <input
-                    disabled
-                    className="w-full bg-[#F4F7FE] rounded-md py-1 px-3 font-bold"
-                    value={bookingDetail.va_number}
-                  />
+                  <div className="flex items-center gap-3">
+                    <input
+                      disabled
+                      className="w-full bg-[#F4F7FE] rounded-md py-1 px-3 font-bold"
+                      value={bookingDetail.va_number}
+                    />
+                    <Copy
+                      onClick={() => {
+                        navigator.clipboard.writeText(bookingDetail.va_number);
+                        toast({ description: "Copied to clipboard!" });
+                      }}
+                      className="text-gray-500"
+                      size={20}
+                    />
+                  </div>
                 </div>
                 <div className="flex flex-col space-y-4">
                   <p className="font-semibold">Total Payment</p>
@@ -91,9 +104,16 @@ const PaymentResult = () => {
                       <AccordionContent>
                         <ul className="list-decimal pl-5">
                           <li className="text-slate-500">
-                            Input kartu <span className="font-semibold text-slate-600 ">ATM</span>{" "}
+                            Input kartu{" "}
+                            <span className="font-semibold text-slate-600 ">
+                              ATM
+                            </span>{" "}
                             dan
-                            <span className="font-semibold text-slate-600 "> PIN</span> Anda
+                            <span className="font-semibold text-slate-600 ">
+                              {" "}
+                              PIN
+                            </span>{" "}
+                            Anda
                           </li>
                           <li className="text-slate-500">
                             Pilih Menu
@@ -103,13 +123,17 @@ const PaymentResult = () => {
                             </span>
                           </li>
                           <li className="text-slate-500">
-                            Pilih <span className="font-semibold text-slate-600 ">Transfer</span>
+                            Pilih{" "}
+                            <span className="font-semibold text-slate-600 ">
+                              Transfer
+                            </span>
                           </li>
                           <li className="text-slate-500">
                             Pilih
                             <span className="font-semibold text-slate-600 ">
                               {" "}
-                              Ke Rekening {bookingDetail.bank.toUpperCase()} Virtual Account
+                              Ke Rekening {bookingDetail.bank.toUpperCase()}{" "}
+                              Virtual Account
                             </span>
                           </li>
                           <li className="text-slate-500">
@@ -124,12 +148,22 @@ const PaymentResult = () => {
                             </span>
                           </li>
                           <li className="text-slate-500">
-                            Pilih<span className="font-semibold text-slate-600 "> Benar</span>
+                            Pilih
+                            <span className="font-semibold text-slate-600 ">
+                              {" "}
+                              Benar
+                            </span>
                           </li>
                           <li className="text-slate-500">
-                            Pilih <span className="font-semibold text-slate-600 "> Ya</span>
+                            Pilih{" "}
+                            <span className="font-semibold text-slate-600 ">
+                              {" "}
+                              Ya
+                            </span>
                           </li>
-                          <li className="text-slate-500">Ambil Bukti Bayar Anda</li>
+                          <li className="text-slate-500">
+                            Ambil Bukti Bayar Anda
+                          </li>
                           <li className="text-slate-500">Selesai</li>
                         </ul>
                       </AccordionContent>
@@ -142,16 +176,23 @@ const PaymentResult = () => {
                         <ul className="list-decimal pl-5">
                           <li className="text-slate-500">
                             Login
-                            <span className="font-semibold text-slate-600 "> Internet Banking</span>
+                            <span className="font-semibold text-slate-600 ">
+                              {" "}
+                              Internet Banking
+                            </span>
                           </li>
                           <li className="text-slate-500">
                             Pilih
-                            <span className="font-semibold text-slate-600 "> Transfer Dana</span>
+                            <span className="font-semibold text-slate-600 ">
+                              {" "}
+                              Transfer Dana
+                            </span>
                           </li>
                           <li className="text-slate-500">
                             Pilih{" "}
                             <span className="font-semibold text-slate-600 ">
-                              Transfer ke {bookingDetail.bank.toUpperCase()} Virtual Account
+                              Transfer ke {bookingDetail.bank.toUpperCase()}{" "}
+                              Virtual Account
                             </span>
                           </li>
                           <li className="text-slate-500">
@@ -167,12 +208,22 @@ const PaymentResult = () => {
                             </span>
                           </li>
                           <li className="text-slate-500">
-                            Klik<span className="font-semibold text-slate-600 "> Lanjutkan</span>
+                            Klik
+                            <span className="font-semibold text-slate-600 ">
+                              {" "}
+                              Lanjutkan
+                            </span>
                           </li>
                           <li className="text-slate-500">
-                            Klik <span className="font-semibold text-slate-600 "> Kirim</span>
+                            Klik{" "}
+                            <span className="font-semibold text-slate-600 ">
+                              {" "}
+                              Kirim
+                            </span>
                           </li>
-                          <li className="text-slate-500">Bukti bayar ditampilkan</li>
+                          <li className="text-slate-500">
+                            Bukti bayar ditampilkan
+                          </li>
                           <li className="text-slate-500">Selesai</li>
                         </ul>
                       </AccordionContent>
@@ -185,11 +236,17 @@ const PaymentResult = () => {
                         <ul className="list-decimal pl-5">
                           <li className="text-slate-500">
                             Login
-                            <span className="font-semibold text-slate-600 "> Mobile Banking</span>
+                            <span className="font-semibold text-slate-600 ">
+                              {" "}
+                              Mobile Banking
+                            </span>
                           </li>
                           <li className="text-slate-500">
                             Pilih
-                            <span className="font-semibold text-slate-600 "> m-Transfer</span>
+                            <span className="font-semibold text-slate-600 ">
+                              {" "}
+                              m-Transfer
+                            </span>
                           </li>
                           <li className="text-slate-500">
                             Pilih{" "}
@@ -210,21 +267,36 @@ const PaymentResult = () => {
                             </span>
                           </li>
                           <li className="text-slate-500">
-                            Klik<span className="font-semibold text-slate-600 "> Send</span>
+                            Klik
+                            <span className="font-semibold text-slate-600 ">
+                              {" "}
+                              Send
+                            </span>
                           </li>
                           <li className="text-slate-500">
                             Informasi
-                            <span className="font-semibold text-slate-600 "> Virtual Account </span>
+                            <span className="font-semibold text-slate-600 ">
+                              {" "}
+                              Virtual Account{" "}
+                            </span>
                             akan di tampilkan
                           </li>
                           <li className="text-slate-500">
-                            Klik <span className="font-semibold text-slate-600 ">OK</span>
+                            Klik{" "}
+                            <span className="font-semibold text-slate-600 ">
+                              OK
+                            </span>
                           </li>
                           <li className="text-slate-500">
-                            input <span className="font-semibold text-slate-600 ">PIN </span>Mobile
-                            Banking
+                            input{" "}
+                            <span className="font-semibold text-slate-600 ">
+                              PIN{" "}
+                            </span>
+                            Mobile Banking
                           </li>
-                          <li className="text-slate-500">Bukti bayar ditampilkan</li>
+                          <li className="text-slate-500">
+                            Bukti bayar ditampilkan
+                          </li>
                           <li className="text-slate-500">Selesai</li>
                         </ul>
                       </AccordionContent>
@@ -244,14 +316,18 @@ const PaymentResult = () => {
           <div className="bg-white w-1/4 rounded-lg h-[420px] shadow-lg">
             <div className="flex flex-col space-y-3 p-5">
               <img src={bookingDetail?.tour.image} className="h-44" />
-              <p className="font-bold">Booking Id: {bookingDetail?.booking_id.toUpperCase()}</p>
+              <p className="font-bold">
+                Booking Id: {bookingDetail?.booking_id.toUpperCase()}
+              </p>
               <div className="flex flex-col">
                 <p className="font-semibold">{bookingDetail?.tour.tour_name}</p>
                 <p className="font-semibold text-sm text-slate-500">
                   {bookingDetail?.booking_date}
                 </p>
               </div>
-              <p className="font-semibold">{bookingDetail?.package.package_name}</p>
+              <p className="font-semibold">
+                {bookingDetail?.package.package_name}
+              </p>
               <p className="font-semibold">{bookingDetail?.quantity} Pax</p>
             </div>
           </div>

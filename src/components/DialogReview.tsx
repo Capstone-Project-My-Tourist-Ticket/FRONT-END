@@ -61,7 +61,9 @@ const DialogReview = (props: Props) => {
       </DialogTrigger>
       <DialogContent className="max-w-xl">
         <DialogHeader>
-          <DialogTitle className="font-bold pt-5 px-7">Ice Age Artice Adventure</DialogTitle>
+          <DialogTitle className="font-bold pt-5 px-7">
+            Ice Age Artice Adventure
+          </DialogTitle>
         </DialogHeader>
         <DialogDescription>
           <form
@@ -70,7 +72,9 @@ const DialogReview = (props: Props) => {
           >
             <div className="flex gap-5">
               <img
-                src={user.image || "https://via.placeholder.com/200?text=No+Image"}
+                src={
+                  user.image || "https://via.placeholder.com/200?text=No+Image"
+                }
                 alt="profile-user"
                 className="rounded-full border shadow-sm size-20"
               />
