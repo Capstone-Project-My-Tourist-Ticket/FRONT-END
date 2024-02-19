@@ -317,7 +317,7 @@ const DetailTour = () => {
             <p className="text-xl font-semibold mt-4">Reviews</p>
             {review && (
               <p className="text-2xl font-semibold">
-                {review.total_review.toFixed(1)}{" "}
+                {review.average_review.toFixed(1)}{" "}
                 <span className="text-slate-500 text-sm">
                   /5.0 From {review.total_review} Reviews
                 </span>
