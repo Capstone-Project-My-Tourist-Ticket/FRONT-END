@@ -26,6 +26,7 @@ function DetailMyTour() {
   const [detail, setDetail] = useState<GetTours>();
   const [packages, setPackages] = useState<GetPackages[]>([]);
   const [review, setReview] = useState<GetReview>();
+  console.log(review?.average_review);
   const { toast } = useToast();
 
   const fetchDetailTour = async () => {
@@ -98,18 +99,28 @@ function DetailMyTour() {
                   {detail.city.city_name} <br />
                   {detail.address} <br />
                   <div className="flex justify-center">
-                    {Array.from({ length: 5 }, (_, index) => (
-                      <Star
-                        key={index}
-                        fill={
-                          index < (review?.average_review || 0)
-                            ? "yellow"
-                            : "gray"
-                        }
-                        className="stroke-slate-300 drop-shadow-sm"
-                        size={20}
-                      />
-                    ))}
+                    {Array.from({ length: 5 }, (_, index) => {
+                      const starValue = index + 1;
+                      let fill = "gray";
+
+                      if (starValue <= (review?.average_review || 0)) {
+                        fill = "yellow";
+                      } else if (
+                        starValue - 0.5 <=
+                        (review?.average_review || 0)
+                      ) {
+                        fill = "yellow";
+                      }
+
+                      return (
+                        <Star
+                          key={index}
+                          fill={fill}
+                          className="stroke-slate-300 drop-shadow-sm"
+                          size={20}
+                        />
+                      );
+                    })}
                   </div>
                 </p>
               </div>

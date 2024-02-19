@@ -21,17 +21,23 @@ const Navbar = () => {
     toast({
       description: "Logout successfully",
     });
-    navigate("/")
+    navigate("/");
   };
   return (
     <div className="flex w-full items-center justify-center gap-x-10 bg-white z-50 sticky top-0 px-10">
-      <img src={Logo} className="p-2 cursor-pointer" onClick={() => navigate("/")} />
+      <img
+        src={Logo}
+        className="w-40 p-2 cursor-pointer"
+        onClick={() => navigate("/")}
+      />
 
       <ul className="flex gap-16 mr-96 text-black container justify-end">
         <Link
           to={"/"}
           className={`${
-            location.pathname === "/" ? "font-bold border-b-orange-500 border-b text-lg" : ""
+            location.pathname === "/"
+              ? "font-bold border-b-orange-500 border-b text-lg"
+              : ""
           }`}
         >
           <li className="font-semibold">Home</li>
@@ -42,7 +48,9 @@ const Navbar = () => {
       {!token ? (
         <div className=" text-end">
           <Link to={"/register"}>
-            <button className="bg-red-500 w-32  text-white px-5 py-2 rounded-full">Sign Up</button>
+            <button className="bg-red-500 w-32  text-white px-5 py-2 rounded-full">
+              Sign Up
+            </button>
           </Link>
         </div>
       ) : (
@@ -50,7 +58,10 @@ const Navbar = () => {
           <DropdownMenuTrigger asChild>
             <div className={`cursor-pointer `}>
               {user.image ? (
-                <img src={user.image} className="rounded-full w-12 h-12 cursor-pointer" />
+                <img
+                  src={user.image}
+                  className="rounded-full w-12 h-12 cursor-pointer"
+                />
               ) : (
                 <UserRound className="text-white bg-slate-500 rounded-full w-10 h-10 cursor-pointer" />
               )}
@@ -59,9 +70,13 @@ const Navbar = () => {
           <DropdownMenuContent className="mt-2">
             <DropdownMenuLabel>Hi {user.full_name}</DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={() => navigate("/profile")}>Profile</DropdownMenuItem>
+            <DropdownMenuItem onClick={() => navigate("/profile")}>
+              Profile
+            </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={() => handleLogout()}>Logout</DropdownMenuItem>
+            <DropdownMenuItem onClick={() => handleLogout()}>
+              Logout
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       )}
