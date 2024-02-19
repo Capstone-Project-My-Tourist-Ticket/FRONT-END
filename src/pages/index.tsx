@@ -104,7 +104,7 @@ const Home = () => {
       >
         <img
           src={isScrolled ? Logo : Logo1}
-          className="p-2 cursor-pointer"
+          className="w-40 p-2 cursor-pointer"
           onClick={() => navigate("/")}
         />
         <ul
