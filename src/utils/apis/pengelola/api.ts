@@ -29,9 +29,11 @@ export const getMyTour = async (pageNumber: number) => {
     throw new Error(error.message);
   }
 };
-export const getMyTourPengelola = async () => {
+export const getMyTourPengelola = async (pageNumber: number) => {
   try {
-    const response = await axiosWithConfig.get(`/tours/pengelola?page=1`);
+    const response = await axiosWithConfig.get(
+      `/tours/pengelola?page=${pageNumber}&limit=8`
+    );
     return response.data as ResponsePayloadPagination<IMyTour[]>;
   } catch (error: any) {
     throw new Error(error.message);
