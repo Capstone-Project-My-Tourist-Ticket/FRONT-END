@@ -44,7 +44,7 @@ const DetailTour = () => {
   const [tourDetail, setTourDetail] = useState<GetTours>();
   const [review, setReview] = useState<GetReview>();
   const [packages, setPackages] = useState<GetPackages[]>([]);
-  const [editableCount, setEditableCount] = useState<string>("");
+  const [editableCount, setEditableCount] = useState<string>("1");
   const [posisi, setPosisi] = useState<{ lat: number; lng: number }>();
   const navigate = useNavigate();
   const { toast } = useToast();

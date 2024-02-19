@@ -62,6 +62,14 @@ const Register = () => {
         });
         return;
       }
+      if (isNaN(Number(body.no_ktp))) {
+        toast({
+          title: "Invalid KTP",
+          description: "KTP should be a number",
+          variant: "destructive",
+        });
+        return;
+      }
       await PengelolaRegister(body);
       toast({
         description: "Register successfully",
