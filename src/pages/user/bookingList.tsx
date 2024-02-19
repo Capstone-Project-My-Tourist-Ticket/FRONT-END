@@ -99,7 +99,7 @@ const BookingList = () => {
                         className={`${
                           item.status === "settlement"
                             ? "bg-green-600"
-                            : item.status === "cancelled"
+                            : item.status === "cancel"
                             ? "bg-red-200"
                             : item.status === "expire"
                             ? "bg-gray-300"
@@ -108,7 +108,7 @@ const BookingList = () => {
                       >
                         {item.status === "settlement"
                           ? "Paid"
-                          : item.status === "cancelled"
+                          : item.status === "cancel"
                           ? "Cancelled"
                           : item.status === "expire"
                           ? "Expired"

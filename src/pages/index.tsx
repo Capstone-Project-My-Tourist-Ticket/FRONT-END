@@ -147,7 +147,7 @@ const Home = () => {
                 )}
               </div>
             </DropdownMenuTrigger>
-            <DropdownMenuContent className="mt-2">
+            <DropdownMenuContent className="mt-2 mr-12">
               <DropdownMenuLabel>Hi {user.full_name}</DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuItem onClick={() => navigate("/profile")}>
