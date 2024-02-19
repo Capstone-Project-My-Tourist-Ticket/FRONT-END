@@ -4,8 +4,12 @@ import { Dot, MoreHorizontal, Star } from "lucide-react";
 import { useNavigate, useParams } from "react-router-dom";
 import AdminNavbar from "@/components/Admin/AdminNavbar";
 import Footer from "@/components/Footer";
-import { getDetailTours, getPackages } from "@/utils/apis/user/api";
-import { GetPackages, GetTours } from "@/utils/apis/user/type";
+import {
+  getAllReview,
+  getDetailTours,
+  getPackages,
+} from "@/utils/apis/user/api";
+import { GetPackages, GetReview, GetTours } from "@/utils/apis/user/type";
 import { formattedAmount } from "@/utils/formattedAmount";
 import {
   DropdownMenu,
@@ -21,6 +25,7 @@ function DetailMyTour() {
   const { id } = useParams();
   const [detail, setDetail] = useState<GetTours>();
   const [packages, setPackages] = useState<GetPackages[]>([]);
+  const [review, setReview] = useState<GetReview>();
   const { toast } = useToast();
 
   const fetchDetailTour = async () => {
@@ -36,16 +41,26 @@ function DetailMyTour() {
     }
   };
 
-  const handleDeletePackage = async (id : number) => {
+  const fetchAllReview = async () => {
+    try {
+      const result = await getAllReview(id as string);
+      setReview(result.data);
+      console.log(result.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleDeletePackage = async (id: number) => {
     const isConfirmed = window.confirm("Are you sure you want to delete?");
     try {
-  if (isConfirmed) {
-      const result = await deletePackage(id);
-      fetchDetailTour();
-      toast({
-        description: result.message,
-      });
-    }
+      if (isConfirmed) {
+        const result = await deletePackage(id);
+        fetchDetailTour();
+        toast({
+          description: result.message,
+        });
+      }
     } catch (error) {
       toast({
         description: (error as Error).message,
@@ -63,6 +78,7 @@ function DetailMyTour() {
     if (id) {
       fetchDetailTour();
     }
+    fetchAllReview();
   }, [id]);
 
   return (
@@ -75,7 +91,9 @@ function DetailMyTour() {
             <div className="flex">
               <img className="w-[200px] h-32" src={detail.thumbnail} />
               <div className="px-4 items-center text-center">
-                <p className="font-bold underline underline-offset-8 text-xl">{detail.tour_name}</p>
+                <p className="font-bold underline underline-offset-8 text-xl">
+                  {detail.tour_name}
+                </p>
                 <p className="text-center">
                   {detail.city.city_name} <br />
                   {detail.address} <br />
@@ -83,7 +101,11 @@ function DetailMyTour() {
                     {Array.from({ length: 5 }, (_, index) => (
                       <Star
                         key={index}
-                        fill={"yellow"}
+                        fill={
+                          index < (review?.average_review || 0)
+                            ? "yellow"
+                            : "gray"
+                        }
                         className="stroke-slate-300 drop-shadow-sm"
                         size={20}
                       />
@@ -104,7 +126,10 @@ function DetailMyTour() {
             </div>
             {packages &&
               packages.map((item, index) => (
-                <div className="bg-white rounded-lg drop-shadow-xl p-6 px-6 mt-6" key={index}>
+                <div
+                  className="bg-white rounded-lg drop-shadow-xl p-6 px-6 mt-6"
+                  key={index}
+                >
                   <div className="flex justify-end">
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
@@ -113,11 +138,18 @@ function DetailMyTour() {
                         </div>
                       </DropdownMenuTrigger>
                       <DropdownMenuContent className="mt-2 mr-6">
-                        <DropdownMenuItem className="cursor-pointer" onClick={()=>handleDeletePackage(item.id)}>Delete</DropdownMenuItem>
+                        <DropdownMenuItem
+                          className="cursor-pointer"
+                          onClick={() => handleDeletePackage(item.id)}
+                        >
+                          Delete
+                        </DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>
                   </div>
-                  <h1 className="font-bold text-base pb-4">{item.package_name}</h1>
+                  <h1 className="font-bold text-base pb-4">
+                    {item.package_name}
+                  </h1>
                   <p className="pb-4 text-base">Includes</p>
                   <div className="flex items-center justify-between">
                     <div className="flex-col">
@@ -126,12 +158,15 @@ function DetailMyTour() {
                           <div className="flex items-center" key={index}>
                             <Dot />
                             <span className="font-semibold">
-                              {service.benefit.charAt(0).toUpperCase() + service.benefit.slice(1)}
+                              {service.benefit.charAt(0).toUpperCase() +
+                                service.benefit.slice(1)}
                             </span>
                           </div>
                         ))}
                     </div>
-                    <p className="text-red-500 text-xl">{formattedAmount(item.price)}</p>
+                    <p className="text-red-500 text-xl">
+                      {formattedAmount(item.price)}
+                    </p>
                   </div>
                 </div>
               ))}

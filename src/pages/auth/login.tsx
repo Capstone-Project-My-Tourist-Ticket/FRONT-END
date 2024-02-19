@@ -24,23 +24,31 @@ const Login = () => {
   const handleLogin = async (body: LoginType) => {
     try {
       const result = await userLogin(body);
-      changeToken(result!.data.token);
-      toast({
-        description: result?.message,
-      });
       if (result!.data.status === "pending") {
         throw new Error("Mohon tunggu akun dalam proses peninjauan oleh Admin");
       }
       if (result!.data.role === "admin") {
-        return navigate("/dashboard");
+        changeToken(result!.data.token);
+        toast({
+          description: result?.message,
+        });
+        navigate("/dashboard");
       }
       if (result!.data.role === "costumer") {
+        changeToken(result!.data.token);
+        toast({
+          description: result?.message,
+        });
         navigate("/");
       }
       if (
         result!.data.role === "pengelola" &&
         result!.data.status === "approved"
       ) {
+        changeToken(result!.data.token);
+        toast({
+          description: result?.message,
+        });
         navigate("/transaction-history");
       }
     } catch (error) {
