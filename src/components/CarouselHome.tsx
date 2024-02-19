@@ -12,6 +12,7 @@ import { getTours } from "@/utils/apis/user/api";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { formattedAmount } from "@/utils/formattedAmount";
+import Autoplay from "embla-carousel-autoplay";
 
 const CarouselHome = () => {
   const [tours, setTours] = useState<GetTours[]>([]);
@@ -32,9 +33,14 @@ const CarouselHome = () => {
 
   return (
     <Carousel
+      plugins={[
+        Autoplay({
+          delay: 1500,
+        }),
+      ]}
       opts={{
         align: "start",
-        loop: false,
+        loop: true,
       }}
       className="w-full"
     >
@@ -46,21 +52,27 @@ const CarouselHome = () => {
                 <CardContent className="p-1">
                   <div className="text-3xl font-semibold">
                     <Link to={`/tour/${item.id}`}>
-                      <img src={item.thumbnail} className="h-52 w-full rounded-sm" />
+                      <img
+                        src={item.thumbnail}
+                        className="h-52 w-full rounded-sm"
+                      />
                     </Link>
                   </div>
-                    <div className="flex items-center justify-between">
-                      <div className="flex-col p-2 space-y-1">
-                        <p className="font-semibold text-lg">{item.tour_name}</p>
-                        <div className="flex gap-2 items-center text-sm ">
-                      <MapPin size={15} />
-                      <p className="text-slate-500">
-                        {item.city.city_name.charAt(0).toUpperCase() + item.city.city_name.slice(1)}
-                      </p> 
-                        </div> 
+                  <div className="flex items-center justify-between">
+                    <div className="flex-col p-2 space-y-1">
+                      <p className="font-semibold text-lg">{item.tour_name}</p>
+                      <div className="flex gap-2 items-center text-sm ">
+                        <MapPin size={15} />
+                        <p className="text-slate-500">
+                          {item.city.city_name.charAt(0).toUpperCase() +
+                            item.city.city_name.slice(1)}
+                        </p>
                       </div>
-                      < p className="p-4 text text-lg text text-red-500 font-semibold">{formattedAmount(item.package.price)}</p>                
-                   </div>
+                    </div>
+                    <p className="p-4 text text-lg text text-red-500 font-semibold">
+                      {formattedAmount(item.package.price)}
+                    </p>
+                  </div>
                 </CardContent>
               </Card>
             </CarouselItem>
