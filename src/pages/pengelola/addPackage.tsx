@@ -48,7 +48,10 @@ function AddPackage() {
     setBenefitsList(list);
   };
 
-  const handleBenefitsChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
+  const handleBenefitsChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    index: number
+  ) => {
     const { value } = e.target;
     const list = [...benefitsList];
     list[index] = value;
@@ -93,21 +96,23 @@ function AddPackage() {
                       </button>
                     )}
                   </div>
-                  {benefitsList.length - 1 === index && benefitsList.length < 5 && (
-                    <button
-                      onClick={handleAddBenefits}
-                      className="bg-black text-white p-2 text-sm px-4 rounded-md"
-                      type="button"
-                    >
-                      {isSubmitting ? (
-                        <p className="flex items-center gap-x-3 text-sm">
-                          <Loader2 className={"animate-spin text-xl "} /> Please wait
-                        </p>
-                      ) : (
-                        "Add Tour"
-                      )}
-                    </button>
-                  )}
+                  {benefitsList.length - 1 === index &&
+                    benefitsList.length < 5 && (
+                      <button
+                        onClick={handleAddBenefits}
+                        className="bg-black text-white p-2 text-sm px-4 rounded-md"
+                        type="button"
+                      >
+                        {isSubmitting ? (
+                          <p className="flex items-center gap-x-3 text-sm">
+                            <Loader2 className={"animate-spin text-xl "} />{" "}
+                            Please wait
+                          </p>
+                        ) : (
+                          "Add Service"
+                        )}
+                      </button>
+                    )}
                 </div>
               ))}
               <Input
@@ -123,7 +128,9 @@ function AddPackage() {
                 className="border border-black focus-visible:ring-0"
                 {...register("price", { valueAsNumber: true })}
               />
-              <button className="bg-black rounded-lg text-white w-[500px] p-2">Submit</button>
+              <button className="bg-black rounded-lg text-white w-[500px] p-2">
+                Submit
+              </button>
             </div>
           </form>
         </div>

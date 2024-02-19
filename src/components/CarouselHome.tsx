@@ -12,7 +12,6 @@ import { getTours } from "@/utils/apis/user/api";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { formattedAmount } from "@/utils/formattedAmount";
-import Autoplay from "embla-carousel-autoplay";
 
 const CarouselHome = () => {
   const [tours, setTours] = useState<GetTours[]>([]);
@@ -33,14 +32,9 @@ const CarouselHome = () => {
 
   return (
     <Carousel
-      plugins={[
-        Autoplay({
-          delay: 1500,
-        }),
-      ]}
       opts={{
         align: "start",
-        loop: true,
+        loop: false,
       }}
       className="w-full"
     >

@@ -8,7 +8,7 @@
 
 ## 🖼 Prototype
 
-- [Figma](<https://www.figma.com/file/0EfonbHOCmV9YbkYLMmB0G/Untitled?type=design&node-id=0%3A1&mode=dev&t=cPRg8EHs2FJHu6gf-1>)
+- [Figma](https://www.figma.com/file/0EfonbHOCmV9YbkYLMmB0G/Untitled?type=design&node-id=0%3A1&mode=dev&t=cPRg8EHs2FJHu6gf-1)
 
 ## 🤝 Collaboration
 
@@ -20,10 +20,10 @@
 - [Github Repo MyTouristTicket BE](https://github.com/Capstone-Project-My-Tourist-Ticket/BACK-END)
 - [Swagger OpenAPI](https://app.swaggerhub.com/apis/BENTARRAHARJAX22/MyTouristTicket/1.0.0#)
 
-## ⚙ Quality Engineer
+## ⚙ Quality Assurance
 
-- [Github Repo MyTouristTicket QE FE](https://github.com/Capstone-Project-My-Tourist-Ticket/QE-WEB)
-- [Github Repo MyTouristTicket QE BE](https://github.com/Capstone-Project-My-Tourist-Ticket/BACK-END)
+- [Github Repo MyTouristTicket QA FE](https://github.com/Capstone-Project-My-Tourist-Ticket/QE-WEB)
+- [Github Repo MyTouristTicket QA BE](https://github.com/Capstone-Project-My-Tourist-Ticket/BACK-END)
 
 ## 🛠️ Tech Stacks
 

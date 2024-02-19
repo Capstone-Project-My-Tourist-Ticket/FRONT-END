@@ -54,6 +54,9 @@ const DetailTour = () => {
   const [activeIndex, setActiveIndex] = useState(null);
   const [openReport, setOpenReport] = useState(false);
   const [textReport, setTextReport] = useState("1");
+  const [accordionItem, setAccordionItem] = useState<any>({
+    0: false,
+  });
 
   const handleDateChange = (date: Date | null, index: any) => {
     setSelectedDate(date);
@@ -201,14 +204,33 @@ const DetailTour = () => {
               {packages &&
                 packages.map((item, index) => (
                   <Accordion
+                    onValueChange={() => {
+                      if (accordionItem === null) {
+                        setAccordionItem({
+                          [index]: true,
+                        });
+                      } else {
+                        setAccordionItem({
+                          ...accordionItem,
+                          [index]: !accordionItem[index],
+                        });
+                      }
+                    }}
                     key={index}
                     type="single"
                     collapsible
                     className="w-full bg-white shadow-lg p-5 rounded-lg"
                   >
-                    <AccordionItem value="item-1" className="border-b-0">
-                      <AccordionTrigger className="text-xl">
-                        {item.package_name}
+                    <AccordionItem value={`${index}`} className="border-b-0 ">
+                      <AccordionTrigger className="text-xl hover:no-underline">
+                        <div className="flex-col space-y-4 text-left">
+                          <p>{item.package_name}</p>
+                          {!accordionItem[index] && (
+                            <p className="text-xl text-red-500 font-bold">
+                              {formattedAmount(item.price)}
+                            </p>
+                          )}
+                        </div>
                       </AccordionTrigger>
                       <AccordionContent>
                         <div className="flex flex-col space-y-5">
@@ -392,7 +414,7 @@ const DetailTour = () => {
           </div>
         </div>
       </div>
-      <Dialog open={openReport}>
+      <Dialog open={openReport} onOpenChange={setOpenReport}>
         <DialogContent>
           <div className="flex flex-col space-y-4">
             <Label htmlFor="text_report">Report</Label>

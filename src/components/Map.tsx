@@ -5,7 +5,7 @@ import { FieldErrors, UseFormSetValue } from "react-hook-form";
 import { Marker } from "react-leaflet";
 import { MapContainer } from "react-leaflet/MapContainer";
 import { TileLayer } from "react-leaflet/TileLayer";
-import markerBaru from "@/assets/marker.png";
+import markerBaru from "@/assets/marker.gif";
 import L from "leaflet";
 import { useLocation } from "react-router-dom";
 
@@ -84,7 +84,7 @@ const EditMap = (props: MapProps) => {
         ref={mapRef}
         style={{ height: 400, width: width }}
         center={dragged}
-        zoom={13}
+        zoom={15}
         scrollWheelZoom={false}
       >
         <TileLayer
