@@ -30,10 +30,8 @@ const Profile = () => {
     },
   });
 
-
-
   useEffect(() => {
-    window.scrollTo(0, 0)
+    window.scrollTo(0, 0);
     setValue("full_name", user?.full_name as string);
     setValue("phone_number", user?.phone_number as string);
     setValue("email", user?.email as string);
@@ -54,7 +52,7 @@ const Profile = () => {
       });
     }
   };
-  console.log(user);
+
   return (
     <Layout>
       <div className="bg-[#F4F7FE] w-full py-14">
@@ -70,7 +68,9 @@ const Profile = () => {
                 <label htmlFor="upload-image" className="cursor-pointer">
                   <Camera className="absolute bottom-3 right-4 bg-zinc-100 rounded-full h-8 w-8" />
                 </label>
-                <p className="text-sm text-red-500 ">{errors.image && errors.image.message}</p>
+                <p className="text-sm text-red-500 ">
+                  {errors.image && errors.image.message}
+                </p>
               </div>
               <button
                 className="bg-orange-500 text-white w-32 py-2 rounded-lg mt-3 "
@@ -159,7 +159,8 @@ const Profile = () => {
                     >
                       {isSubmitting ? (
                         <p className="flex items-center gap-x-3 text-sm">
-                          <Loader2 className={"animate-spin text-xl "} /> Please wait
+                          <Loader2 className={"animate-spin text-xl "} /> Please
+                          wait
                         </p>
                       ) : (
                         "Save"

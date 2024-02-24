@@ -12,27 +12,30 @@ import { useEffect, useState } from "react";
 import { getTransaction } from "@/utils/apis/pengelola/api";
 import { Transaction } from "@/utils/apis/pengelola/type";
 import Pagination from "@/components/Pagination";
+import { useToast } from "@/components/ui/use-toast";
 
 function TransactionHistory() {
   const [transaction, setTransaction] = useState<Transaction[]>([]);
-    const [pageNumber, setPageNumber] = useState(1);
-    const [totalPage, setTotalPage] = useState<number>(0);
+  const [pageNumber, setPageNumber] = useState(1);
+  const [totalPage, setTotalPage] = useState<number>(0);
+  const { toast } = useToast();
 
   const fetchTransaction = async (pageNumber: number) => {
     try {
       const result = await getTransaction(pageNumber);
       setTransaction(result.data);
-      setTotalPage(result.total_page)
-      console.log(result.data);
+      setTotalPage(result.total_page);
     } catch (error) {
-      console.log(error);
+      toast({
+        description: (error as Error).message,
+        variant: "destructive",
+      });
     }
   };
 
-  const handlePageClick = (data :{ selected: number }) => {
+  const handlePageClick = (data: { selected: number }) => {
     setPageNumber(data.selected + 1);
   };
-
 
   useEffect(() => {
     fetchTransaction(pageNumber);
@@ -81,7 +84,11 @@ function TransactionHistory() {
             </TableBody>
           </Table>
           <footer className="pt-10 flex justify-center">
-            <Pagination totalPage={totalPage} page={pageNumber} handlePageClick={handlePageClick}/>
+            <Pagination
+              totalPage={totalPage}
+              page={pageNumber}
+              handlePageClick={handlePageClick}
+            />
           </footer>
         </div>
       </div>

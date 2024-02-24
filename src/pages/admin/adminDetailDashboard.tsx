@@ -73,10 +73,8 @@ const AdminDetailTour = () => {
       const result = await getDetailTours(id as string);
       setTourDetail(result.data);
       setPosisi({ lat: result.data.latitude, lng: result.data.longitude });
-      console.log(result.data);
       const resultPackages = await getPackages(`${result.data.id}`);
       setPackages(resultPackages.data);
-      console.log(resultPackages.data);
     } catch (error) {
       console.log(error);
     }
@@ -86,7 +84,6 @@ const AdminDetailTour = () => {
     try {
       const result = await getAllReview(id as string);
       setReview(result.data);
-      console.log(result.data);
     } catch (error) {
       console.log(error);
     }

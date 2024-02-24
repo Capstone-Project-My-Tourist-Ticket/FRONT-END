@@ -89,7 +89,6 @@ function TourList() {
 
   const handlePageChange = (newPage: number) => {
     if (newPage >= 1 && newPage <= totalPages) {
-      console.log("Changing to page:", newPage);
       setCurrentPage(newPage);
     }
   };

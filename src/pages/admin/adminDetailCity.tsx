@@ -1,41 +1,40 @@
-import AdminCardTour from "@/components/Admin/AdminCardTour"
-import AdminHeader from "@/components/Admin/AdminHeader"
-import Pagination from "@/components/Pagination"
-import { getDetailCity, getToursByCity } from "@/utils/apis/user/api"
-import { GetCity, GetTours } from "@/utils/apis/user/type"
-import { useEffect, useState } from "react"
-import { useParams } from "react-router-dom"
+import AdminCardTour from "@/components/Admin/AdminCardTour";
+import AdminHeader from "@/components/Admin/AdminHeader";
+import Pagination from "@/components/Pagination";
+import { getDetailCity, getToursByCity } from "@/utils/apis/user/api";
+import { GetCity, GetTours } from "@/utils/apis/user/type";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 
 const AdminDetailCity = () => {
-  const { id } = useParams()
-  const [detail, setDetail] = useState<GetCity>()
-  const [toursCity, setToursCity] = useState<GetTours[]>([])
-  const [pageNumber, setPageNumber] = useState(1)
-  const [totalPage, setTotalPage] = useState<number>(0)
+  const { id } = useParams();
+  const [detail, setDetail] = useState<GetCity>();
+  const [toursCity, setToursCity] = useState<GetTours[]>([]);
+  const [pageNumber, setPageNumber] = useState(1);
+  const [totalPage, setTotalPage] = useState<number>(0);
 
   useEffect(() => {
-    window.scrollTo(0, 0)
+    window.scrollTo(0, 0);
     if (id) {
-      fetchDetailCity(pageNumber)
+      fetchDetailCity(pageNumber);
     }
-  }, [id, pageNumber])
+  }, [id, pageNumber]);
 
   const fetchDetailCity = async (pageNumber: number) => {
     try {
-      const result = await getDetailCity(id as string)
-      setDetail(result.data)
-      const resultCity = await getToursByCity(`${result.data.id}`, pageNumber)
-      setToursCity(resultCity.data)
-      setTotalPage(resultCity.total_page)
-      console.log(resultCity.data)
+      const result = await getDetailCity(id as string);
+      setDetail(result.data);
+      const resultCity = await getToursByCity(`${result.data.id}`, pageNumber);
+      setToursCity(resultCity.data);
+      setTotalPage(resultCity.total_page);
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
+  };
 
   const handlePageClick = (data: { selected: number }) => {
-    setPageNumber(data.selected + 1)
-  }
+    setPageNumber(data.selected + 1);
+  };
 
   return (
     <>
@@ -64,7 +63,7 @@ const AdminDetailCity = () => {
         </div>
       </div>
     </>
-  )
-}
+  );
+};
 
-export default AdminDetailCity
+export default AdminDetailCity;

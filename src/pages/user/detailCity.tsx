@@ -1,6 +1,7 @@
 import CardTour from "@/components/CardTour";
 import Layout from "@/components/Layout";
 import Pagination from "@/components/Pagination";
+import { useToast } from "@/components/ui/use-toast";
 import { getDetailCity, getToursByCity } from "@/utils/apis/user/api";
 import { GetCity, GetTours } from "@/utils/apis/user/type";
 import { useEffect, useState } from "react";
@@ -12,6 +13,7 @@ const DetailCity = () => {
   const [toursCity, setToursCity] = useState<GetTours[]>([]);
   const [pageNumber, setPageNumber] = useState(1);
   const [totalPage, setTotalPage] = useState<number>(0);
+  const { toast } = useToast();
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -20,20 +22,22 @@ const DetailCity = () => {
     }
   }, [id, pageNumber]);
 
-  const fetchDetailCity = async (pageNumber : number) => {
+  const fetchDetailCity = async (pageNumber: number) => {
     try {
       const result = await getDetailCity(id as string);
       setDetail(result.data);
       const resultCity = await getToursByCity(`${result.data.id}`, pageNumber);
       setToursCity(resultCity.data);
-      setTotalPage(resultCity.total_page)
-      console.log(resultCity.data);
+      setTotalPage(resultCity.total_page);
     } catch (error) {
-      console.log(error);
+      toast({
+        description: (error as Error).message,
+        variant: "destructive",
+      });
     }
   };
 
-  const handlePageClick = (data :{ selected: number }) => {
+  const handlePageClick = (data: { selected: number }) => {
     setPageNumber(data.selected + 1);
   };
 
@@ -47,10 +51,17 @@ const DetailCity = () => {
         </div>
 
         <div className="container grid grid-cols-4 gap-x-4 h-[600px]">
-          {toursCity && toursCity.map((item, index) => <CardTour data={item} key={index} />)}
+          {toursCity &&
+            toursCity.map((item, index) => (
+              <CardTour data={item} key={index} />
+            ))}
         </div>
         <div className="flex justify-center my-4">
-        <Pagination totalPage={totalPage} page={pageNumber} handlePageClick={handlePageClick}/>
+          <Pagination
+            totalPage={totalPage}
+            page={pageNumber}
+            handlePageClick={handlePageClick}
+          />
         </div>
       </div>
     </Layout>

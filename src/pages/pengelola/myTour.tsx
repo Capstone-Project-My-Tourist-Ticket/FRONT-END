@@ -27,9 +27,11 @@ function MyTour() {
       const result = await getMyTourPengelola(pageNumber);
       setMyTour(result.data);
       setTotalPage(result.total_page);
-      console.log(result.data);
     } catch (error) {
-      console.log(error);
+      toast({
+        description: (error as Error).message,
+        variant: "destructive",
+      });
     }
   };
 

@@ -48,7 +48,6 @@ const DetailTour = () => {
   const [posisi, setPosisi] = useState<{ lat: number; lng: number }>();
   const navigate = useNavigate();
   const { toast } = useToast();
-
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const minTomorrow = addDays(new Date(), 1);
   const [activeIndex, setActiveIndex] = useState(null);
@@ -125,12 +124,13 @@ const DetailTour = () => {
       const result = await getDetailTours(id as string);
       setTourDetail(result.data);
       setPosisi({ lat: result.data.latitude, lng: result.data.longitude });
-      console.log(result.data);
       const resultPackages = await getPackages(`${result.data.id}`);
       setPackages(resultPackages.data);
-      console.log(resultPackages.data);
     } catch (error) {
-      console.log(error);
+      toast({
+        description: (error as Error).message,
+        variant: "destructive",
+      });
     }
   };
 
@@ -138,9 +138,11 @@ const DetailTour = () => {
     try {
       const result = await getAllReview(id as string);
       setReview(result.data);
-      console.log(result.data);
     } catch (error) {
-      console.log(error);
+      toast({
+        description: (error as Error).message,
+        variant: "destructive",
+      });
     }
   };
   const postReport = async (body: string) => {

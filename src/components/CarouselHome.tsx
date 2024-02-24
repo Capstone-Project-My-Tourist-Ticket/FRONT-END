@@ -9,11 +9,13 @@ import { Card, CardContent } from "./ui/card";
 import { MapPin } from "lucide-react";
 import { GetTours } from "@/utils/apis/user/type";
 import { getTours } from "@/utils/apis/user/api";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { formattedAmount } from "@/utils/formattedAmount";
+import Autoplay from "embla-carousel-autoplay";
 
 const CarouselHome = () => {
+  const plugin = React.useRef(Autoplay({ delay: 2000 }));
   const [tours, setTours] = useState<GetTours[]>([]);
 
   const fetchTours = async (pageNumber: number, limit: number) => {
@@ -32,9 +34,12 @@ const CarouselHome = () => {
 
   return (
     <Carousel
+      plugins={[plugin.current]}
+      onMouseEnter={plugin.current.stop}
+      onMouseLeave={plugin.current.play}
       opts={{
         align: "start",
-        loop: false,
+        loop: true,
       }}
       className="w-full"
     >

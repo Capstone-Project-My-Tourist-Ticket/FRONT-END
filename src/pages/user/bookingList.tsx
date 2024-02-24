@@ -1,6 +1,7 @@
 import DialogReview from "@/components/DialogReview";
 import Layout from "@/components/Layout";
 import SideBarUser from "@/components/SideBarUser";
+import { useToast } from "@/components/ui/use-toast";
 import { cancelBooking, getBookingCustomer } from "@/utils/apis/user/api";
 import { ResBooking } from "@/utils/apis/user/type";
 import { formattedAmount } from "@/utils/formattedAmount";
@@ -9,7 +10,7 @@ import { Link } from "react-router-dom";
 
 const BookingList = () => {
   const [booking, setBooking] = useState<ResBooking[]>([]);
-  console.log(booking);
+  const { toast } = useToast();
   const handleButtonETiket = (url: string) => {
     window.open(url, "_blank");
   };
@@ -18,9 +19,11 @@ const BookingList = () => {
     try {
       const result = await getBookingCustomer();
       setBooking(result.data);
-      console.log(result.data);
     } catch (error) {
-      console.log(error);
+      toast({
+        description: (error as Error).message,
+        variant: "destructive",
+      });
     }
   };
 
@@ -33,7 +36,10 @@ const BookingList = () => {
         alert(result.message);
       }
     } catch (error) {
-      console.log(error);
+      toast({
+        description: (error as Error).message,
+        variant: "destructive",
+      });
     }
   };
 
