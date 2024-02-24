@@ -31,10 +31,12 @@ const PaymentResult = () => {
       setBookingDetail(result.data);
       console.log(result);
     } catch (error) {
-      console.log(error);
+      toast({
+        description: (error as Error).message,
+        variant: "destructive",
+      });
     }
   };
-  console.log(bookingDetail);
   const foto = [
     "https://res.cloudinary.com/dypeyso0m/image/upload/v1703677027/bca_u8s8de.png",
     "https://res.cloudinary.com/dypeyso0m/image/upload/v1703677142/bri_tjmr7e.png",
@@ -77,7 +79,7 @@ const PaymentResult = () => {
                         navigator.clipboard.writeText(bookingDetail.va_number);
                         toast({ description: "Copied to clipboard!" });
                       }}
-                      className="text-gray-500"
+                      className="text-gray-500 cursor-pointer"
                       size={20}
                     />
                   </div>

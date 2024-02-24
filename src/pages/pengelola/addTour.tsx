@@ -49,9 +49,11 @@ const AddTour = () => {
     try {
       const result = await getCityAddTour();
       setCity(result.data);
-      console.log(result.data);
     } catch (error) {
-      console.log(error);
+      toast({
+        description: (error as Error).message,
+        variant: "destructive",
+      });
     }
   };
 

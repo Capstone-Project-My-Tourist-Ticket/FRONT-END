@@ -1,5 +1,5 @@
-import AdminHeader from "@/components/Admin/AdminHeader"
-import AdminNavbar from "@/components/Admin/AdminNavbar"
+import AdminHeader from "@/components/Admin/AdminHeader";
+import AdminNavbar from "@/components/Admin/AdminNavbar";
 import {
   Table,
   TableBody,
@@ -7,7 +7,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table"
+} from "@/components/ui/table";
 import {
   Pagination,
   PaginationContent,
@@ -15,84 +15,83 @@ import {
   PaginationLink,
   PaginationNext,
   PaginationPrevious,
-} from "@/components/ui/pagination"
+} from "@/components/ui/pagination";
 
-import { useEffect, useState } from "react"
-import Footer from "@/components/Footer"
-import axiosWithConfig from "@/utils/apis/axiosWithConfig"
+import { useEffect, useState } from "react";
+import Footer from "@/components/Footer";
+import axiosWithConfig from "@/utils/apis/axiosWithConfig";
 
 interface Transaction {
-  booking_id: string
-  user_id: number
-  tour_id: number
-  package_id: number
-  voucher_id: null
-  payment_type: string
-  gross_amount: number
-  status: string
-  va_number: number
-  bank: string
-  booking_date: string
-  phone_number: number
-  greeting: string
-  full_name: string
-  email: string
-  quantity: number
-  payment_expired: string
-  created_at: string
+  booking_id: string;
+  user_id: number;
+  tour_id: number;
+  package_id: number;
+  voucher_id: null;
+  payment_type: string;
+  gross_amount: number;
+  status: string;
+  va_number: number;
+  bank: string;
+  booking_date: string;
+  phone_number: number;
+  greeting: string;
+  full_name: string;
+  email: string;
+  quantity: number;
+  payment_expired: string;
+  created_at: string;
   tour: {
-    id: number
-    tour_name: string
-  }
+    id: number;
+    tour_name: string;
+  };
   package: {
-    id: number
-    package_name: string
-    price: number
-  }
+    id: number;
+    package_name: string;
+    price: number;
+  };
 }
 
 function TransactionList() {
-  const [data, setData] = useState<Transaction[]>([])
-  const [currentPage, setCurrentPage] = useState<number>(1)
-  const [totalPages, setTotalPages] = useState<number>(1)
+  const [data, setData] = useState<Transaction[]>([]);
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [totalPages, setTotalPages] = useState<number>(1);
 
   const fetchData = async () => {
     try {
       const response = await axiosWithConfig.get(
         `https://benarja.my.id/bookings/admin?page=${currentPage}&limit=10`
-      )
+      );
 
       if (response.status !== 200) {
-        throw new Error("Failed to fetch data")
+        throw new Error("Failed to fetch data");
       }
 
-      const jsonResponse = response.data
+      const jsonResponse = response.data;
 
       if (jsonResponse.data && Array.isArray(jsonResponse.data)) {
-        setData(jsonResponse.data)
-        setTotalPages(jsonResponse.total_page)
+        setData(jsonResponse.data);
+        setTotalPages(jsonResponse.total_page);
       } else {
-        console.error("API response does not contain an array:", jsonResponse)
+        console.error("API response does not contain an array:", jsonResponse);
       }
     } catch (error) {
-      console.error("Error fetching data:", error)
+      console.error("Error fetching data:", error);
     }
-  }
+  };
 
   useEffect(() => {
-    fetchData()
-  }, [currentPage, totalPages])
+    fetchData();
+  }, [currentPage, totalPages]);
 
   const handlePageChange = (newPage: number) => {
     if (newPage >= 1 && newPage <= totalPages) {
-      console.log("Changing to page:", newPage)
-      setCurrentPage(newPage)
+      setCurrentPage(newPage);
     }
-  }
+  };
 
   useEffect(() => {
-    fetchData()
-  }, [currentPage])
+    fetchData();
+  }, [currentPage]);
 
   return (
     <div className="bg-[#dee2e6] h-auto">
@@ -193,7 +192,7 @@ function TransactionList() {
       </div>
       <Footer />
     </div>
-  )
+  );
 }
 
-export default TransactionList
+export default TransactionList;

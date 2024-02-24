@@ -34,7 +34,7 @@ const Login = () => {
         });
         navigate("/dashboard");
       }
-      if (result!.data.role === "costumer") {
+      if (result!.data.role === "customer") {
         changeToken(result!.data.token);
         toast({
           description: result?.message,

@@ -13,9 +13,7 @@ import { useLocation } from "react-router-dom";
 function AddPackage() {
   const { toast } = useToast();
   const { state } = useLocation();
-  console.log(state);
   const [benefitsList, setBenefitsList] = useState<string[]>([""]);
-  console.log(benefitsList);
   const {
     register,
     handleSubmit,
@@ -27,7 +25,6 @@ function AddPackage() {
     body.benefits = benefitsList;
     try {
       const result = await createPackage(body, state.data);
-
       toast({
         description: result.message,
       });

@@ -20,10 +20,10 @@
 - [Github Repo MyTouristTicket BE](https://github.com/Capstone-Project-My-Tourist-Ticket/BACK-END)
 - [Swagger OpenAPI](https://app.swaggerhub.com/apis/BENTARRAHARJAX22/MyTouristTicket/1.0.0#)
 
-## ⚙ Quality Assurance
+## ⚙ Quality Engineer
 
-- [Github Repo MyTouristTicket QA FE](https://github.com/Capstone-Project-My-Tourist-Ticket/QE-WEB)
-- [Github Repo MyTouristTicket QA BE](https://github.com/Capstone-Project-My-Tourist-Ticket/BACK-END)
+- [Github Repo MyTouristTicket QE FE](https://github.com/Capstone-Project-My-Tourist-Ticket/QE-WEB)
+- [Github Repo MyTouristTicket QE BE](https://github.com/Capstone-Project-My-Tourist-Ticket/BACK-END)
 
 ## 🛠️ Tech Stacks
 

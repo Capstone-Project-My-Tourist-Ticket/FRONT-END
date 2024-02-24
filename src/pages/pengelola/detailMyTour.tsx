@@ -26,19 +26,19 @@ function DetailMyTour() {
   const [detail, setDetail] = useState<GetTours>();
   const [packages, setPackages] = useState<GetPackages[]>([]);
   const [review, setReview] = useState<GetReview>();
-  console.log(review?.average_review);
   const { toast } = useToast();
 
   const fetchDetailTour = async () => {
     try {
       const result = await getDetailTours(id as string);
       setDetail(result.data);
-      console.log(result.data);
       const resultPackages = await getPackages(`${result.data.id}`);
       setPackages(resultPackages.data);
-      console.log(resultPackages.data);
     } catch (error) {
-      console.log(error);
+      toast({
+        description: (error as Error).message,
+        variant: "destructive",
+      });
     }
   };
 

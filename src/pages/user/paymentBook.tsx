@@ -4,7 +4,11 @@ import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { useToast } from "@/components/ui/use-toast";
 import { createBooking, getListVoucher } from "@/utils/apis/user/api";
-import { GetVoucher, IBookingType, bookingSchema } from "@/utils/apis/user/type";
+import {
+  GetVoucher,
+  IBookingType,
+  bookingSchema,
+} from "@/utils/apis/user/type";
 import { useAuth } from "@/utils/contexts/auth";
 import { formattedAmount } from "@/utils/formattedAmount";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -20,11 +24,10 @@ interface Voucher {
 
 const PaymentBook = () => {
   const { state } = useLocation();
-  const { user } = useAuth()
+  const { user } = useAuth();
   const currentDate = new Date(state.dates);
   const dateString = currentDate.toDateString();
   const navigate = useNavigate();
-
   const [voucher, setVoucher] = useState<GetVoucher[]>([]);
   const [selectedVoucher, setSelectedVoucher] = useState<Voucher>();
   const { toast } = useToast();
@@ -37,14 +40,15 @@ const PaymentBook = () => {
     resolver: zodResolver(bookingSchema),
   });
 
-
   const fetchVoucher = async () => {
     try {
       const result = await getListVoucher();
       setVoucher(result.data);
-      console.log(result.data);
     } catch (error) {
-      console.log(error);
+      toast({
+        description: (error as Error).message,
+        variant: "destructive",
+      });
     }
   };
   const handleBooking = async (body: IBookingType) => {
@@ -56,7 +60,6 @@ const PaymentBook = () => {
       quantity: Number(state.count),
       booking_date: dateString,
     };
-    console.log(payload, "payload");
     try {
       const result = await createBooking(payload);
 
@@ -92,8 +95,8 @@ const PaymentBook = () => {
         <div className="container flex flex-col space-y-4">
           <p className="font-bold text-lg">Payment Details</p>
           <p>
-            Fill in this form correctly , We'll send the e-ticket to the email address as declairded
-            on this page
+            Fill in this form correctly , We'll send the e-ticket to the email
+            address as declairded on this page
           </p>
           <div className="flex justify-between gap-10">
             <form
@@ -104,19 +107,31 @@ const PaymentBook = () => {
                 <div className="flex flex-col space-y-8 p-8">
                   <RadioGroup defaultValue="Mr" className="flex gap-10">
                     <div className="flex items-center space-x-2">
-                      <RadioGroupItem value="Mr" id="Mr" {...register("greeting")} />
+                      <RadioGroupItem
+                        value="Mr"
+                        id="Mr"
+                        {...register("greeting")}
+                      />
                       <Label htmlFor="Mr" className="font-semibold">
                         Mr
                       </Label>
                     </div>
                     <div className="flex items-center space-x-2">
-                      <RadioGroupItem value="Mrs" id="Mrs" {...register("greeting")} />
+                      <RadioGroupItem
+                        value="Mrs"
+                        id="Mrs"
+                        {...register("greeting")}
+                      />
                       <Label htmlFor="Mrs" className="font-semibold">
                         Mrs
                       </Label>
                     </div>
                     <div className="flex items-center space-x-2">
-                      <RadioGroupItem value="Ms" id="Ms" {...register("greeting")} />
+                      <RadioGroupItem
+                        value="Ms"
+                        id="Ms"
+                        {...register("greeting")}
+                      />
                       <Label htmlFor="Ms" className="font-semibold">
                         Mrs
                       </Label>
@@ -148,13 +163,19 @@ const PaymentBook = () => {
                       className="border px-5 py-2 outline-none w-full rounded-md"
                       {...register("email")}
                     />
-                    <p className="text-sm text-red-500 ">{errors.email && errors.email.message}</p>
+                    <p className="text-sm text-red-500 ">
+                      {errors.email && errors.email.message}
+                    </p>
                   </div>
                   <div className="space-y-8">
                     <p className="font-bold text-lg">Payment Method</p>
                     <RadioGroup defaultValue="bca" className="space-y-8">
                       <div className="flex items-center space-x-2">
-                        <RadioGroupItem value="bca" id="bca" {...register("bank")} />
+                        <RadioGroupItem
+                          value="bca"
+                          id="bca"
+                          {...register("bank")}
+                        />
                         <Label htmlFor="bca" className="font-semibold">
                           <div className="flex gap-3 items-center">
                             <img
@@ -166,7 +187,11 @@ const PaymentBook = () => {
                         </Label>
                       </div>
                       <div className="flex items-center space-x-2">
-                        <RadioGroupItem value="bni" id="bni" {...register("bank")} />
+                        <RadioGroupItem
+                          value="bni"
+                          id="bni"
+                          {...register("bank")}
+                        />
                         <Label htmlFor="bni" className="font-semibold">
                           <div className="flex gap-3 items-center">
                             <img
@@ -178,7 +203,11 @@ const PaymentBook = () => {
                         </Label>
                       </div>
                       <div className="flex items-center space-x-2">
-                        <RadioGroupItem value="bri" id="bri" {...register("bank")} />
+                        <RadioGroupItem
+                          value="bri"
+                          id="bri"
+                          {...register("bank")}
+                        />
                         <Label htmlFor="bri" className="font-semibold">
                           <div className="flex gap-3 items-center">
                             <img
@@ -190,7 +219,9 @@ const PaymentBook = () => {
                         </Label>
                       </div>
                     </RadioGroup>
-                    <p className="text-sm text-red-500 ">{errors.bank && errors.bank.message}</p>
+                    <p className="text-sm text-red-500 ">
+                      {errors.bank && errors.bank.message}
+                    </p>
                   </div>
                 </div>
               </div>
@@ -198,19 +229,29 @@ const PaymentBook = () => {
                 <div className="flex flex-col space-y-8 p-8">
                   <div className="flex justify-between">
                     <p>Price</p>
-                    <p className="font-semibold">{formattedAmount(state.selectedPackage.price)}</p>
+                    <p className="font-semibold">
+                      {formattedAmount(state.selectedPackage.price)}
+                    </p>
                   </div>
                   <div className="flex justify-between">
                     <p>Subtotal</p>
                     <p className="font-semibold">
-                      {formattedAmount(state.selectedPackage.price * state.count)}
+                      {formattedAmount(
+                        state.selectedPackage.price * state.count
+                      )}
                     </p>
                   </div>
                   <div className="flex justify-between border-b pb-5 ">
-                    <p className="font-semibold" hidden={selectedVoucher ? false : true}>
+                    <p
+                      className="font-semibold"
+                      hidden={selectedVoucher ? false : true}
+                    >
                       Voucher
                     </p>
-                    <p className="font-semibold" hidden={selectedVoucher ? false : true}>
+                    <p
+                      className="font-semibold"
+                      hidden={selectedVoucher ? false : true}
+                    >
                       -{formattedAmount(selectedVoucher?.discount!)}
                     </p>
                   </div>
@@ -219,15 +260,19 @@ const PaymentBook = () => {
                     <p className="font-bold text-lg text-red-500">
                       {selectedVoucher?.discount
                         ? formattedAmount(totalPayment())
-                        : formattedAmount(state.selectedPackage.price * state.count)}
+                        : formattedAmount(
+                            state.selectedPackage.price * state.count
+                          )}
                     </p>
                   </div>
                   <div className="flex justify-end">
                     <button className="bg-blue-500 text-white w-44 py-2 rounded-lg">
                       {isSubmitting ? (
                         <p className="flex items-center gap-x-3 text-sm">
-                          <Loader2 className={"animate-spin text-xl text-center ml-6"} /> Please
-                          wait
+                          <Loader2
+                            className={"animate-spin text-xl text-center ml-6"}
+                          />{" "}
+                          Please wait
                         </p>
                       ) : (
                         "Submit"
@@ -244,7 +289,9 @@ const PaymentBook = () => {
                   <p className="font-bold">{state.data.tour_name}</p>
                 </div>
                 <div className="border-b-2 pb-5">
-                  <p className="font-semibold">{state.selectedPackage.package_name}</p>
+                  <p className="font-semibold">
+                    {state.selectedPackage.package_name}
+                  </p>
                   <p className="font-semibold">{state.count} Pax</p>
                 </div>
                 <div className="border-b-2 pb-5">
@@ -252,7 +299,10 @@ const PaymentBook = () => {
                   <p className="font-semibold">{dateString}</p>
                 </div>
                 <div className="flex justify-center items-center">
-                  <DialogVoucher onSelectVoucher={setSelectedVoucher} data={voucher} />
+                  <DialogVoucher
+                    onSelectVoucher={setSelectedVoucher}
+                    data={voucher}
+                  />
                 </div>
               </div>
             </div>

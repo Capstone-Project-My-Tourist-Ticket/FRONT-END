@@ -37,10 +37,13 @@ const Home = () => {
     try {
       if (q.length > 0) {
         const response = await getSearch(q);
-        console.log(response.data);
         setSearchTours(response.data);
       }
     } catch (error) {
+      toast({
+        description: (error as Error).message,
+        variant: "destructive",
+      });
       setSearchTours([]);
     }
   };
@@ -67,9 +70,11 @@ const Home = () => {
       const result = await getCity(pageNumber);
       setCity(result.data);
       setTotalPage(result.total_page);
-      console.log(result.data);
     } catch (error) {
-      console.log(error);
+      toast({
+        description: (error as Error).message,
+        variant: "destructive",
+      });
     }
   };
 

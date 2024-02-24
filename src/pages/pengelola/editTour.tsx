@@ -19,15 +19,12 @@ function EditTour() {
   const [image, setImage] = useState<string>("");
   const [thumbnail, setThumbnail] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
-  console.log(thumbnail, "test");
-
   const [posisi, setPosisi] = useState<{ lat: number; lng: number }>();
   const [city, setCity] = useState<GetCity[]>([]);
   const { id } = useParams();
   const { toast } = useToast();
   const {
     register,
-    watch,
     handleSubmit,
     getValues,
     setValue,
@@ -54,9 +51,7 @@ function EditTour() {
     }
   }, [id]);
 
-  useEffect(() => {
-    console.log(watch());
-  }, [tourDetail]);
+  useEffect(() => {}, [tourDetail]);
 
   const fetchDetailTour = async () => {
     setLoading(true);
@@ -73,17 +68,17 @@ function EditTour() {
       setValue("longitude", data?.longitude as number);
       setImage(data?.image!);
       setThumbnail(data?.thumbnail!);
-      console.log(result.data);
       setLoading(false);
     } catch (error) {
-      console.log(error);
+      toast({
+        description: (error as Error).message,
+        variant: "destructive",
+      });
       setLoading(false);
     }
   };
 
   const handleUpdateTour = async (body: IEditTourType) => {
-    console.log(body, "body");
-
     try {
       const result = await updateTour(body, id as string);
       toast({
@@ -102,9 +97,11 @@ function EditTour() {
     try {
       const result = await getCityAddTour();
       setCity(result.data);
-      console.log(result.data);
     } catch (error) {
-      console.log(error);
+      toast({
+        description: (error as Error).message,
+        variant: "destructive",
+      });
     }
   };
 
