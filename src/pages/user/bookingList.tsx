@@ -82,7 +82,10 @@ const BookingList = () => {
                             >
                               E-Ticket
                             </button>
-                            <DialogReview booking_id={item.id} />
+                            <DialogReview
+                              booking_id={item.id}
+                              tour_name={item.tour.tour_name}
+                            />
                           </>
                         )}
                         {item.status === "pending" && (

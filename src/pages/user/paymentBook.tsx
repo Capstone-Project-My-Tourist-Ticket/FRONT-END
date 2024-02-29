@@ -137,35 +137,48 @@ const PaymentBook = () => {
                       </Label>
                     </div>
                   </RadioGroup>
-                  <p className="text-sm text-red-500 ">
-                    {errors.greeting && errors.greeting.message}
-                  </p>
+                  {errors ? (
+                    <p className="text-sm text-red-500 ">
+                      {errors.greeting && errors.greeting.message}
+                    </p>
+                  ) : null}
                   <div className="flex flex-col space-y-5 border-b pb-10">
+                    <Label>Full Name</Label>
                     <input
                       type="text"
                       placeholder="FullName"
                       className="border px-5 py-2 outline-none w-full rounded-md"
                       {...register("full_name")}
                     />
-
+                    {errors.full_name ? (
+                      <p className="text-sm text-red-500 ">
+                        {errors.full_name && errors.full_name.message}
+                      </p>
+                    ) : null}
+                    <Label>Phone Number</Label>
                     <input
                       type="text"
                       placeholder="PhoneNumber"
                       className="border px-5 py-2 outline-none w-full rounded-md"
                       {...register("phone_number")}
                     />
-                    <p className="text-sm text-red-500 ">
-                      {errors.phone_number && errors.phone_number.message}
-                    </p>
+                    {errors.phone_number ? (
+                      <p className="text-sm text-red-500 ">
+                        {errors.phone_number && errors.phone_number.message}
+                      </p>
+                    ) : null}
+                    <Label>Email</Label>
                     <input
                       type="email"
                       placeholder="Email"
                       className="border px-5 py-2 outline-none w-full rounded-md"
                       {...register("email")}
                     />
-                    <p className="text-sm text-red-500 ">
-                      {errors.email && errors.email.message}
-                    </p>
+                    {errors.email ? (
+                      <p className="text-sm text-red-500 ">
+                        {errors.email && errors.email.message}
+                      </p>
+                    ) : null}
                   </div>
                   <div className="space-y-8">
                     <p className="font-bold text-lg">Payment Method</p>
