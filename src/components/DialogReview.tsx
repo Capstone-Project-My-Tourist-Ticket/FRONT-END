@@ -17,11 +17,12 @@ import { useForm } from "react-hook-form";
 import { useToast } from "./ui/use-toast";
 interface Props {
   booking_id: string;
+  tour_name: string;
 }
 
 const DialogReview = (props: Props) => {
   const { user } = useAuth();
-  const { booking_id } = props;
+  const { booking_id, tour_name } = props;
   const { toast } = useToast();
   const {
     register,
@@ -61,9 +62,7 @@ const DialogReview = (props: Props) => {
       </DialogTrigger>
       <DialogContent className="max-w-xl">
         <DialogHeader>
-          <DialogTitle className="font-bold pt-5 px-7">
-            Ice Age Artice Adventure
-          </DialogTitle>
+          <DialogTitle className="font-bold pt-5 px-7">{tour_name}</DialogTitle>
         </DialogHeader>
         <DialogDescription>
           <form
