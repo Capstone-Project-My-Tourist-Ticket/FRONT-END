@@ -33,6 +33,8 @@
 - [Zod](https://zod.dev/)
 - [Vercel for Deployment](https://vercel.com/)
 - [React Hook Form](https://react-hook-form.com/)
+- [Axios](https://axios-http.com/)
+- [React Router Dom](https://reactrouter.com/)
 
 ## 🧰 Installation
 
